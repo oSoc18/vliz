@@ -30,7 +30,7 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			}
 			reader.close();
 			streamReader.close();
-			return inputL.toString();
+			return s.toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
