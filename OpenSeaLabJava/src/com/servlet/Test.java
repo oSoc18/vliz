@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet("/Test")
 public class Test extends HttpServlet {
+	
+	public static final String VUE = "/index.html";
+	public static final
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -27,7 +30,7 @@ public class Test extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		this.getServletContext().getRequestDispatcher( "/index.html" ).forward( request, response );
+		this.getServletContext().getRequestDispatcher(VUE ).forward( request, response );
 	
 	}
 
@@ -35,7 +38,7 @@ public class Test extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 
