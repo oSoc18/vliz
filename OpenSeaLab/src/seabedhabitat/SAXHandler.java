@@ -7,6 +7,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import seabedhabitat.feature.Feature;
+
 public class SAXHandler extends DefaultHandler {
 	private List<Feature> list = new ArrayList<>();
 	private Feature feature;
