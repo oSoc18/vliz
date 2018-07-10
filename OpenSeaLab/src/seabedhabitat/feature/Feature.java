@@ -1,4 +1,4 @@
-package seabedhabitat;
+package seabedhabitat.feature;
 
 import java.util.HashMap;
 import java.util.Map;
