@@ -11,13 +11,36 @@ names(r_colors) <- colors()
 
 
 # Define UI for miles per gallon application
-shinyUI(pageWithSidebar(
+
+shinyUI(fluidPage(
   
-  # Application title
+  titlePanel("Open Sea Lab"),
   
-  leafletOutput("mymap"),
-  
-  p(),
-  actionButton("recalc", "New points")
+  navbarPage("EMODnet data explorer",
+    tabPanel("Select your Area of Interest",
+      sidebarLayout(
+               
+        sidebarPanel(
+          actionButton("rect_button", "Draw a rectangle"),
+          actionButton("clear_rect_button", "Clear rectangle"),
+          p(), # creates a space
+          verbatimTextOutput("clicked_var"),
+          verbatimTextOutput("clicked_var1"),
+          p(), # creates a space
+          verbatimTextOutput("cord_var"),
+          p()
+        ),
+        mainPanel(
+          leafletOutput("mymap")
+        )
+      )             
+    ),
+    tabPanel("Select Data Layers"
+      
+    ),
+    tabPanel("Review and Confirm"
+             
+    )
+  )
   
 ))
