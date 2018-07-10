@@ -79,58 +79,38 @@
           <!-- <h2 class="sub-header">Map title</h2> -->
 
           <div class="btn-group btn-group-justified item-sidebar" role="group" aria-label="...">
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default">Enter Coordinates</button>
-            </div>
-            <div class="btn-group" role="group">
-              <button type="button" class="btn btn-default">Select Rectangular Area</button>
-            </div>
+          
+          <form>
+            		<p>Enter Coordinates : </p>
+            			<input type="text" id="coord1" name="coordinates1" size= "6">
+            			<input type="text" id="coord2" name="coordinates2" size= "6">
+            			<input type="text" id="coord3" name="coordinates3" size= "6">
+            			<input type="text" id="coord4" name="coordinates4" size= "6">
+              			
+          </form>
+          
+          <button id="validateCoordinates">Click</button>
+          
+          <br>
+          <input type="button" value="Select Rectangular Area">
+          
           </div>       
+         <br>
 
-          <div class="input-group item-sidebar">
-            <input type="text" class="form-control" placeholder="Enter Coordinates...">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Go</button>
-            </span>
-          </div><!-- /input-group -->          
+		<form>
+			<h4> Bathymetry </h4>
+            <input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth</br>
+            <input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas</br>
+            <input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours</br>
+           	<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references</br>                       			
+		</form>
 
-          <select class="form-control item-sidebar">
-            <option selected="" disabled="">Select item from this list</option>
-            <option value="foo1">Morbi leo risus</option>
-            <option value="foo2">Porta ac consectetur </option>
-            <option value="foo3">Vestibulum at eros</option>
-          </select>
-
-          <div class="list-group item-sidebar">
-            <a href="#" class="list-group-item">SeabedHabitats</a>
-            <a href="#" class="list-group-item">BathyMetry</a>
-
-          </div>
-
-          <div class="well item-sidebar">
-            <p><b>Dapibus</b> ac facilisis in, <a href="#">Porta ac</a> consectetur ac cestibulum</p>
-          </div>
-
-          <div class="panel panel-default item-sidebar">
-            <div class="panel-body">
-              <a href="#">Basic panel example</a>
-            </div>
-          </div>
-
-          <div class="thumbnail">
-            <img src="js/img/dc-map.png" data-holder-rendered="true" style="height: 200px; width: 100%; display: block;">
-            <div class="caption">
-              <h4>Thumbnail label</h4>
-              <p><b>Dapibus</b> ac facilisis in, Porta ac consectetur ac cestibulum</p>
-<!--               <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p> -->
-            </div>
-          </div>          
-
-<!--           <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul> -->
+		<form>
+			<h4> Seabed Habitats </h4>
+            <input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map</br>
+            <input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence</br>
+            <input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat</br>                     			
+		</form>
 
         </div>
         <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
