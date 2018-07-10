@@ -11,9 +11,9 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			+ "MeshAtlantic/map/MESHAtlantic.map&service=wfs&version=1.1.0&request=GetFeature&typeName=EUSM2016_simplified200&srsName="
 			+ "EPSG:4326&bbox=";
 
-	public String getData(String xLat, String xLong, String yLat, String yLong) {
+	public String getData(String minLong,String minLat,String maxLong,String maxLat) {
 		try {
-			String bbox = xLat + "," + xLong + "," + yLat + "," + yLong;
+			String bbox = minLong + "," + minLat + "," + maxLong + "," + maxLat;
 			HttpURLConnection connection = (HttpURLConnection) new URL(BASEURL + bbox).openConnection();
 			connection.setReadTimeout(2000);
 			connection.setConnectTimeout(2000);

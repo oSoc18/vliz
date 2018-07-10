@@ -1,5 +1,5 @@
 package seabedhabitat;
 
 public interface IUCCSeabedHabitat {
-	String getData(String xLat,String xLong,String yLat,String yLong);
+	String getData(String minLong,String minLat,String maxLong,String maxLat);
 }

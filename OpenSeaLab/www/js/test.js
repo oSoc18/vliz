@@ -5,9 +5,9 @@ $(function() {
 		data : {
 			action :"stat"
 		},
-		success : function(response, status) {
+		success : function(response) {
 			console.log("good")
-		},error : function(error, status){
+		},error : function(error){
 			
 		}
 	});
