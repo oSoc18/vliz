@@ -28,7 +28,8 @@ shinyUI(fluidPage(
           verbatimTextOutput("clicked_var1"),
           p(), # creates a space
           verbatimTextOutput("cord_var"),
-          p()
+          p(),
+          actionButton("WMS_button", "Test WMS Button")
         ),
         mainPanel(
           leafletOutput("mymap")

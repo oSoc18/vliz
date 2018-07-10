@@ -24,12 +24,27 @@ shinyServer(function(input, output) {
     paste(cords[1],cords[2],cords[3],cords[4], sep="\n")
     
   })
-  
+  observeEvent(input$WMS_button, {
+    
+    leafletProxy('mymap') %>%
+      addWMSTiles(
+        "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+        layers = "nexrad-n0r-900913",
+        options = WMSTileOptions(format = "image/png", transparent = TRUE)
+        )
+      #addWMSTiles(
+      #  "http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/MeshAtlantic/map/MESHAtlantic.map&service=wms&version=1.1.0&request=GetMap&layers=EUSM2016_simplified200&srs=EPSG:4326&bbox=2.122,51.428,3.034,51.548&format=image/jpeg&styles=&width=450&height=60",
+      #  layers = "EUSM2016_simplified200",
+      #  options = WMSTileOptions(format = "image/png", transparent = TRUE)
+      #  ) 
+  })
   rv <- reactiveValues(lstval=NULL,curval=NULL)
   curre <- NULL
   lstre <- NULL
   observeEvent(input$rect_button, {
+    
     observeEvent(input$mymap_click,{
+      
       click<-input$mymap_click
       
       if(is.null(rv$lstval) || is.null(rv$curval) ){
@@ -61,7 +76,7 @@ shinyServer(function(input, output) {
             addRectangles(
               lng1<-(rv$lstval)$lng, lat1<-(rv$lstval)$lat,
               lng2<-(rv$curval)$lng, lat2<-(rv$curval)$lat,
-              fillColor = "transparent"
+              fillColor = "transparent", layerId = "rectang"
             )
        
       }
@@ -72,6 +87,8 @@ shinyServer(function(input, output) {
   observeEvent(input$clear_rect_button, {
     rv$curval=NULL
     rv$lstval=NULL
+    leafletProxy('mymap') %>% clearShapes()
+      
     output$clicked_var<-renderText({
       NULL
     })
