@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 	private static final String BASEURL = "http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/"
 			+ "MeshAtlantic/map/MESHAtlantic.map&service=wfs&version=1.1.0&request=GetFeature&typeName=EUSM2016_simplified200&srsName="
@@ -20,7 +23,12 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			connection.setRequestMethod("GET");
 			connection.setDoInput(true);
 			connection.connect();
-			InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
+			
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			SAXParser saxParser = factory.newSAXParser();
+			SAXHandler userhandler = new SAXHandler();
+			saxParser.parse(connection.getInputStream(), userhandler);
+			/*InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
 			BufferedReader reader = new BufferedReader(streamReader);
 			StringBuilder s = new StringBuilder();
 			String inputL = null;
@@ -29,8 +37,8 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 				s.append(inputL + '\n');
 			}
 			reader.close();
-			streamReader.close();
-			return s.toString();
+			streamReader.close();*/
+			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
