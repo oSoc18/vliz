@@ -27,80 +27,77 @@ shinyServer(function(input, output) {
   observeEvent(input$WMS_button, {
     
     leafletProxy('mymap') %>%
+      setView(lng = 2.122, lat = 51.428, zoom = 8) %>%
+      
+      addRectangles(
+        lng1<-2.122, lat1<-51.428,
+        lng2<-3.034, lat2<-51.548,
+        fillColor = "transparent", layerId = "rectang"
+      ) %>% 
       addWMSTiles(
-        "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
-        layers = "nexrad-n0r-900913",
+        "http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/MeshAtlantic/map/MESHAtlantic.map&service=wms&version=1.1.0&request=GetMap&layers=EUSM2016_simplified200&srs=EPSG:4326&bbox=2.122,51.428,3.034,51.548&format=image/jpeg&styles=&width=450&height=60",
+        layers = "EUSM2016_simplified200",
         options = WMSTileOptions(format = "image/png", transparent = TRUE)
-        )
-      #addWMSTiles(
-      #  "http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/MeshAtlantic/map/MESHAtlantic.map&service=wms&version=1.1.0&request=GetMap&layers=EUSM2016_simplified200&srs=EPSG:4326&bbox=2.122,51.428,3.034,51.548&format=image/jpeg&styles=&width=450&height=60",
-      #  layers = "EUSM2016_simplified200",
-      #  options = WMSTileOptions(format = "image/png", transparent = TRUE)
-      #  ) 
+        ) 
   })
-  rv <- reactiveValues(lstval=NULL,curval=NULL)
+  rv <- reactiveValues(first=NULL,second=NULL)
   curre <- NULL
   lstre <- NULL
   observeEvent(input$rect_button, {
-    
+    rv <- reactiveValues(first=NULL,second=NULL)
+    print("reactive values")
+    print(rv$first)
+    print(rv$second)
     observeEvent(input$mymap_click,{
-      
-      click<-input$mymap_click
-      
-      if(is.null(rv$lstval) || is.null(rv$curval) ){
-        
-        rv$lstval <- rv$curval
-        rv$curval <- click
-        curre <- reactive({req(click);  click; rv$curval})
-        lstre <- reactive({req(click);  click; rv$lstval})
-        print("vars ---")
-        print(paste0("Boundry 1 : \n","Lat : ",curre()$lat,"\nLong : ",curre()$lng)) 
-        print(paste0("Boundry 2 : \n","Lat : ",lstre()$lat,"\nLong : ",lstre()$lng))
-        output$clicked_var<-renderText({
-          #print(curre())
-          paste0("Boundry 1 : \n","Lat : ",curre()$lat,"\nLong : ",curre()$lng)
-        })
-        output$clicked_var1<-renderText({
-          paste0("Boundry 2 : \n","Lat : ",lstre()$lat,"\nLong : ",lstre()$lng)
-        })
-        
-        
-        
+      click <-input$mymap_click
+      if(is.null(click)){
+        print("not a map click")
+        return()
       }
-      if(!is.null(rv$lstval) && !is.null(rv$curval)){
-        
-        print("trying to print rectangle")
-        print(rv$lstval) 
-        print(rv$curval)
-        leafletProxy('mymap') %>% 
+      
+      if(is.null(rv$first)){
+        rv$first <- click
+      }else{
+        if(is.null(rv$second)){
+          rv$second <- click
+          
+          output$clicked_var1<-renderText({
+            #print(curre())
+            paste0("Boundry 1 : \n","Lat : ",(rv$first)$lat,"\nLong : ",(rv$first)$lng)
+          })
+          output$clicked_var2<-renderText({
+            paste0("Boundry 2 : \n","Lat : ",(rv$second)$lat,"\nLong : ",(rv$second)$lng)
+          })
+          
+          leafletProxy('mymap') %>% 
             addRectangles(
-              lng1<-(rv$lstval)$lng, lat1<-(rv$lstval)$lat,
-              lng2<-(rv$curval)$lng, lat2<-(rv$curval)$lat,
+              lng1<-(rv$first)$lng, lat1<-(rv$first)$lat,
+              lng2<-(rv$second)$lng, lat2<-(rv$second)$lat,
               fillColor = "transparent", layerId = "rectang"
             )
-       
+        }
       }
+        
       
-    
     })
   })  
+    
   observeEvent(input$clear_rect_button, {
-    rv$curval=NULL
-    rv$lstval=NULL
+    rv <- reactiveValues(first=NULL,second=NULL)
+    rv$first <- NULL
+    rv$second <- NULL
+    
+    
     leafletProxy('mymap') %>% clearShapes()
       
-    output$clicked_var<-renderText({
+    output$clicked_var1<-renderText({
       NULL
     })
-    output$clicked_var1<-renderText({
+    output$clicked_var2<-renderText({
       NULL
     })
   })
   
-  observeEvent(input$rect_button, {
-    print(lstre)
-    
-  })
   
   
   

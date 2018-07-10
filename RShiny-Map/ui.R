@@ -24,8 +24,8 @@ shinyUI(fluidPage(
           actionButton("rect_button", "Draw a rectangle"),
           actionButton("clear_rect_button", "Clear rectangle"),
           p(), # creates a space
-          verbatimTextOutput("clicked_var"),
           verbatimTextOutput("clicked_var1"),
+          verbatimTextOutput("clicked_var2"),
           p(), # creates a space
           verbatimTextOutput("cord_var"),
           p(),
