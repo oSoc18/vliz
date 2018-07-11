@@ -1,6 +1,53 @@
-var map = L.map('map', {zoomControl:true}).setView([39.7392, -94.9847], 4);
+var map = L.map('map', {zoomControl:true}).setView([45.423998, -4.430259], 5);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
+
+
+
+/*var states = [{
+"type": "Feature",
+"properties": {"party": "Republican"},
+"geometry": {
+    "type": "Polygon",
+    "coordinates": [ [
+    [-4.430259, 45.423998], [-4.440155,45.422175], [-4.43755,45.429206], [-4.4313,45.429206], [-4.430259, 45.423998] 
+    ] ]
+}
+}, {
+"type": "Feature",
+"properties": {"party": "Democrat"},
+"geometry": {
+    "type": "Polygon",
+    "coordinates": [[
+        [-109.05, 41.00],
+        [-102.06, 40.99],
+        [-102.03, 36.99],
+        [-109.04, 36.99],
+        [-109.05, 41.00]
+    ]]
+}
+}];*/
+
+/*L.geoJson(states, {
+style: function(feature) {
+        return {color: "#ff0000"};
+
+}
+}).addTo(map);*/
+
+console.log("Loading...");
+
+$.getJSON("http://127.0.0.1:8080/seabed", function(json){
+	console.log("LOADED!");
+	console.log(json);
+	L.geoJson(json).addTo(map);
+
+
+});
+
+var myStyle = {"color": "#ff7800", "weight": 4, "opacity": 0.65};
+
+
 
 var boundry1 = null;
 var boundry2 = null;
@@ -23,8 +70,7 @@ function selectCordRectangle() {
 			    	clicked = false;
 			    }	
 			}
-		    
-		     
+  
 		});
 	
 
