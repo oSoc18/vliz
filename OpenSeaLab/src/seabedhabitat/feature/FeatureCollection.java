@@ -16,11 +16,12 @@ public class FeatureCollection {
 	}
 	
 	public String toGeoJSON() {
-		String result = "{ \"type\": \"FeatureCollection\", \"features\": ";
+		String result = "";
 		for(Feature f : features) {
-			result+=f.toGeoJSON();
+			result+=f.toGeoJSON()+", ";
 		}
-		return result+" }";
+		result = result.substring(0, result.length() - 2); // drop the trailing comma
+		return "{ \"type\": \"FeatureCollection\", \"features\": " + result+" }";
 	}
 	
 	@Override
