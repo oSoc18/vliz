@@ -4,11 +4,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FeatureCollection {
-	private List<Feature> features = new ArrayList<>();
+	private final List<Feature> features;
 	private Point[] bbox = new Point[2];
+	
+	public FeatureCollection(List<Feature> features) {
+		this.features = features;
+	}
+	
+	public FeatureCollection() {
+		features = new ArrayList<>();
+	}
 	
 	public List<Feature> getFeatures() {
 		return features;
+	}
+	
+	public void addFeature(Feature f) {
+		features.add(f);
 	}
 	
 	public Point[] getBbox() {

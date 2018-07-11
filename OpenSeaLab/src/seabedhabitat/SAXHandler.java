@@ -15,7 +15,7 @@ import seabedhabitat.feature.Point;
 import seabedhabitat.feature.Polygon;
 
 public class SAXHandler extends DefaultHandler {
-	private FeatureCollection featureCollection = new FeatureCollection();
+	private final FeatureCollection featureCollection = new FeatureCollection();
 	private Feature feature;
 	private boolean isFeature = false;
 	private boolean lowerCorner;
@@ -66,14 +66,14 @@ public class SAXHandler extends DefaultHandler {
 				((MultiPolygon) geo).addPolygon(getPolygon(s));
 			} else {
 				feature.setGeometry(getPolygon(s));
-				featureCollection.getFeatures().add(feature);
+				featureCollection.addFeature(feature);
 			}
 
 			posList = false;
 			return;
 		}
 		if (qName.equals("gml:MultiSurface")) {
-			featureCollection.getFeatures().add(feature);
+			featureCollection.addFeature(feature);
 		}
 	}
 
