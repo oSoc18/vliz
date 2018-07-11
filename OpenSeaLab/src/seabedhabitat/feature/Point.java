@@ -20,7 +20,7 @@ public class Point extends Geometry {
 
 	@Override
 	public String getCoordinates() {
-		return "[" + lat + ", " + lon + "]";
+		return "[" + lon + ", " + lat + "]";
 	}
 
 }

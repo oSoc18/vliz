@@ -31,10 +31,9 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	}
 
 	private void responseJSON(String s, HttpServletResponse resp) {
-		try {
+		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
-			ServletOutputStream sos = resp.getOutputStream();
 			sos.print(s);
 		} catch (Exception exc) {
 			exc.printStackTrace();

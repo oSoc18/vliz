@@ -24,7 +24,7 @@ public class Polygon extends Geometry{
 			result += point.getCoordinates()+", ";
 		}
 		result = result.substring(0, result.length() - 2); // drop the trailing comma
-		return "[ " + result + " ]";
+		return "[[ " + result + " ]]";
 	}
 
 }

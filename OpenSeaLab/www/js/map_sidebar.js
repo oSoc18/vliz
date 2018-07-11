@@ -40,8 +40,11 @@ console.log("Loading...");
 $.getJSON("http://127.0.0.1:8080/seabed", function(json){
 	console.log("LOADED!");
 	console.log(json);
-	L.geoJson(json).addTo(map);
-
+	L.geoJson(json, {
+		style: function(feature) {return "#00ff00";}
+	}).addTo(map);
+	
+	console.log("Added to map");
 
 });
 
