@@ -26,13 +26,8 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
-		String action = arg0.getParameter("action");
-		switch (action) {
-			case "geoJSON":
-				String geoJSON = seabedHabitatUCC.getData("-1.822721", "44.468489", "-4.448453", "45.453393");
-				responseJSON(geoJSON, arg1);
-				break;
-		}
+		String geoJSON = seabedHabitatUCC.getData("-1.822721", "44.468489", "-4.448453", "45.453393");
+		responseJSON(geoJSON, arg1);
 	}
 
 	private void responseJSON(String s, HttpServletResponse resp) {
