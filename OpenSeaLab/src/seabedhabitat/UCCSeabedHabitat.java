@@ -14,8 +14,8 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 		try {
 			String bbox = minLong + "," + minLat + "," + maxLong + "," + maxLat;
 			HttpURLConnection connection = (HttpURLConnection) new URL(BASEURL + bbox).openConnection();
-			connection.setReadTimeout(2000);
-			connection.setConnectTimeout(2000);
+			connection.setReadTimeout(20000);
+			connection.setConnectTimeout(20000);
 			connection.setRequestMethod("GET");
 			connection.setDoInput(true);
 			connection.connect();
@@ -25,16 +25,7 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			SAXParser saxParser = factory.newSAXParser();
 			SAXHandler userhandler = new SAXHandler();
 			saxParser.parse(connection.getInputStream(), userhandler);
-			/*InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
-			BufferedReader reader = new BufferedReader(streamReader);
-			StringBuilder s = new StringBuilder();
-			String inputL = null;
-			while ((inputL = reader.readLine()) != null) {
-				// System.out.println(inputL);
-				s.append(inputL + '\n');
-			}
-			reader.close();
-			streamReader.close();*/
+			
 			return userhandler.getFeatures().toGeoJSON();
 		} catch (Exception e) {
 			e.printStackTrace();
