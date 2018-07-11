@@ -28,12 +28,15 @@ public class FeatureCollection {
 	}
 	
 	public String toGeoJSON() {
+		if(features.size() == 0) {
+			throw new IllegalStateException("No elements in the featurecollection");
+		}
 		String result = "";
 		for(Feature f : features) {
 			result+=f.toGeoJSON()+", ";
 		}
 		result = result.substring(0, result.length() - 2); // drop the trailing comma
-		return "{ \"type\": \"FeatureCollection\", \"features\": [" + result+"]}";
+		return "{ \"type\": \"FeatureCollection\", \"features\": \n [" + result+"]\n}";
 	}
 	
 	@Override
