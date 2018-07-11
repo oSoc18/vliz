@@ -28,7 +28,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		String action = arg0.getParameter("action");
 		switch (action) {
 			case "getGeoJSON":
-				String geoJSON = seabedHabitatUCC.getData("-1.822721", "44.468489", "-4.448453", "45.453393");
+				String geoJSON = seabedHabitatUCC.getData("-1.5", "44", "-2", "44.5");
 				responseJSON(geoJSON, arg1);
 				break;
 		}
