@@ -35,8 +35,7 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			}
 			reader.close();
 			streamReader.close();*/
-			System.out.println(userhandler.getFeatures());
-			return null;
+			return userhandler.getFeatures().toGeoJSON();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
