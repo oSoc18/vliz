@@ -33,7 +33,7 @@ public class FeatureCollection {
 			result+=f.toGeoJSON()+", ";
 		}
 		result = result.substring(0, result.length() - 2); // drop the trailing comma
-		return "{ \"type\": \"FeatureCollection\", \"features\": " + result+" }";
+		return "{ \"type\": \"FeatureCollection\", \"features\": [" + result+"]}";
 	}
 	
 	@Override
