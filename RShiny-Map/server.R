@@ -2,6 +2,13 @@
 #setwd("~/Downloads/TEST_RSHINY")
 library(shiny)
 library(leaflet.extras)
+library(RJSONIO)
+#install.packages("XML")
+library(XML)
+#install.packages("xml2")
+library(xml2)
+library(httr)
+library(jsonlite)
 
 
 d<<-NULL
@@ -32,14 +39,25 @@ shinyServer(function(input, output) {
       addRectangles(
         lng1<-2.122, lat1<-51.428,
         lng2<-3.034, lat2<-51.548,
-        fillColor = "transparent", layerId = "rectang"
+        fillColor = "transparent"
       ) %>% 
-      addWMSTiles(
-        "http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/MeshAtlantic/map/MESHAtlantic.map&service=wms&version=1.1.0&request=GetMap&layers=EUSM2016_simplified200&srs=EPSG:4326&bbox=2.122,51.428,3.034,51.548&format=image/jpeg&styles=&width=450&height=60",
-        layers = "EUSM2016_simplified200",
-        options = WMSTileOptions(format = "image/png", transparent = TRUE)
-        ) 
+      addTiles(urlTemplate = "http://213.122.160.75/scripts/mapserv.exe?D:/Websites/MeshAtlantic/map/MESHAtlantic.map&"
+                  )
+    #print("done fetching ")
+    #get_http <- GET("http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/MeshAtlantic/map/MESHAtlantic.map&service=wfs&version=1.1.0&request=GetFeature&typeName=EUSM2016_simplified200&srsName=EPSG:4326&bbox=2.122,51.548,3.034,51.428")
+    #doc <- xmlParse( get_http)
+    #a <- xmlToList(doc)
+    
+    #geojson <- a %>% paste(collapse = "\n") 
+    #geojson$style = list(
+    #  weight = 1,
+    #  color = "#555555",
+    #  opacity = 1,
+    #  fillOpacity = 0.8
+    #)
+    #leafletProxy('mymap') %>% addGeoJSON(geojson)
   })
+  
   rv <- reactiveValues(first=NULL,second=NULL)
   curre <- NULL
   lstre <- NULL
@@ -73,7 +91,7 @@ shinyServer(function(input, output) {
             addRectangles(
               lng1<-(rv$first)$lng, lat1<-(rv$first)$lat,
               lng2<-(rv$second)$lng, lat2<-(rv$second)$lat,
-              fillColor = "transparent", layerId = "rectang"
+              fillColor = "transparent"
             )
         }
       }
