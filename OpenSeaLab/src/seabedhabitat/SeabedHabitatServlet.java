@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.servlet.DefaultServlet;
 
 public class SeabedHabitatServlet extends DefaultServlet {
-
 	private IUCCSeabedHabitat seabedHabitatUCC;
 
 	public SeabedHabitatServlet(IUCCSeabedHabitat seabedHabitatUCC) {
@@ -28,13 +27,16 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
 		String action = arg0.getParameter("action");
 		switch (action) {
-			case "geoJSON":
+			case "getGeoJSON":
 				String geoJSON = seabedHabitatUCC.getData("-1.822721", "44.468489", "-4.448453", "45.453393");
 				responseJSON(geoJSON, arg1);
 				break;
 		}
 	}
 
+	private void getGeoJSON(String minLat, String minLong, String maxLat, String maxLong) {
+	}
+	
 	private void responseJSON(String s, HttpServletResponse resp) {
 		try {
 			resp.setContentType("application/json");

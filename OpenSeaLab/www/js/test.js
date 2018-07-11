@@ -1,11 +1,15 @@
-$(function() {
-	console.log("hello!")
+$(function() {)
 	$('#validateCoordinates').click(function(){
 		$.ajax({
 			url : '/seabed',
 			type : 'GET',
 			data : {
-				action:"geoJSON"
+				action:"getGeoJSON",
+				minLat: val,
+				minLong: val,
+				maxLat: val,
+				maxLong: val
+				
 			},
 			success : function(response) {
 				console.log("hello")
