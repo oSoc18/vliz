@@ -33,7 +33,7 @@ public class FeatureCollection {
 		}
 		String result = "";
 		for(Feature f : features) {
-			result+=f.toGeoJSON()+"\n, ";
+			result+=f.toGeoJSON()+", ";
 		}
 		result = result.substring(0, result.length() - 2); // drop the trailing comma
 		return "{ \"type\": \"FeatureCollection\", \"features\": \n [" + result+"]\n}";

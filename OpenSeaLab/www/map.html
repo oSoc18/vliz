@@ -32,16 +32,43 @@
 		<p id="recBound1"></p>
 		<p id="recBound2"></p>
 
-          <form>
-            		<p>Enter Coordinates : </p>
-            			<input type="text" id="coord1" name="coordinates1" size= "6">
-            			<input type="text" id="coord2" name="coordinates2" size= "6">
-            			<input type="text" id="coord3" name="coordinates3" size= "6">
-            			<input type="text" id="coord4" name="coordinates4" size= "6">              			
-          </form>
-          
+     <form>
+          <p>Enter Coordinates : </p>
+          <input type="text" id="coord1" name="coordinates1" size= "6">
+          <input type="text" id="coord2" name="coordinates2" size= "6">
+          <input type="text" id="coord3" name="coordinates3" size= "6">
+          <input type="text" id="coord4" name="coordinates4" size= "6">              			
+     </form>          
           <button id="validateCoordinates">Click</button>		
-		
+
+	<ul style="list-style-type:none">	  
+	
+	<li>
+	<button class="dropdown-btn">Bathymetry
+		<i class="fa fa-caret-down"></i>
+	</button>
+	<div class="dropdown-container">
+            <input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth
+            <input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas
+            <input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours
+           	<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references
+	</div>
+	</li>
+	
+	<li>
+	<button class="dropdown-btn">Seabed Habitats
+		<i class="fa fa-caret-down"></i>
+	</button>
+	<div class="dropdown-container">
+  <input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map
+            <input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence
+            <input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat 
+	</div>
+	</li>	
+	
+	</ul>
+	
+	
 	<div id="map"></div>
 
 
@@ -98,6 +125,24 @@ function drawRectangle() {
 	var dimRectangle = rctangle.getLatLngs();
 }
 </script>
+
+<script>
+//* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var dropdownContent = this.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+      dropdownContent.style.display = "none";
+    } else {
+      dropdownContent.style.display = "block";
+    }
+  });
+}
+</script
 
 </body>
 

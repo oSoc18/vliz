@@ -7,7 +7,7 @@ public class Feature {
 	private final String type ="Feature";
 	private Point[] bbox = new Point[2];
 	private Geometry geometry;
-	//private Map<String, Object> properties = new HashMap<>();
+	private Map<String, Object> properties = new HashMap<>();
 	
 	public Point[] getBbox() {
 		return bbox;
@@ -21,19 +21,27 @@ public class Feature {
 	public void setGeometry(Geometry geometry) {
 		this.geometry = geometry;
 	}
-	/*public Map<String, Object> getProperties() {
-		return properties;
-	}
-	public void setProperties(Map<String, Object> properties) {
-		this.properties = properties;
-	}*/
+	
 	public String getType() {
 		return type;
 	}
 	
+	public void addProperty(String key, String value) {
+		properties.put(key, value);
+	}
 	
 	public String toGeoJSON() {
-		return "{" + "\"type\": \"" + type +"\"" +","+ "\"bbox\": ["+bbox[0].getLat()+","+bbox[0].getLon()+","+bbox[1].getLat()+","+bbox[1].getLon()+ "],"+ geometry+"}";
+		String props = "";
+		for(Map.Entry<String, Object> entries : properties.entrySet()) {
+			if(entries.getValue() instanceof String) {
+				props+="\""+entries.getKey()+"\": \""+entries.getValue()+"\", ";
+			} else {
+				//TODO if needed
+			}
+		}
+		props = props.substring(0, props.length() - 2); // drop the trailing comma
+		return "{" + "\"type\": \"" + type +"\"" +","+ "\"bbox\": ["+bbox[0].getLat()+","+bbox[0].getLon()+","
+				+bbox[1].getLat()+","+bbox[1].getLon()+ "],"+ geometry +", \"properties\": { "+props +" }" +"}";
 	}
 	
 	@Override

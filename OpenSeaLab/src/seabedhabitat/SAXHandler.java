@@ -22,6 +22,12 @@ public class SAXHandler extends DefaultHandler {
 	private boolean upperCorner;
 	private boolean multiSurface;
 	private boolean posList;
+	private boolean objectID;
+	private boolean allcomb;
+	private boolean allcomD;
+	private boolean webDesc;
+	private boolean webClass;
+
 	private StringBuilder sb;
 
 	@Override
@@ -33,7 +39,6 @@ public class SAXHandler extends DefaultHandler {
 			multiSurface = false;
 			return;
 		}
-
 		if (qName.equals("gml:lowerCorner")) {
 			lowerCorner = true;
 			return;
@@ -49,6 +54,27 @@ public class SAXHandler extends DefaultHandler {
 		if (qName.equals("gml:posList")) {
 			posList = true;
 			sb = new StringBuilder();
+			return;
+		}
+		if (qName.equals("ms:OBJECTID")) {
+			objectID = true;
+			return;
+		}
+		if (qName.equals("ms:Allcomb")) {
+			allcomb = true;
+			return;
+		}
+		if (qName.equals("ms:AllcombD")) {
+			allcomD = true;
+			return;
+		}
+		if (qName.equals("ms:WEB_DESC")) {
+			webDesc = true;
+			return;
+		}
+		if (qName.equals("ms:WEB_CLASS")) {
+			webClass = true;
+			return;
 		}
 	}
 
@@ -90,7 +116,7 @@ public class SAXHandler extends DefaultHandler {
 			return;
 		}
 		if (upperCorner) {
-			if(!isFeature) {
+			if (!isFeature) {
 				featureCollection.getBbox()[1] = getPoint(s);
 			} else {
 				feature.getBbox()[1] = getPoint(s);
@@ -102,12 +128,33 @@ public class SAXHandler extends DefaultHandler {
 			sb.append(s);
 			return;
 		}
+	
+		if(objectID) {
+			objectID = false;
+			feature.addProperty("OBJECTID", s);
+			return;
+		}
+		if(allcomb) {
+			allcomb = false;
+			feature.addProperty("Allcomb", s);
+			return;
+		}
+		if(allcomD) {
+			allcomD = false;
+			feature.addProperty("WEB_DESC", s);
+			return;
+		}
+		if(webClass) {
+			webClass = false;
+			feature.addProperty("WEB_CLASS", s);
+			return;
+		}
+		if(webDesc) {
+			webDesc = false;
+			feature.addProperty("WEB_DESC",s);
+			return;
+		}
 
-	}
-
-	@Override
-	public void endDocument() throws SAXException {
-		// return list;
 	}
 
 	public FeatureCollection getFeatures() {
