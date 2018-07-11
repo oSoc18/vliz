@@ -18,8 +18,8 @@ public abstract class Geometry {
 	 */
 	public String toGeoJSON() {
 
-		String result = "\"geometry\": {" + "\"type\": \"" + getType() + "\"," + "\"coordinates\": "
-				+ this.getCoordinates() + "}";
+		String result = "\"geometry\": { " + "\"type\": \"" + getType() + "\"," + "\"coordinates\": "
+				+ this.getCoordinates() + " }";
 		return result;
 	}
 

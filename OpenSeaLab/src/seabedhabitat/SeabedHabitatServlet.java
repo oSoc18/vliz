@@ -26,15 +26,17 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	@Override
 	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	
-		System.out.println("hello");
 		
-		String coord1= arg0.getParameter("coord1").trim();
+		String xml = seabedHabitatUCC.getData("2.122", "51.428", "3.03", "51.548");
+		
+		//System.out.println("hello");
+		
+		/*String coord1= arg0.getParameter("coord1").trim();
 		String coord2= arg0.getParameter("coord2").trim();
 		String coord3= arg0.getParameter("coord3").trim();
 		String coord4= arg0.getParameter("coord4").trim();
-		String xml = seabedHabitatUCC.getData(coord1,coord2,coord3,coord4);
-		System.out.println(xml);
+		String xml = seabedHabitatUCC.getData(coord1,coord2,coord3,coord4);*/
+		//System.out.println(xml);
 	
 		/*
 		String action = arg0.getParameter("action");

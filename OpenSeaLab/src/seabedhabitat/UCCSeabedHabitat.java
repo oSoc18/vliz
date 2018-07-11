@@ -1,14 +1,10 @@
 package seabedhabitat;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
 public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 	private static final String BASEURL = "http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/"
 			+ "MeshAtlantic/map/MESHAtlantic.map&service=wfs&version=1.1.0&request=GetFeature&typeName=EUSM2016_simplified200&srsName="
@@ -24,6 +20,7 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			connection.setDoInput(true);
 			connection.connect();
 			
+			
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			SAXHandler userhandler = new SAXHandler();
@@ -38,6 +35,7 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			}
 			reader.close();
 			streamReader.close();*/
+			System.out.println(userhandler.getFeatures());
 			return null;
 		} catch (Exception e) {
 			e.printStackTrace();
