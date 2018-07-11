@@ -52,31 +52,15 @@
   }
 }
 
-#global
-{
-    width: 600px;
-    border: solid black 1px;
-}
- 
-#cadre1
-{
-    height: 500px;
-    width: 300px;
-    float: left;
-    border: solid black 1px;
-}
- 
-#cadre2
-{
-    height: 500px;
-    width: 300px;
-    margin-left: 300px;
-    border: solid black 1px;
-}
- 
-.centre
-{
-    height: 100px;
-    width: 100px;
-    margin-left: 100px;
+.dropdown-btn {
+	background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: left;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }

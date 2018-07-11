@@ -19,6 +19,7 @@
     <link href="style/dashboard.css" rel="stylesheet">
     <link href="style/style-sidebar.css" rel="stylesheet">
     <link href="style/leaflet.css" rel="stylesheet">
+	<link href="style/header.css" rel="stylesheet">	
 
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -34,8 +35,6 @@
       <style type="text/css">
 
       </style>
-
-
 
   </head>
 
@@ -57,10 +56,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Settings</a></li>
-            <li><a href="#">Profile</a></li>
-            <li><a href="#">Logout</a></li>
+            <li><a class="active"href="#bathymetry">Bathymetry</a></li>
+            <li><a href="#seabedHabitat">Seabed habitat</a></li>
+            <li><a href="#About">About</a></li>
           </ul>
           <!--
           <form class="navbar-form navbar-right">
@@ -86,13 +84,9 @@
             			<input type="text" id="coord2" name="coordinates2" size= "6">
             			<input type="text" id="coord3" name="coordinates3" size= "6">
             			<input type="text" id="coord4" name="coordinates4" size= "6">              			
-          </form>
-          
+          </form>          
           <button id="validateCoordinates">Click</button>
-          
-          <br>
-          <input type="button" value="Select Rectangular Area">
-          
+
           </div>       
          <br>
           <button id="selectCordButton" onclick="selectCordRectangle()">Click first rectangle boundry</button> 
@@ -103,20 +97,34 @@
           <button id="drawButton" onclick="drawRectangle()">Draw my rectangle</button>
           <button id="deleteButton" onclick="deleteRectangle()">Delete my rectangle</button>
 
-		<form>
-			<h4> Bathymetry </h4>
-            <input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth</br>
-            <input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas</br>
-            <input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours</br>
-           	<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references</br>                       			
-		</form>
-
-		<form>
-			<h4> Seabed Habitats </h4>
-            <input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map</br>
-            <input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence</br>
-            <input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat</br>                     			
-		</form>
+	<br>
+	
+	<ul style="list-style-type:none">	  
+	
+	<li>
+	<button class="dropdown-btn">Bathymetry
+		<i class="fa fa-caret-down"></i>
+	</button>
+	<div class="dropdown-container">
+            <input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
+            <input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
+            <input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
+           	<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
+	</div>
+	</li>
+	
+	<li>
+	<button class="dropdown-btn">Seabed Habitats
+		<i class="fa fa-caret-down"></i>
+	</button>
+	<div class="dropdown-container">
+  <input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
+            <input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
+            <input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
+	</div>
+	</li>	
+	
+	</ul>
 
         </div>
         <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
@@ -134,6 +142,7 @@
     <script src="js/leaflet-providers.js"></script>
     <script src="js/map_sidebar.js"></script>
     <script src="js/test.js"></script>
+	<script src="js/dropdown.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
     <!--<script src="js/holder.js"></script>-->
   </body>
