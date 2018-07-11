@@ -25,16 +25,7 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 			SAXParser saxParser = factory.newSAXParser();
 			SAXHandler userhandler = new SAXHandler();
 			saxParser.parse(connection.getInputStream(), userhandler);
-			/*InputStreamReader streamReader = new InputStreamReader(connection.getInputStream());
-			BufferedReader reader = new BufferedReader(streamReader);
-			StringBuilder s = new StringBuilder();
-			String inputL = null;
-			while ((inputL = reader.readLine()) != null) {
-				// System.out.println(inputL);
-				s.append(inputL + '\n');
-			}
-			reader.close();
-			streamReader.close();*/
+
 			return userhandler.getFeatures().toGeoJSON();
 		} catch (Exception e) {
 			e.printStackTrace();
