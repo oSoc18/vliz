@@ -5,30 +5,42 @@ L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 var boundry1 = null;
 var boundry2 = null;
 var drawnRec = false;
+var clicked = false;
 
 function selectCordRectangle() {
 
-    map.on('click', function(e) {
-	    if(boundry1 == null){
-	    	document.getElementById("recBound1").innerHTML = "Boundry 1 Lat, Lon : "  + e.latlng.lat + ", " + e.latlng.lng;
-	    	boundry1 = e.latlng;
-	    } else if(boundry2 == null){
-	    	document.getElementById("recBound2").innerHTML = "Boundry 2 Lat, Lon : "  + e.latlng.lat + ", " + e.latlng.lng;
-	    	boundry2 = e.latlng;
-	    }	    
-	});
+	clicked = true;
+		map.on('click', function(e) {
+			if(clicked){
+				 if(boundry1 == null){
+			    	boundry1 = e.latlng;
+			    	document.getElementById("recBound1").innerHTML = "Boundry 1 Lat, Lon : "  + boundry1.lat + ", " + boundry1.lng;
+			    	drawnRec = false;
+			    } else if(boundry2 == null && e.latlng != boundry1){
+			    	boundry2 = e.latlng;
+			    	document.getElementById("recBound2").innerHTML = "Boundry 2 Lat, Lon : "  + boundry2.lat + ", " + boundry2.lng;
+			    	drawnRec = false;
+			    	clicked = false;
+			    }	
+			}
+		    
+		     
+		});
+	
+
     
 }
 
 function clearCordRectangle(){
-	var boundry1 = null;
-	var boundry2 = null;
-	var drawnRec = false;
+	boundry1 = null;
+	boundry2 = null;
+	drawnRec = false;
 	document.getElementById("recBound1").innerHTML = "";
 	document.getElementById("recBound2").innerHTML = "";
 }
 
 function drawRectangle(){
+	
 	if(boundry1 != null && boundry2 != null && !drawnRec){
     	rectangle =  new L.rectangle([  [boundry1.lat, boundry1.lng], [boundry2.lat, boundry2.lng]]);
 		map.addLayer(rectangle);
@@ -42,5 +54,10 @@ function drawRectangle(){
 
 function deleteRectangle(){
 	map.removeLayer(rectangle);
+	boundry1 = null;
+	boundry2 = null;
+	drawnRec = false;
+	document.getElementById("recBound1").innerHTML = "";
+	document.getElementById("recBound2").innerHTML = "";
     
 }
