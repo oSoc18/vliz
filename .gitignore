@@ -1,0 +1,6 @@
+/.metadata/
+/.recommenders/
+/OpenSeaLabJava/.classpath
+RemoteSystemsTempFiles/
+Servers/*
+OpenSeaLab/bin/*

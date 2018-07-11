@@ -5,32 +5,41 @@ import java.util.Map;
 
 public class Feature {
 	private final String type ="Feature";
-	private double[] bbox = new double[4];
-	private Map<String, Object> geometry = new HashMap<>();
-	private Map<String, Object> properties = new HashMap<>();
+	private Point[] bbox = new Point[2];
+	private Geometry geometry;
+	//private Map<String, Object> properties = new HashMap<>();
 	
-	public double[] getBbox() {
+	public Point[] getBbox() {
 		return bbox;
 	}
-	public void setBbox(double[] bbox) {
+	public void setBbox(Point[] bbox) {
 		this.bbox = bbox;
 	}
-	public Map<String, Object> getGeometry() {
+	public Geometry getGeometry() {
 		return geometry;
 	}
-	public void setGeometry(Map<String, Object> geometry) {
+	public void setGeometry(Geometry geometry) {
 		this.geometry = geometry;
 	}
-	public Map<String, Object> getProperties() {
+	/*public Map<String, Object> getProperties() {
 		return properties;
 	}
 	public void setProperties(Map<String, Object> properties) {
 		this.properties = properties;
-	}
+	}*/
 	public String getType() {
 		return type;
 	}
 	
+	
+	public String toGeoJSON() {
+		return "{" + "\"type\": \"" + type +"\"" +","+ "\"bbox\": ["+bbox[0].getLat()+","+bbox[0].getLon()+","+bbox[1].getLat()+","+bbox[1].getLon()+ "],"+ geometry+"}";
+	}
+	
+	@Override
+	public String toString() {
+		return toGeoJSON();
+	}
 	
 	
 }
