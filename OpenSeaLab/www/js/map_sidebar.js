@@ -41,7 +41,7 @@ $.getJSON("http://127.0.0.1:8080/seabed", function(json){
 	console.log("LOADED!");
 	console.log(json);
 	L.geoJson(json, {
-		style: GetColor(feature)
+		style: GetColor
 		//function(feature) {return "#00ff00";}
 	}).addTo(map);
 	
@@ -113,7 +113,7 @@ function deleteRectangle(){
 }
 
 function GetRandomInt(min, max){
-	return Math.floor(Math.random()*(max - min + 1) + min;
+	return Math.floor(Math.random()*(max - min + 1) + min);
 }
 
 function GetColor(feature){
