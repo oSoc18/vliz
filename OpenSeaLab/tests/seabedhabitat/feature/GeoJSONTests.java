@@ -22,7 +22,6 @@ public class GeoJSONTests {
 		f.setBbox(new Point[] {p0, p1});
 		f.setGeometry(p);
 		
-		System.out.println(f);
 		assert("{\"type\": \"Feature\",\"bbox\": [51.123,4.123,51.345,4.567],\"geometry\": { \"type\": \"Polygon\",\"coordinates\": [ [51.123, 4.123], [51.345, 4.567], [51.678, 4.89] ] }}".equals(f.toGeoJSON()));
 		
 		FeatureCollection fc = new FeatureCollection();

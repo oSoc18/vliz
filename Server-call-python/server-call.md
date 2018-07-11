@@ -1,38 +1,13 @@
-# Full page web map application template with sidebar
-
-This is a responsive template for building full page map with sidebar on the left side. It is built on top of Bootstrap framework. 
-
-It also includes some basic ready-to-use Bootstrap components in the sidebar:
-
-- text input
-- select dropdown list
-- button group
-- list group
-- Thumbnails
-- wells
-- panel
-
-You can check out this [template](http://vannizhang.github.io/leaflet-map-template-with-sidebar/) here.
-
 ## Server call
 
 ### 1) Bathymetry
 WCS give you real data
 WCS: http://ows.emodnet-bathymetry.eu/wcs
 The following formats are also usable, the python libraries to call and get the data is shown on the following websites. Here we mainly use wcs to get real data
-
 /wcs (python): https://publicwiki.deltares.nl/display/OET/WCS+primer
-
-
 /wfs: (access by r and python): https://publicwiki.deltares.nl/display/OET/WFS+primer
-
-
 /wmts : you can find a similar link to exapalin how to access wmts
-
-
 /wms: you can find a similar link to expalin how to access wmts
-
-
 
 Below is a short exam illustrating how to use python for accessing wcs server to get real data (it is also on the website provided)
 
