@@ -76,10 +76,13 @@
         <div class="col-sm-4 col-md-3 sidebar">
           <!-- <h2 class="sub-header">Map title</h2> -->
 
+		  <input class="search" type="text" name="search" placeholder="Search.."><br>
+		  
+		
           <div class="btn-group btn-group-justified item-sidebar" role="group" aria-label="...">
           
           <form>
-            		<p>Enter Coordinates : </p>
+            		<h3>Enter Coordinates : </h3>
             			<input type="text" id="coord1" name="coordinates1" size= "6">
             			<input type="text" id="coord2" name="coordinates2" size= "6">
             			<input type="text" id="coord3" name="coordinates3" size= "6">
@@ -88,9 +91,10 @@
           <button id="validateCoordinates">Click</button>
 
           </div>       
-         <br>
+	
           <button id="selectCordButton" onclick="selectCordRectangle()">Click first rectangle boundry</button> 
-          
+       
+		  
           <button id="clearCordButton" onclick="clearCordRectangle()">Clear rectangle cordinates</button>
           <p id="recBound1"></p>
           <p id="recBound2"></p>
