@@ -2,7 +2,8 @@ var map = L.map('map', {zoomControl:true}).setView([45.433373, -4.441717], 10);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
-
+//create a new dictionary for feature colors
+let dictionary = new Map();
 
 /*console.log("Loading...");
 
@@ -10,8 +11,7 @@ $.getJSON("http://127.0.0.1:8080/seabed", {action:"getGeoJSON"}, function(json){
 	console.log("LOADED!");
 	console.log(json);
 	L.geoJson(json, {
-		style: function(feature) {return "#00ff00";}
-		,
+		style: GetColor, 	
 	   onEachFeature: function (feature, layer) {
 	   		//var seeArea = L.GeometryUtil.geodesicArea(layer.getLatLngs());
 	   		if(feature.properties.WEB_DESC){
@@ -132,19 +132,22 @@ function deleteRectangle(){
 	document.getElementById("recBound2").innerHTML = "";
     
 }
-/*
-//create a new dictionary
-var dict = {};
+
 
 function GetRandomInt(min, max){
 	return Math.floor(Math.random()*(max - min + 1) + min);
 }
 
 function GetColor(feature){
-	var r = GetRandomInt(0, 255);
-	var g = GetRandomInt(0, 255);
-	var b = GetRandomInt(0, 255);
-	
-	return element.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+	if(dictionary.has(feature)) return dictionary.get(feature);
+	else {
+		var r = GetRandomInt(0, 255);
+		var g = GetRandomInt(0, 255);
+		var b = GetRandomInt(0, 255);
+		var color = "rgb(" + r + "," + g + "," + b + ")";
+		dictionary.set(feature,color);
+		return color;
+	}
+
 }
-*/
+
