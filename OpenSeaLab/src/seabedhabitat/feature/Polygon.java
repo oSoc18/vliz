@@ -23,6 +23,8 @@ public class Polygon extends Geometry{
 		for (Point point : points) {
 			sb.append(point.getCoordinates()+", ");
 		}
+		sb.delete(sb.length() - 2, sb.length());
+		//StringBuilder sb2 = new StringBuilder();
 		String result = sb.toString().substring(0, sb.length() - 2); // drop the trailing comma
 		return "[[ " + result + " ]]";
 	}
