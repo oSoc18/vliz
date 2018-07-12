@@ -5,10 +5,10 @@ L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 //create a new dictionary for feature colors
 let dictionary = new Map();
 
-/*console.log("Loading...");
+console.log("Loading...");
 
-$.getJSON("http://127.0.0.1:8080/seabed", function(json){
-	console.log("LOADED!");
+$.getJSON("http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=51&maxLat=52&minLong=2&maxLong=3", function(json){
+	gconsole.log("LOADED!");
 	console.log(json);
 	L.geoJson(json, {
 		style: GetColor, 	
@@ -29,14 +29,13 @@ $.getJSON("http://127.0.0.1:8080/seabed", function(json){
 	
 	console.log("Added to map");
 
-});*/
+});
 
 function geodesicArea(latLngs) {
 			var pointsCount = latLngs.length,
 				area = 0.0,
 				d2r = Math.PI / 180,
 				p1, p2;
-
 			if (pointsCount > 2) {
 				for (var i = 0; i < pointsCount; i++) {
 					p1 = latLngs[i];

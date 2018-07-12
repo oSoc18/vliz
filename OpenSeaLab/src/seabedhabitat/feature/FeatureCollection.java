@@ -31,12 +31,12 @@ public class FeatureCollection {
 		if(features.size() == 0) {
 			throw new IllegalStateException("No elements in the featurecollection");
 		}
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for(Feature f : features) {
-			result+=f.toGeoJSON()+", ";
+			result.append(f.toGeoJSON()+", ");
 		}
-		result = result.substring(0, result.length() - 2); // drop the trailing comma
-		return "{ \"type\": \"FeatureCollection\", \"features\": \n [" + result+"]\n}";
+		String r = result.toString().substring(0, result.length() - 2); // drop the trailing comma
+		return "{ \"type\": \"FeatureCollection\", \"features\": \n [" + r +"]\n}";
 	}
 	
 	@Override
