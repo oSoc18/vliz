@@ -27,11 +27,11 @@ public class MultiPolygon extends Geometry {
 
 	@Override
 	public String getCoordinates() {
-		String result = "";
+		StringBuilder sb = new StringBuilder();
 		for (Polygon p : polygons) {
-			result += p.getCoordinates() + ", ";
+			sb.append(p.getCoordinates() + ", ");
 		}
-		result = result.substring(0, result.length() - 2); // drop the trailing comma
+		String result = sb.toString().substring(0, sb.length() - 2); // drop the trailing comma
 		return "[" + result + "]";
 	}
 

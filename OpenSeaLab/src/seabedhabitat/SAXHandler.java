@@ -105,6 +105,7 @@ public class SAXHandler extends DefaultHandler {
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
+		if(new String(ch, start, length).trim().length() == 0) return;
 		String s = new String(ch, start, length);
 		if (lowerCorner) {
 			lowerCorner = false;
