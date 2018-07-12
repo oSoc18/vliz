@@ -22,8 +22,14 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 		try {
 			String pathname = "cache/data-seabed-" + minLat + "-" + minLong + "-" + maxLat + "-" + maxLong + ".geojson";
 			Path p = FileSystems.getDefault().getPath(pathname);
+			Path cache = FileSystems.getDefault().getPath("cache");
+			if(!Files.exists(cache) || !Files.isDirectory(cache)) {
+				Files.createDirectory(cache);
+				System.out.println("Cacing directory created");
+			}
 			if (!Files.exists(p)) {
 				String bbox = minLong + "," + minLat + "," + maxLong + "," + maxLat;
+				System.out.println("Querying WMS server for "+p);
 				HttpURLConnection connection = (HttpURLConnection) new URL(BASEURL + bbox).openConnection();
 				connection.setReadTimeout(20000);
 				connection.setConnectTimeout(20000);
@@ -35,8 +41,10 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 				SAXParser saxParser = factory.newSAXParser();
 				SAXHandler userhandler = new SAXHandler();
 				saxParser.parse(connection.getInputStream(), userhandler);
+				System.out.println("Got result for "+p);
 				try(Writer writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)){
 					writer.write(userhandler.getFeatures().toGeoJSON());
+					System.out.println("Cache file "+p+" created");
 				} 
 			}
 			return new File(pathname);
