@@ -21,6 +21,7 @@ $.getJSON("http://127.0.0.1:8080/seabed", function(json){
 	   		}
 	       
 	   }
+		//add here return color depend on feature
 	}).addTo(map);
 
 
@@ -131,3 +132,19 @@ function deleteRectangle(){
 	document.getElementById("recBound2").innerHTML = "";
     
 }
+/*
+//create a new dictionary
+var dict = {};
+
+function GetRandomInt(min, max){
+	return Math.floor(Math.random()*(max - min + 1) + min);
+}
+
+function GetColor(feature){
+	var r = GetRandomInt(0, 255);
+	var g = GetRandomInt(0, 255);
+	var b = GetRandomInt(0, 255);
+	
+	return element.style.backgroundColor = "rgb(" + r + "," + g + "," + b + ")";
+}
+*/
