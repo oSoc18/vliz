@@ -54,9 +54,8 @@ var states = [{"type": "Feature","bbox": [45.433373,-4.441717,45.437539,-4.43505
 
 
 
-L.geoJson(states, {
-	  
-	       style: function(feature) {return {color: "#ff0000"};}
+L.geoJson(states, {	  
+	       style: function(feature) {return {color: GetColor(feature) } ; }
 	   ,
 	   onEachFeature: function (feature, layer) {
 	   		var seaArea = geodesicArea(layer.getLatLngs());
@@ -133,19 +132,12 @@ function deleteRectangle(){
     
 }
 
-
-function GetRandomInt(min, max){
-	return Math.floor(Math.random()*(max - min + 1) + min);
-}
-
 function GetColor(feature){
 	if(dictionary.has(feature)) return dictionary.get(feature);
 	else {
-		var r = GetRandomInt(0, 255);
-		var g = GetRandomInt(0, 255);
-		var b = GetRandomInt(0, 255);
-		var color = "rgb(" + r + "," + g + "," + b + ")";
+		var color = '#'+(Math.random()*0xFFFFFF<<0).toString(16);
 		dictionary.set(feature,color);
+		
 		return color;
 	}
 
