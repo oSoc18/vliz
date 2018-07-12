@@ -57,31 +57,21 @@ L.geoJson(states, {
 	       style: function(feature) {return {color: GetColor(feature) } ; }
 	   ,
 	   onEachFeature: function (feature, layer) {
+		var seaarea = 0
+	   	if(feature.geometry.type == "MultiPolygon"){
+	   		var i;
+			for(i = 0; i < feature.geometry.coordinates.length; i++) {
+			    seaArea = geodesicArea(layer.getLatLngs()[i]);
+			} 
+	   			
 
-	   		var seaarea = 0
-	   		if(feature.geometry.type == "MultiPolygon"){
-	   			var i;
-				for(i = 0; i < feature.geometry.coordinates.length; i++) {
-				    seaArea = geodesicArea(layer.getLatLngs()[i]);
-				} 
-	   			var list = "<dd>" + feature.properties.Allcomb + "</dd>"
-				           + "<dt>Area : </dt>"
-				           + seaArea 
-				           
-			   			 layer.bindPopup( list );
-
-	   		}else{
-	   			seaArea = geodesicArea(layer.getLatLngs());
-			   		if(feature.properties.WEB_CLASS){
-			   			var list = "<dd>" + feature.properties.Allcomb + "</dd>"
-				           + "<dt>Area : </dt>"
-				           + seaArea 
-				           
-			   			 layer.bindPopup( list );
-	   			}
-	   		}
-	   		
-	      
+	   	}else{
+	   		seaArea = geodesicArea(layer.getLatLngs()); 		
+	   	}
+	   	var list = "<dd>" + feature.properties.Allcomb + "</dd>"
+					+ "<dt>Area : </dt>"
+					+ seaArea 
+		layer.bindPopup( list );  
 	   }
 	}).addTo(map);
 
