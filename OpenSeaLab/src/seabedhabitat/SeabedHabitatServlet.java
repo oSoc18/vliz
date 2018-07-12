@@ -77,6 +77,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
+			System.out.println("Trying to get "+f.toPath());
 			Files.copy(f.toPath(), sos);
 		} catch (Exception exc) {
 			exc.printStackTrace();
