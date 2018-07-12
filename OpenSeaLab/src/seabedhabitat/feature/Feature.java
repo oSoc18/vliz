@@ -31,15 +31,15 @@ public class Feature {
 	}
 	
 	public String toGeoJSON() {
-		String props = "";
+		StringBuilder sb = new StringBuilder();
 		for(Map.Entry<String, Object> entries : properties.entrySet()) {
 			if(entries.getValue() instanceof String) {
-				props+="\""+entries.getKey()+"\": \""+entries.getValue()+"\", ";
+				sb.append("\""+entries.getKey()+"\": \""+entries.getValue()+"\", ");
 			} else {
 				//TODO if needed
 			}
 		}
-		props = props.substring(0, props.length() - 2); // drop the trailing comma
+		String props = sb.toString().substring(0, sb.length() - 2); // drop the trailing comma
 		return "{" + "\"type\": \"" + type +"\"" +","+ "\"bbox\": ["+bbox[0].getLat()+","+bbox[0].getLon()+","
 				+bbox[1].getLat()+","+bbox[1].getLon()+ "],"+ geometry +", \"properties\": { "+props +" }" +"}";
 	}

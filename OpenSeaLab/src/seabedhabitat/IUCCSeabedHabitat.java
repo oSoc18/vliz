@@ -1,5 +1,7 @@
 package seabedhabitat;
 
+import java.io.File;
+
 public interface IUCCSeabedHabitat {
-	String getData(String minLong,String minLat,String maxLong,String maxLat);
+	File getData(String minLong,String minLat,String maxLong,String maxLat);
 }

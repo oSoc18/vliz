@@ -6,7 +6,7 @@ L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
 /*console.log("Loading...");
 
-$.getJSON("http://127.0.0.1:8080/seabed", function(json){
+$.getJSON("http://127.0.0.1:8080/seabed", {action:"getGeoJSON"}, function(json){
 	console.log("LOADED!");
 	console.log(json);
 	L.geoJson(json, {
