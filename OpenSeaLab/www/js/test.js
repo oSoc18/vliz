@@ -5,10 +5,10 @@ $(function() {
 			type : 'GET',
 			data : {
 				action:"getGeoJSON",
-				minLat: "42.155978345541975",
-				minLong: "-31.54521798022688",
-				maxLat: "52.39094513355302",
-				maxLong: "0.9743132697731198"
+				minLat: "51.428",
+				minLong: "2.122",
+				maxLat: "51.548",
+				maxLong: "3.03"
 				
 			},
 			success : function(response) {

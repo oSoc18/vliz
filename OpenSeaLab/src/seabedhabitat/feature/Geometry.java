@@ -17,9 +17,12 @@ public abstract class Geometry {
 	 * @return
 	 */
 	public String toGeoJSON() {
-		String result = "\"geometry\": { " + "\"type\": \"" + getType() + "\"," + "\"coordinates\": "
-				+ this.getCoordinates() + " }";
-		return result;
+		StringBuilder result = new StringBuilder();
+		result.append("\"geometry\": { \"type\": \"");
+		result.append(type);
+		result.append("\", \"coordinates\": ");
+		result.append(getCoordinates());
+		return result.append(" }").toString();
 	}
 
 	public String getType() {

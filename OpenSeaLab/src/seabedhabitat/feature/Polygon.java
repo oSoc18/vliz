@@ -20,13 +20,14 @@ public class Polygon extends Geometry{
 	@Override
 	public String getCoordinates() {
 		StringBuilder sb = new StringBuilder();
+		sb.append("[[ ");
 		for (Point point : points) {
-			sb.append(point.getCoordinates()+", ");
+			sb.append(point.getCoordinates());
+			sb.append(", ");
 		}
 		sb.delete(sb.length() - 2, sb.length());
-		//StringBuilder sb2 = new StringBuilder();
-		String result = sb.toString().substring(0, sb.length() - 2); // drop the trailing comma
-		return "[[ " + result + " ]]";
+		sb.append(" ]]");
+		return sb.toString();
 	}
 
 }

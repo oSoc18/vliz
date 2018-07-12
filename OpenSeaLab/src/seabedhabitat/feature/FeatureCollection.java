@@ -32,11 +32,13 @@ public class FeatureCollection {
 			throw new IllegalStateException("No elements in the featurecollection");
 		}
 		StringBuilder result = new StringBuilder();
+		result.append("{ \"type\": \"FeatureCollection\", \"features\": \n [");
 		for(Feature f : features) {
-			result.append(f.toGeoJSON()+", ");
+			result.append(f.toGeoJSON());
+			result.append(", ");
 		}
-		String r = result.toString().substring(0, result.length() - 2); // drop the trailing comma
-		return "{ \"type\": \"FeatureCollection\", \"features\": \n [" + r +"]\n}";
+		result.delete(result.length() - 2, result.length());
+		return result.append("]\n}").toString();
 	}
 	
 	@Override
