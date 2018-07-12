@@ -19,11 +19,11 @@ public class Polygon extends Geometry{
 	
 	@Override
 	public String getCoordinates() {
-		String result = "";
+		StringBuilder sb = new StringBuilder();
 		for (Point point : points) {
-			result += point.getCoordinates()+", ";
+			sb.append(point.getCoordinates()+", ");
 		}
-		result = result.substring(0, result.length() - 2); // drop the trailing comma
+		String result = sb.toString().substring(0, sb.length() - 2); // drop the trailing comma
 		return "[[ " + result + " ]]";
 	}
 
