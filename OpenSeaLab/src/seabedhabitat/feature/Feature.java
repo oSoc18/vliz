@@ -55,5 +55,13 @@ public class Feature {
 		return toGeoJSON();
 	}
 	
+	public Feature clippedWith(Rectangle r) {
+		Feature f=  new Feature();
+		f.bbox = r.asBBox();
+		f.geometry = this.geometry.clippedWith(r);
+		f.properties = this.properties;
+		return f;
+	}
+	
 	
 }
