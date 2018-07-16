@@ -79,29 +79,26 @@ public class Polygon extends Geometry {
 	@Override
 	public Polygon clippedWith(Rectangle r) {
 		Polygon clipper = r.asPolygon();
-		List<Point> newPolygon = new ArrayList<>(this.points);
-		int len = clipper.points.size();
+		List<Point> newPolygon = new ArrayList<>(this.points); // copy the polygon to be clipped
+		int len = clipper.points.size(); // normally a rectangle
+
 		for (int i = 0; i < len; i++) {
-
 			int curLen = newPolygon.size();
-
 			List<Point> input = newPolygon;
 			newPolygon = new ArrayList<>();
 
 			Point A = clipper.points.get((i + len - 1) % len);
 			Point B = clipper.points.get(i);
-
 			for (int j = 0; j < curLen; j++) {
 
 				Point P = input.get((j + curLen - 1) % curLen);
 				Point Q = input.get(j);
-
-				if (isInside(A, B, Q)) {
-					if (!isInside(A, B, P)) {
+				if (!isInside(A, B, Q)) {  // is Q inside of points A and B
+					if (isInside(A, B, P)) { // is P outside of A and B 
 						newPolygon.add(intersection(A, B, P, Q));
 					}
 					newPolygon.add(Q);
-				} else if (isInside(A, B, P))
+				} else if (!isInside(A, B, P)) // is P inside of A and B and Q outside of 
 					newPolygon.add(intersection(A, B, P, Q));
 			}
 		}
