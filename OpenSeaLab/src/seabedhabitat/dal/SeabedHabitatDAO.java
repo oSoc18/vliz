@@ -31,8 +31,8 @@ public class SeabedHabitatDAO implements ISeabedHabitatDAO {
 	private final String url;
 	private final String cacheDir;
 	private final String pattern;
-
-	public SeabedHabitatDAO(String url, String cacheDir, String pattern) {
+	
+	public SeabedHabitatDAO(String url,String cacheDir, String pattern) {
 		this.url = url;
 		this.cacheDir = cacheDir;
 		this.pattern = pattern;

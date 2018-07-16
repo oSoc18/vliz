@@ -3,16 +3,19 @@ package seabedhabitat.feature;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import static java.lang.Math.*;
 
 public class Polygon extends Geometry {
 	private final List<Point> points;
 	private final int surface;
 	private int clippedSurface;
 	public Polygon(Point... points) {
+
 		this(Arrays.asList(points));
 	}
 
 	public Polygon(List<Point> points) {
+
 		super("Polygon");
 		this.points = points;
 		surface = points.size();
@@ -24,6 +27,10 @@ public class Polygon extends Geometry {
 
 	public int getClippedSurface() {
 		return clippedSurface/2;
+	}
+
+	public List<Point> testMethod() {
+		return points;
 	}
 
 	@Override
@@ -45,6 +52,7 @@ public class Polygon extends Geometry {
 		if (points.get(0).equals(points.get(points.size() - 1))) {
 			diff = 1;
 		}
+		/*
 		double surface = 0.0;
 		for (int i = 0; i < points.size() - diff; i++) {
 			Point p = points.get(i);
@@ -52,7 +60,28 @@ public class Polygon extends Geometry {
 			surface += (n.getLat() - p.getLat()) * (p.getLon() + n.getLon());
 		}
 
-		return Math.abs(surface) / 2;
+		return Math.abs(surface) / 2;*/
+
+
+		int pointsCount = points.size() - diff;
+		Double	area = 0.0;
+		Double d2r = Math.PI / 180;
+		Point p1, p2;
+
+		if (pointsCount > 2) {
+			for (int i = 0; i < pointsCount; i++) {
+				p1 = points.get(i);
+				p2 = points.get((i + 1) % pointsCount);
+
+				area += ((p2.getLon() - p1.getLon()) * d2r) *
+					(2 + Math.sin(p1.getLat() * d2r) + Math.sin(p2.getLat() * d2r));
+			}
+			area = area * 6378137.0 * 6378137.0 / 2.0;
+		}
+
+		return Math.abs(area);
+
+
 
 	}
 
