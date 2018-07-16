@@ -8,7 +8,7 @@ let dictionary = new Map();
 /*console.log("Loading...");
 
 $.getJSON("http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=51&maxLat=52&minLong=2&maxLong=3", function(json){
-	gconsole.log("LOADED!");
+	console.log("LOADED!");
 	console.log(json);
 	L.geoJson(json, {
 		style: GetColor, 	
@@ -114,55 +114,6 @@ map.on({mouseup :
 		}
 	}
 });
-
-function selectCordRectangle() {
-	clicked = true;
-	map.on('click', function(e) {
-		if(clicked){
-			if(boundry1 == null){
-				boundry1 = e.latlng;
-				document.getElementById("recBound1").innerHTML = "Boundry 1 Lat, Lon : "  + boundry1.lat + ", " + boundry1.lng;
-				drawnRec = false;
-			} else if(boundry2 == null && e.latlng != boundry1){
-				boundry2 = e.latlng;
-				document.getElementById("recBound2").innerHTML = "Boundry 2 Lat, Lon : "  + boundry2.lat + ", " + boundry2.lng;
-				drawnRec = false;
-				clicked = false;
-			}	
-		}
-	});  
-}
-
-function clearCordRectangle(){
-	boundry1 = null;
-	boundry2 = null;
-	drawnRec = false;
-	document.getElementById("recBound1").innerHTML = "";
-	document.getElementById("recBound2").innerHTML = "";
-}
-
-function drawRectangle(){
-	
-	if(boundry1 != null && boundry2 != null && !drawnRec){
-    	rectangle =  new L.rectangle([  [boundry1.lat, boundry1.lng], [boundry2.lat, boundry2.lng]]);
-		map.addLayer(rectangle);
-		drawnRec = true;
-		
-    }else{
-    	alert("Select all the bounds!");
-    }
-    
-}
-
-function deleteRectangle(){
-	map.removeLayer(rectangle);
-	boundry1 = null;
-	boundry2 = null;
-	drawnRec = false;
-	document.getElementById("recBound1").innerHTML = "";
-	document.getElementById("recBound2").innerHTML = "";
-    
-}
 
 function GetColor(feature){
 	if(dictionary.has(feature.properties.WEB_CLASS)) return dictionary.get(feature.properties.WEB_CLASS);
