@@ -23,4 +23,19 @@ public class Point extends Geometry {
 		return "[" + lon + ", " + lat + "]";
 	}
 
+	@Override
+	public double surfaceArea() {
+		return 0;
+	}
+
+	@Override
+	public Geometry clippedWith(Rectangle r) {
+		if(r.containsPoint(this)) {
+			return this;
+		}
+		return null;
+	}
+	
+	
+
 }
