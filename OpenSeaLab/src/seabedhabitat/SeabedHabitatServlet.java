@@ -36,34 +36,53 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
-		String action = arg0.getParameter("action");
-		System.out.println("hello");
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String action = req.getParameter("action");
 		if (action != null) {
 			switch (action) {
 			case "getGeoJSON":
-				BBoxDTO bbox = factory.newBbox();
-				bbox.setMinLat(arg0.getParameter("minLat"));
-				bbox.setMinLong(arg0.getParameter("minLong"));
-				bbox.setMaxLat(arg0.getParameter("maxLat"));
-				bbox.setMaxLong(arg0.getParameter("maxLong"));
-				File geoJSON = null;
-				try {
-					geoJSON = seabedHabitatUCC.getData(bbox);
-				} catch (FatalException f) {
-					LOGGER.log(Level.INFO, f.getMessage(), f);
-					sendError(arg1, f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-					return;
-				} catch (Exception e) {
-					LOGGER.log(Level.WARNING, "Unexpected behavior", e);
-					sendError(arg1, "Something happened, we can't respond to your request.",
-							HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-					return;
-				}
-				responseJSON(geoJSON, arg1);
+				getGeoJSON(req, resp);
+				break;
+			case "getStats":
+				System.out.println("hi");
+				getStats(req, resp);
+				break;
+			default:
+				sendError(resp, "", HttpServletResponse.SC_NOT_FOUND);
 				break;
 			}
 		}
+	}
+
+	private BBoxDTO getBBox(HttpServletRequest req) {
+		BBoxDTO bbox = factory.newBbox();
+		bbox.setMinLat(req.getParameter("minLat"));
+		bbox.setMinLong(req.getParameter("minLong"));
+		bbox.setMaxLat(req.getParameter("maxLat"));
+		bbox.setMaxLong(req.getParameter("maxLong"));
+		return bbox;
+	}
+
+	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
+		BBoxDTO bbox = getBBox(req);
+		File geoJSON = null;
+		try {
+			geoJSON = seabedHabitatUCC.getGeoJSON(bbox);
+		} catch (FatalException f) {
+			LOGGER.log(Level.INFO, f.getMessage(), f);
+			sendError(resp, f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return;
+		} catch (Exception e) {
+			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
+			sendError(resp, "Something happened, we can't respond to your request.",
+					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return;
+		}
+		responseJSON(geoJSON, resp);
+	}
+
+	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
+		seabedHabitatUCC.getStats(getBBox(req));
 	}
 
 	private void responseJSON(String s, HttpServletResponse resp) {
@@ -80,9 +99,10 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
-
+			// LOGGER.fine("Trying to get " + f.toPath());
+			System.out.println("Trying to get " + f.toPath());
 			Files.copy(f.toPath(), sos);
-			System.out.println("Cache hit on "+f.toPath());
+			// sos.flush();
 		} catch (Exception exc) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}

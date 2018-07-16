@@ -26,6 +26,9 @@ public class Feature {
 		return type;
 	}
 	
+	public Map<String, Object> getProperties() {
+		return properties;
+	}
 	public void addProperty(String key, String value) {
 		properties.put(key, value);
 	}

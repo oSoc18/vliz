@@ -68,7 +68,7 @@ public class BBox implements BBoxBiz{
 
 				minLong = maxLong;
 				maxLong = tempLong;
-			}
+			} 
 
 			minLat = Math.floor(minLat);
 			minLong = Math.floor(minLong);
