@@ -1,109 +1,25 @@
-#map {
-    width: 960px;
-    height:500px;
-}
-/* Style the header */
-header {
-    background-color: lightblue;
-    padding: 30px;
-    text-align: left;
-    font-size: 10px;
-    color: white;
-}
 
-body{
-	front-family: Arial, Helvetica, sans-serif;
-}
 
-/* Clear floats after the columns */
-section:after {
-    content: "";
-    display: table;
-    clear: both;
-	background-color: white;
-}
-
-/* Style the footer */
-footer {
+.collapsible {
     background-color: #777;
-    padding: 10px;
-    text-align: center;
     color: white;
-}
-.logo{
-	width: 600px ;
-	height:80px;
-}
-.search {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-right: 150px;
-    margin-left: 10px;
-    padding: 10px;
-    font-size: 17px;
-    border: 1px solid blue;
-    float: left;
-    width: 20%;
-    background: #f1f1f1;
-    -webkit-transition: width 0.4s ease-in-out;
-    transition: width 0.4s ease-in-out;
-}
-
-/* When the input field gets focus, change its width to 100% */
-.search:focus {
+    cursor: pointer;
+    padding: 18px;
     width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
 }
 
-.coordinates {
-    margin-bottom: 5px;
-    padding: 10px;
-    font-size: 7px;
-    border: 1px solid blue;
-    width: 5%;
-    background: #f1f1f1;	
+.active, .collapsible:hover {
+    background-color: #555;
 }
 
-
-.sidenav {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background-color: #111;
-    overflow-x: hidden;
-    transition: 0.5s;
-    padding-top: 60px;
-}
-
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-    transition: 0.3s;
-}
-
-.sidenav a:hover {
-    color: #f1f1f1;
-}
-
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    right: 25px;
-    font-size: 36px;
-    margin-left: 50px;
-}
-
-#main {
-    transition: margin-left .5s;
-    padding: 16px;
-}
-
-@media screen and (max-height: 450px) {
-  .sidenav {padding-top: 15px;}
-  .sidenav a {font-size: 18px;}
+.content {
+    padding: 0 18px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    background-color: #f1f1f1;
 }

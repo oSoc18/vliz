@@ -114,6 +114,21 @@ map.on({mouseup :
 				])
 			polygon.addTo(map);
 
+			if(firstCoor.lat <= lastCoor.lat ){
+				document.getElementById("minLat").value = String(firstCoor.lat);
+				document.getElementById("maxLat").value = String(lastCoor.lat);
+			}else{
+				document.getElementById("minLat").value = String(lastCoor.lat);
+				document.getElementById("maxLat").value = String(firstCoor.lat);
+			}
+			if(firstCoor.lng <= lastCoor.lng ){
+				document.getElementById("minLng").value = String(firstCoor.lng);
+				document.getElementById("maxLng").value = String(lastCoor.lng);
+			}else{
+				document.getElementById("minLng").value = String(lastCoor.lng);
+				document.getElementById("maxLng").value = String(firstCoor.lng);
+			}
+
 			URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;						
 			
 
