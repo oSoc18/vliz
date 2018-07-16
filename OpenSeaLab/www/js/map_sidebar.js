@@ -97,6 +97,7 @@ map.on({mousedown :
 });
 
 var polygon;
+var URLcoordinates;
 map.on({mouseup : 
 	function(e){
 		if(e.originalEvent.ctrlKey){
@@ -113,12 +114,16 @@ map.on({mouseup :
 				])
 			polygon.addTo(map);
 
-			var URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;						
-			loadDataFrom(URLcoordinates);
+			URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;						
+			
 
 		}
 	}
 });
+
+function getDataFromCoords(){
+	loadDataFrom(URLcoordinates);
+}
 
 function GetColor(feature){
 	if(dictionary.has(feature.properties.WEB_CLASS)) return dictionary.get(feature.properties.WEB_CLASS);
