@@ -9,6 +9,19 @@ public abstract class Geometry {
 	}
 
 	public abstract String getCoordinates();
+	public abstract double surfaceArea();
+	
+	/**
+	 * Returns a clipped version of the geometry.
+	 * 
+	 * MIGHT BE NULL if not within bounds!
+	 * @param minLat
+	 * @param minLong
+	 * @param maxLat
+	 * @param maxLong
+	 * @return
+	 */
+	public abstract Geometry clippedWith(Rectangle r);
 
 	/**
 	 * Gives the "geometry"-part of the geojson
@@ -17,9 +30,12 @@ public abstract class Geometry {
 	 * @return
 	 */
 	public String toGeoJSON() {
-		String result = "\"geometry\": { " + "\"type\": \"" + getType() + "\"," + "\"coordinates\": "
-				+ this.getCoordinates() + " }";
-		return result;
+		StringBuilder result = new StringBuilder();
+		result.append("\"geometry\": { \"type\": \"");
+		result.append(type);
+		result.append("\", \"coordinates\": ");
+		result.append(getCoordinates());
+		return result.append(" }").toString();
 	}
 
 	public String getType() {
@@ -30,5 +46,9 @@ public abstract class Geometry {
 	public String toString() {
 		return this.toGeoJSON();
 	}
+	
+	public abstract int getSurface();
+	public abstract int getClippedSurface();
+	
 
 }

@@ -26,12 +26,21 @@ public class Feature {
 		return type;
 	}
 	
+	public Map<String, Object> getProperties() {
+		return properties;
+	}
 	public void addProperty(String key, String value) {
 		properties.put(key, value);
 	}
 	
 	public String toGeoJSON() {
 		StringBuilder sb = new StringBuilder();
+		sb.append("{ \"type\": \"");
+		sb.append(type);
+		sb.append("\", \"bbox\": [");
+		sb.append(bbox[0].getLat()+","+bbox[0].getLon()+","+bbox[1].getLat()+","+bbox[1].getLon()+ "],");
+		sb.append(geometry.toGeoJSON());
+		sb.append(", \"properties\": { ");
 		for(Map.Entry<String, Object> entries : properties.entrySet()) {
 			if(entries.getValue() instanceof String) {
 				sb.append("\""+entries.getKey()+"\": \""+entries.getValue()+"\", ");
@@ -39,9 +48,9 @@ public class Feature {
 				//TODO if needed
 			}
 		}
-		String props = sb.toString().substring(0, sb.length() - 2); // drop the trailing comma
-		return "{" + "\"type\": \"" + type +"\"" +","+ "\"bbox\": ["+bbox[0].getLat()+","+bbox[0].getLon()+","
-				+bbox[1].getLat()+","+bbox[1].getLon()+ "],"+ geometry +", \"properties\": { "+props +" }" +"}";
+		sb.delete(sb.length() - 2, sb.length());
+		sb.append(" }}");
+		return sb.toString();
 	}
 	
 	@Override
@@ -49,5 +58,15 @@ public class Feature {
 		return toGeoJSON();
 	}
 	
+
+	
+	
+	public Feature clippedWith(Rectangle r) {
+		Feature f=  new Feature();
+		f.bbox = r.asBBox();
+		f.geometry = this.geometry.clippedWith(r);
+		f.properties = this.properties;
+		return f;
+	}
 	
 }

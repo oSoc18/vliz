@@ -4,3 +4,4 @@
 RemoteSystemsTempFiles/
 Servers/*
 OpenSeaLab/bin/*
+OpenSeaLab/cache/*
