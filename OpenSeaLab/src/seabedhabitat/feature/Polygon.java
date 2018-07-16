@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Polygon extends Geometry {
-
 	private final List<Point> points;
-
+	private final int surface;
+	private int clippedSurface;
 	public Polygon(Point... points) {
 		this(Arrays.asList(points));
 	}
@@ -15,6 +15,15 @@ public class Polygon extends Geometry {
 	public Polygon(List<Point> points) {
 		super("Polygon");
 		this.points = points;
+		surface = points.size();
+	}
+
+	public int getSurface() {
+		return surface/2;
+	}
+
+	public int getClippedSurface() {
+		return clippedSurface/2;
 	}
 
 	@Override
@@ -76,6 +85,8 @@ public class Polygon extends Geometry {
 					newPolygon.add(intersection(A, B, P, Q));
 			}
 		}
+		
+		clippedSurface = newPolygon.size();
 		
 		if(newPolygon.isEmpty()) {
 			return null;

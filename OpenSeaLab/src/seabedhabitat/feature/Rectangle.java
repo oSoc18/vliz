@@ -55,6 +55,16 @@ public class Rectangle extends Geometry{
 		}
 		return true;
 	}
+
+	@Override
+	public int getSurface() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int getClippedSurface() {
+		throw new UnsupportedOperationException();
+	}
 	
 	
 
