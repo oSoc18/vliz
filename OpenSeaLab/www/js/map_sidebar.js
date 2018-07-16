@@ -1,4 +1,4 @@
-var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 5);
+var map = L.map('map', {zoomControl:true}).setView([45.434623, -4.43505], 10);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 

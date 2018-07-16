@@ -30,7 +30,7 @@ public class SurfaceArea {
 		System.out.println(surArea); // output is in meters
 		
 		
-		//assert(surArea.equals(109450)); 
+		assert(surArea.equals(109438)); 
 		// https://geographiclib.sourceforge.io/cgi-bin/Planimeter 
 		// polygon & rhumb line, our calculation(using leaflets algorithm) is 109438 theirs is 109450, close enough
 	}
