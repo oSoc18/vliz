@@ -1,11 +1,11 @@
-var map = L.map('map', {zoomControl:true}).setView([45.433373, -4.441717], 10);
+var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 5);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
 //create a new dictionary for feature colors
 let dictionary = new Map();
 
-console.log("Loading...");
+/*console.log("Loading...");
 
 $.getJSON("http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=51&maxLat=52&minLong=2&maxLong=3", function(json){
 	gconsole.log("LOADED!");
@@ -29,7 +29,7 @@ $.getJSON("http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=51&maxLat=52&mi
 	
 	console.log("Added to map");
 
-});
+});*/
 
 function geodesicArea(latLngs) {
 			var pointsCount = latLngs.length,
@@ -83,27 +83,54 @@ var boundry2 = null;
 var drawnRec = false;
 var clicked = false;
 
+var firstCoor;
+map.on({mousedown : 
+	function(e){
+		if(e.originalEvent.ctrlKey){
+			map.dragging.disable();
+			firstCoor = e.latlng;
+			console.log(firstCoor);
+			console.log("Gor first coor")
+		}
+	}
+});
+
+var polygon;
+map.on({mouseup : 
+	function(e){
+		if(e.originalEvent.ctrlKey){
+			map.dragging.enable();
+			if(polygon != null){
+				map.removeLayer(polygon);
+ 			}
+ 			var lastCoor = e.latlng;
+			polygon = L.polygon([
+				    firstCoor,
+				    [firstCoor.lat, lastCoor.lng],
+				    lastCoor,
+				    [lastCoor.lat, firstCoor.lng]
+				])
+			polygon.addTo(map);
+		}
+	}
+});
+
 function selectCordRectangle() {
-
 	clicked = true;
-		map.on('click', function(e) {
-			if(clicked){
-				 if(boundry1 == null){
-			    	boundry1 = e.latlng;
-			    	document.getElementById("recBound1").innerHTML = "Boundry 1 Lat, Lon : "  + boundry1.lat + ", " + boundry1.lng;
-			    	drawnRec = false;
-			    } else if(boundry2 == null && e.latlng != boundry1){
-			    	boundry2 = e.latlng;
-			    	document.getElementById("recBound2").innerHTML = "Boundry 2 Lat, Lon : "  + boundry2.lat + ", " + boundry2.lng;
-			    	drawnRec = false;
-			    	clicked = false;
-			    }	
-			}
-  
-		});
-	
-
-    
+	map.on('click', function(e) {
+		if(clicked){
+			if(boundry1 == null){
+				boundry1 = e.latlng;
+				document.getElementById("recBound1").innerHTML = "Boundry 1 Lat, Lon : "  + boundry1.lat + ", " + boundry1.lng;
+				drawnRec = false;
+			} else if(boundry2 == null && e.latlng != boundry1){
+				boundry2 = e.latlng;
+				document.getElementById("recBound2").innerHTML = "Boundry 2 Lat, Lon : "  + boundry2.lat + ", " + boundry2.lng;
+				drawnRec = false;
+				clicked = false;
+			}	
+		}
+	});  
 }
 
 function clearCordRectangle(){
