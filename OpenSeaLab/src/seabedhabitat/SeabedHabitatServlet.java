@@ -80,9 +80,9 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
-			LOGGER.fine("Trying to get " + f.toPath());
+
 			Files.copy(f.toPath(), sos);
-			//sos.flush();
+			System.out.println("Cache hit on "+f.toPath());
 		} catch (Exception exc) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
