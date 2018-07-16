@@ -57,6 +57,17 @@ public class Rectangle extends Geometry {
 		return true;
 	}
 
+	@Override
+	public int getSurface() {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int getClippedSurface() {
+		throw new UnsupportedOperationException();
+	}
+	
+	
 	public Point[] asBBox() {
 		return new Point[] { new Point(minLat, minLon), new Point(maxLat, maxLon) };
 	}

@@ -46,5 +46,9 @@ public abstract class Geometry {
 	public String toString() {
 		return this.toGeoJSON();
 	}
+	
+	public abstract int getSurface();
+	public abstract int getClippedSurface();
+	
 
 }

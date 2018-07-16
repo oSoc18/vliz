@@ -26,6 +26,9 @@ public class Feature {
 		return type;
 	}
 	
+	public Map<String, Object> getProperties() {
+		return properties;
+	}
 	public void addProperty(String key, String value) {
 		properties.put(key, value);
 	}
@@ -55,6 +58,9 @@ public class Feature {
 		return toGeoJSON();
 	}
 	
+
+	
+	
 	public Feature clippedWith(Rectangle r) {
 		Feature f=  new Feature();
 		f.bbox = r.asBBox();
@@ -62,6 +68,5 @@ public class Feature {
 		f.properties = this.properties;
 		return f;
 	}
-	
 	
 }
