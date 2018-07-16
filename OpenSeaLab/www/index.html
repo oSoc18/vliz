@@ -22,6 +22,7 @@
 	<link href="style/header.css" rel="stylesheet">	
 
 
+
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
@@ -80,12 +81,12 @@
 		  
           <div class="btn-group btn-group-justified item-sidebar" role="group" aria-label="...">
           
-          <form>
+          <form >
             		<h3>Enter Coordinates : </h3>
-            			<input type="text" id="coord1" name="coordinates1" size= "6">
-            			<input type="text" id="coord2" name="coordinates2" size= "6">
-            			<input type="text" id="coord3" name="coordinates3" size= "6">
-            			<input type="text" id="coord4" name="coordinates4" size= "6">              			
+            			<input type="text" id="minLat" name="coordinates1" size= "6">
+            			<input type="text" id="minLong" name="coordinates2" size= "6">
+            			<input type="text" id="maxLat" name="coordinates3" size= "6">
+            			<input type="text" id="maxLong" name="coordinates4" size= "6">              			
           </form>          
           <button id="validateCoordinates">Click</button>
           </div>       
@@ -132,14 +133,14 @@
     <script src="js/leaflet-providers.js"></script>
     <script src="js/map_sidebar.js"></script>
     <script src="js/test.js"></script>
-    <script src="js/leaflet-0.7.2/leaflet.ajax.min.js"></script>
+    <script src="/js/leaflet-0.7.2/leaflet.ajax.min.js"></script>
     <script src="js/leaflet.ajax.min"></script>
     <script src="js/GeometryUtil.js"></script>
 
     <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
     <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
     <script src="https://raw.github.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
-
+	<script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
 
 	<script src="js/dropdown.js"></script>
     <!-- Just to make our placeholder images work. Don't actually copy the next line! -->
