@@ -1,6 +1,7 @@
-package seabedhabitat;
+package seabedhabitat.dal;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Writer;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -8,29 +9,41 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-public class UCCSeabedHabitat implements IUCCSeabedHabitat {
-	private static final String BASEURL = "http://213.122.160.75/scripts/mapserv.exe?map=D:/Websites/"
-			+ "MeshAtlantic/map/MESHAtlantic.map&service=wfs&version=1.1.0&request=GetFeature&typeName=EUSM2016_simplified200&srsName="
-			+ "EPSG:4326&bbox=";
+import org.xml.sax.SAXException;
 
-	public File getData(String minLong, String minLat, String maxLong, String maxLat) {
+import exceptions.FatalException;
+import seabedhabitat.bizz.BBoxDTO;
+
+public class SeabedHabitatDAO implements ISeabedHabitatDAO {
+	private final String url;
+	private final String cacheDir;
+	private final String pattern;
+	
+	public SeabedHabitatDAO(String url,String cacheDir, String pattern) {
+		this.url = url;
+		this.cacheDir = cacheDir;
+		this.pattern = pattern;
+	}
+
+	@Override
+	public File getGeoJson(BBoxDTO bbox) {
 		try {
-			String pathname = "cache/data-seabed-" + minLat + "-" + minLong + "-" + maxLat + "-" + maxLong + ".geojson";
+			String pathname = cacheDir+"/"+pattern.replace("{id}", bbox.getMinLat() + "-" + bbox.getMinLong() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLong());
 			Path p = FileSystems.getDefault().getPath(pathname);
-			Path cache = FileSystems.getDefault().getPath("cache");
+			Path cache = FileSystems.getDefault().getPath(cacheDir);
 			if(!Files.exists(cache) || !Files.isDirectory(cache)) {
 				Files.createDirectory(cache);
 				System.out.println("Cacing directory created");
 			}
 			if (!Files.exists(p)) {
-				String bbox = minLong + "," + minLat + "," + maxLong + "," + maxLat;
+				String bx = bbox.getMinLong()+ "," + bbox.getMinLat() + "," + bbox.getMaxLong() + "," + bbox.getMaxLat();
 				System.out.println("Querying WMS server for "+p);
-				HttpURLConnection connection = (HttpURLConnection) new URL(BASEURL + bbox).openConnection();
+				HttpURLConnection connection = (HttpURLConnection) new URL(url.replace("{bbox}", bx)).openConnection();
 				connection.setReadTimeout(20000);
 				connection.setConnectTimeout(20000);
 				connection.setRequestMethod("GET");
@@ -45,13 +58,15 @@ public class UCCSeabedHabitat implements IUCCSeabedHabitat {
 				try(Writer writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)){
 					writer.write(userhandler.getFeatures().toGeoJSON());
 					System.out.println("Cache file "+p+" created");
-				} 
+				} catch(IOException io) {
+					throw new FatalException("The file cannot be saved", io);
+				}
 			}
 			return new File(pathname);
-			// return userhandler.getFeatures().toGeoJSON();
+		} catch(IOException | SAXException | ParserConfigurationException e) {
+			throw new FatalException("For some reasons your request cannot be processed", e);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw e;
 		}
-		return null;
 	}
 }

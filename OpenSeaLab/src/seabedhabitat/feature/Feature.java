@@ -55,5 +55,4 @@ public class Feature {
 		return toGeoJSON();
 	}
 	
-	
 }
