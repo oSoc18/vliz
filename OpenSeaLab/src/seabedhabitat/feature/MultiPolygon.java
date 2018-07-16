@@ -24,6 +24,7 @@ public class MultiPolygon extends Geometry {
 
 	public void addPolygon(Polygon polygon) {
 		polygons.add(polygon);
+		surface += polygon.getSurface();
 	}
 
 	public int getSurface() {

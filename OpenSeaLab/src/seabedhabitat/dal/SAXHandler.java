@@ -142,7 +142,7 @@ public class SAXHandler extends DefaultHandler {
 		}
 		if(allcomD) {
 			allcomD = false;
-			feature.addProperty("WEB_DESC", s);
+			feature.addProperty("AllcombD", s);
 			return;
 		}
 		if(webClass) {

@@ -12,13 +12,14 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
+
+import com.owlike.genson.Genson;
 
 import exceptions.FatalException;
 import seabedhabitat.bizz.BBoxDTO;
@@ -30,19 +31,22 @@ import seabedhabitat.feature.Rectangle;
 public class SeabedHabitatDAO implements ISeabedHabitatDAO {
 	private final String url;
 	private final String cacheDir;
-	private final String pattern;
+	private final String dataPattern;
+	private final String statPattern;
 	
-	public SeabedHabitatDAO(String url,String cacheDir, String pattern) {
+	public SeabedHabitatDAO(String url,String cacheDir, String dataPattern, String statPattern) {
 		this.url = url;
 		this.cacheDir = cacheDir;
-		this.pattern = pattern;
+		this.dataPattern = dataPattern;
+		this.statPattern = statPattern;
 	}
 
 	@Override
 	public File getGeoJson(BBoxDTO bbox) {
 		try {
-			String pathname = cacheDir + "/" + pattern.replace("{id}",
-					bbox.getMinLat() + "-" + bbox.getMinLong() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLong());
+			String id = bbox.getMinLat() + "-" + bbox.getMinLong() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLong();
+			String pathname = cacheDir + "/" + dataPattern.replace("{id}",
+					id);
 			Path p = FileSystems.getDefault().getPath(pathname);
 			Path cache = FileSystems.getDefault().getPath(cacheDir);
 			if (!Files.exists(cache) || !Files.isDirectory(cache)) {
@@ -52,6 +56,7 @@ public class SeabedHabitatDAO implements ISeabedHabitatDAO {
 			if (!Files.exists(p)) {
 				String bx = bbox.getMinLong() + "," + bbox.getMinLat() + "," + bbox.getMaxLong() + ","
 						+ bbox.getMaxLat();
+				Path statPath = FileSystems.getDefault().getPath(cacheDir+"/"+statPattern.replace("{id}", id));
 				System.out.println("Querying WMS server for " + p);
 				HttpURLConnection connection = (HttpURLConnection) new URL(url.replace("{bbox}", bx)).openConnection();
 				connection.setReadTimeout(20000);
@@ -83,30 +88,31 @@ public class SeabedHabitatDAO implements ISeabedHabitatDAO {
 				
 				for (Feature f : features) {
 					Geometry geo = f.getGeometry();
-					System.out.println(geo);
-					geo = geo.clippedWith(r);
-					if(geo == null) {
-						break;
-					}
-					System.out.println(geo.getCoordinates());
 					Map<String, Object> m = f.getProperties();
 					String name = (String) m.get("AllcombD");
 					Integer s = clippedSums.get(name);
 					if(s == null) {
-						clippedSums.put(name, geo.getClippedSurface());
+						clippedSums.put(name, geo.getSurface());
 					} else {
-						clippedSums.put(name, clippedSums.get(name)+geo.getClippedSurface());
+						clippedSums.put(name, clippedSums.get(name)+geo.getSurface());
 					}
 					
-					sum+=geo.getClippedSurface();
-					System.out.println(sum);
+					sum+=geo.getSurface();
 				}
 				
 				for(Map.Entry<String, Integer> entries : clippedSums.entrySet()) {
 					double d = entries.getValue()/sum*100;
 					clippedPercentages.put(entries.getKey(), d);
-					System.out.println(entries.getKey()+" : "+d);
+					//System.out.println(entries.getKey()+" : "+d);
 				}
+				
+				try (Writer writer = Files.newBufferedWriter(statPath, StandardCharsets.UTF_8)) {
+					writer.write(new Genson().serialize(clippedPercentages));
+					System.out.println("Cache file " + statPath + " created");
+				} catch (IOException io) {
+					throw new FatalException("The file cannot be saved", io);
+				}
+
 
 			}
 			return new File(pathname);
