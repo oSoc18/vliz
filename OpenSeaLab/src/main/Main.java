@@ -18,19 +18,21 @@ import seabedhabitat.dal.ISeabedHabitatDAO;
 
 public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
 	public static void main(String[] args) throws Exception {
 		try {
 			LOGGER.info("Loading app configuration...");
 			AppContext appContext = new AppContext();
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
 			IFactory factory = (IFactory) appContext.newInstance(Class.forName(appContext.getProperty("factory")));
-			ISeabedHabitatDAO seabedHabitatDAO = (ISeabedHabitatDAO) appContext
-					.newInstance(Class.forName(appContext.getProperty("SeabedHabitatDAO")),appContext.getProperty("seabedURL"),
-							appContext.getProperty("cache-dir"), appContext.getProperty("seabed-data"));
+			ISeabedHabitatDAO seabedHabitatDAO = (ISeabedHabitatDAO) appContext.newInstance(
+					Class.forName(appContext.getProperty("SeabedHabitatDAO")), appContext.getProperty("seabedURL"),
+					appContext.getProperty("cache-dir"), appContext.getProperty("seabed-data"),
+					appContext.getProperty("seabed-stat"));
 			IUCCSeabedHabitat uccSeabedHabitat = new UCCSeabedHabitat(seabedHabitatDAO);
-			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat,factory);
+			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat, factory);
 		} catch (Exception exc) {
-			LOGGER.log(Level.SEVERE, "App configuration failed !",exc);
+			LOGGER.log(Level.SEVERE, "App configuration failed !", exc);
 		}
 	}
 
