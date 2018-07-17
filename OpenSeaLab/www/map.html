@@ -46,56 +46,45 @@
 	
 	<div class="container-fluid">
 	<div class="row">
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">OpenSeaLab</a>
-				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a class="active"href="#bathymetry">Bathymetry</a></li>
-						<li><a href="#seabedHabitat">Seabed habitat</a></li>
-						<li><a href="#About">About</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav> 
 	</div>
 </div>
 
 	<div class="container-fluid">
-	  <div class="row">
-		<div class="col-sm-3 col-md-offset-9 col-md-9 col-md-offset-8 sidebar">	
-		
+	  <div class="row">		
 			<div id="mySidenav" class="sidenavResponsive">
-				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-				<button class="collapsible">Bathymetry</button>
-					<div class="content">
-					 <div class="dropdown-container">
-								<input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
-								<input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
-								<input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
-								<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
+				<div class="col-sm-6">
+					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>				
+					<h3>Data sources</h3>
+					<br>
+					<button class="collapsible">Bathymetry</button>
+						<div class="content">
+						 <div class="dropdown-container">
+									<input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
+									<input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
+									<input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
+									<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
+							</div>
 						</div>
-					</div>
-				<button class="collapsible">Seabed Habitats</button>
-					<div class="content">
-						<div class="dropdown-container">
-								<input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
-								<input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
-								<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
-						</div>
-					</div>	
+					<button class="collapsible">Seabed Habitats</button>
+						<div class="content">
+							<div class="dropdown-container">
+									<input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
+									<input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
+									<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
+							</div>
+						</div>					
+				</div>
+				<div class="col-sm-6">
+					<h3>Filters</h3>
+					<br>
+					<br>
+					<p> Select a layer to view filters</p>
+				</div>				
+
 			</div>		  
 		  
 		  <div id="responsive-main">
-			<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#10096; open</span>	
+			<span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNav()">&#10096;</span>	
 		   </div>				
 	</div>
 		<div class="col-sm-12 main">
@@ -103,7 +92,6 @@
 					<!-- Map Space -->
 				</div>
 		</div>
-	</div> 
 	</div>
 
 	<!-- Bootstrap core JavaScript -->
