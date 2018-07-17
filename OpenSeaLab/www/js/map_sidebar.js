@@ -128,7 +128,7 @@ map.on({click : function(e){ console.log("click"); map.dragging.enable();}});
 map.on({mouseup : 
 	function(e){
 		console.log("mouseup");
-		map.dragging.enable();
+		//map.dragging.enable();
 		if(!e.originalEvent.ctrlKey){
 			return;
 		}
@@ -178,4 +178,65 @@ map.on({mousedown :
 		console.log("Got first coor")
 	}
 });
+
+
+
+
+function randomHex() {
+	var hexNumbers = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
+	// picking a random item of the array
+	return hexNumbers[Math.floor(Math.random() * hexNumbers.length)];
+}
+
+
+// Genarates a Random Hex color
+function hexGenerator() {
+    hexValue = ['#'];
+    for (var i = 0; i < 6; i += 1) {
+        hexValue.push(randomHex());
+    }
+    return hexValue.join('');
+}
+
+function drawRectangleFromInput(){
+	var minLat = document.getElementById('minLat').value;
+	var minLng = document.getElementById('minLong').value;
+	var maxLat = document.getElementById('maxLat').value;
+	var maxLng = document.getElementById('maxLong').value;
+
+	firstCoor = L.latLng(minLat, minLng);
+	var lastCoor = L.latLng(maxLat, maxLng);
+	/*if(polygon != null){
+		map.removeLayer(polygon);
+ 	}*/
+	polygon = L.polygon([
+				    firstCoor,
+				    [firstCoor.lat, lastCoor.lng],
+				    lastCoor,
+				    [lastCoor.lat, firstCoor.lng]
+				]);
+	polygon.addTo(map);
+	URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;
+}
+
+function getStatistics(){
+	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
+	var minLat = document.getElementById('minLat').value;
+	var minLng = document.getElementById('minLong').value;
+	var maxLat = document.getElementById('maxLat').value;
+	var maxLng = document.getElementById('maxLong').value;
+
+	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
+	loadStatsFrom(statsURLcoordinates);
+
+
+}
+
+function loadStatsFrom(url){
+	console.log(url);
+	$.get(url, function(json){
+		console.log("finished ---");
+		console.log(json);
+	});
+}
 
