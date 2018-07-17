@@ -122,11 +122,11 @@ map.on({mouseup :
 				document.getElementById("maxLat").value = String(firstCoor.lat);
 			}
 			if(firstCoor.lng <= lastCoor.lng ){
-				document.getElementById("minLng").value = String(firstCoor.lng);
-				document.getElementById("maxLng").value = String(lastCoor.lng);
+				document.getElementById("minLong").value = String(firstCoor.lng);
+				document.getElementById("maxLong").value = String(lastCoor.lng);
 			}else{
-				document.getElementById("minLng").value = String(lastCoor.lng);
-				document.getElementById("maxLng").value = String(firstCoor.lng);
+				document.getElementById("minLong").value = String(lastCoor.lng);
+				document.getElementById("maxLong").value = String(firstCoor.lng);
 			}
 
 			URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;						
@@ -169,9 +169,9 @@ function hexGenerator() {
 
 function drawRectangleFromInput(){
 	var minLat = document.getElementById('minLat').value;
-	var minLng = document.getElementById('minLng').value;
+	var minLng = document.getElementById('minLong').value;
 	var maxLat = document.getElementById('maxLat').value;
-	var maxLng = document.getElementById('maxLng').value;
+	var maxLng = document.getElementById('maxLong').value;
 
 	firstCoor = L.latLng(minLat, minLng);
 	var lastCoor = L.latLng(maxLat, maxLng);
