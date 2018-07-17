@@ -51,6 +51,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		}
 	}
 
+	@SuppressWarnings("static-method")
 	private Rectangle getBBox(HttpServletRequest req) {
 		return new Rectangle(req.getParameter("minLat"), req.getParameter("minLong"), req.getParameter("maxLat"),
 				req.getParameter("maxLong"));
@@ -79,17 +80,6 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		seabedHabitatUCC.getStats(getBBox(req));
 	}
 
-	@SuppressWarnings("static-method")
-	private void responseJSON(String s, HttpServletResponse resp) {
-		try (ServletOutputStream sos = resp.getOutputStream()) {
-			resp.setContentType("application/json");
-			resp.setCharacterEncoding("UTF-8");
-			sos.print(s);
-		} catch (Exception exc) {
-			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
-		}
-	}
-
 	private static void responseJSON(File f, HttpServletResponse resp) {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
@@ -103,6 +93,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		}
 	}
 
+	@SuppressWarnings("static-method")
 	private void sendError(HttpServletResponse resp, String msg, int code) {
 		try {
 			resp.sendError(code, msg);
