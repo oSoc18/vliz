@@ -90,7 +90,7 @@ function getStyle(feature){
 	if(dictionary.has(feature.properties.WEB_CLASS)){
 		clr = dictionary.get(feature.properties.WEB_CLASS);
 	} else {
-		clr = hexGenerator();
+		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
 	}
 	return {color : clr};
