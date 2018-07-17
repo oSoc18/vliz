@@ -19,13 +19,15 @@ var URLpart3="&maxLong=";
 
 map.on({
 	'draw:created': function (event) {
+		console.log("Drawing started");
 		rectangle = event.layer;
+		console.log(rectangle);
 	},
 	'draw:drawstop': function (event) {
 		console.log(rectangle.getLatLngs());
 		rectangle.addTo(map);
 
-		var coors = rectangle.getLatLngs();
+		var coors = rectangle.getLatLngs()[0];
 		var lats = coors.map(point => point.lat);
 		var lons = coors.map(point => point.lng);
 		document.getElementById("minLat").value = String(Math.min.apply(null, lats));
