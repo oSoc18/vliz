@@ -158,25 +158,18 @@ function getDataFromCoords(){
 							URLpart3 + document.getElementById("maxLong").value;			
 	loadDataFrom(URLcoordinates);
 	var button = document.getElementById("validateCoordinates");
+
 	button.textContent = "loading...";
 	button.disabled = true;
 }
 
-function getStatistics(){
-	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
-	var minLat = document.getElementById('minLat').value;
-	var minLng = document.getElementById('minLong').value;
-	var maxLat = document.getElementById('maxLat').value;
-	var maxLng = document.getElementById('maxLong').value;
 
-	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
-	loadStatsFrom(statsURLcoordinates);
-}
 function loadStatsFrom(url){
 	$.getJSON(url, function(json){
-		console.log("trying to get stats");
-		
-		console.log(json); 
+
+		var button = document.getElementById("validateStats");
+		button.textContent = "Get Stats";
+		button.disabled = false;
 
 		var div = document.getElementById('statsOutput');
 		div.innerHTML = "";
@@ -251,6 +244,10 @@ function getStatistics(){
 	var maxLng = document.getElementById('maxLong').value;
 
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
+	var button = document.getElementById("validateStats");
+	console.log("333" +button.textContent);
+	button.textContent = "loading...";
+	button.disabled = true;
 	loadStatsFrom(statsURLcoordinates);
 
 
