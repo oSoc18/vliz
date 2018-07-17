@@ -161,6 +161,7 @@ function geodesicArea(latLngs) {
 			return Math.abs(area);
 }
 
+
 function randomHex() {
 	var hexNumbers = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
 	// picking a random item of the array
