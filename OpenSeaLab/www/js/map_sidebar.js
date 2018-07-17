@@ -172,7 +172,7 @@ map.on({mousedown :
 		if(!e.originalEvent.ctrlKey){
 			return;
 		}
-		// map.dragging.disable();
+		map.dragging.disable();
 		firstCoor = e.latlng;
 		console.log(firstCoor);
 		console.log("Got first coor")
