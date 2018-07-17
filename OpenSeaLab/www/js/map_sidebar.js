@@ -182,6 +182,7 @@ function loadStatsFrom(url){
 		div.innerHTML = "";
 
 		JSON.parse(JSON.stringify(json), function (key, value) {
+			console.log("adding " + key); 
 			div.innerHTML += String(value).substring(0,8) + "    " + key  +"<br>";
 		});
 
@@ -255,10 +256,3 @@ function getStatistics(){
 
 }
 
-function loadStatsFrom(url){
-	console.log(url);
-	$.get(url, function(json){
-		console.log("finished ---");
-		console.log(json);
-	});
-}
