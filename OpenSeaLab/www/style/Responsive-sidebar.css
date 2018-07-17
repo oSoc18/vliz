@@ -45,4 +45,25 @@
   .sidenavResponsive {padding-top: 15px;}
   .sidenavResponsive a {font-size: 18px;}
 }
+.Summary{
+	bottom:0;
+	padding-top: 500px;
+}
 
+
+//download button
+.btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+	right:0;
+	margin-left: 20px;
+}
+
+/* Darker background on mouse-over */
+.btn:hover {
+    background-color: RoyalBlue;
+}

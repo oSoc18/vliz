@@ -21,8 +21,7 @@
 	<link href="style/leaflet.css" rel="stylesheet">
 	<link href="style/header.css" rel="stylesheet">	
 	<link href="style/index.css" rel="stylesheet">
-	<link href="style/Responsive-sidebar.css" rel="stylesheet">	
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">	
+	<link href="style/Responsive-sidebar.css" rel="stylesheet">		
 
 
 
@@ -75,28 +74,36 @@
 						</div>					
 				</div>
 				<div class="col-sm-6">
-					
-					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>					
-					<h3>Filters</h3>
-					<br>
-					<br>
-					<p> Select a layer to view filters</p>
-					
+					<div id="mySidinavSummary" class="sidenavResponsiveSummary">
+						<a href="javascript:void(0)" class="closebtn" onclick="closeNavSummary()">&times;</a>	
+						
 					</div>
 					
-				<div class="Summary">
-					<h3>Summary</h3>
-					<br>
-					<p>select an area on the map to receive data</p>
-					<button class="btn"><i class="fa fa-download"></i>Downdload report</button>				
-				</div>	
-				
-				</div>	
-				
-	  
+					<div id="responsive-main-summary">
+						<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>					
+						<h3>Filters</h3>
+						<br>
+						<br>
+						<p> Select a layer to view filters</p>					
+						<span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNavSummary()">&#10096;</span>
+					</div>
+
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+				</div>				
+			</div>		  
 		  
 		  <div id="responsive-main">
-			<span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNav()">&#10096;</span>	
+				<span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNav()">&#10096;</span>	
 		   </div>				
 	</div>
 		<div class="col-sm-12 main">
