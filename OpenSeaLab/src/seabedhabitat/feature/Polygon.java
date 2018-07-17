@@ -3,7 +3,6 @@ package seabedhabitat.feature;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static java.lang.Math.*;
 
 public class Polygon extends Geometry {
 	private final List<Point> points;

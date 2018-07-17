@@ -1,7 +1,5 @@
 package seabedhabitat.feature;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -16,6 +14,7 @@ import seabedhabitat.SAXHandler;
 
 public class SaxHandlerTest {
 
+	@SuppressWarnings("static-method")
 	@Test
 	public void test() throws ParserConfigurationException, SAXException, IOException {
 		File file = new File("test.xml");

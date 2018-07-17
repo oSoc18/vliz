@@ -162,6 +162,7 @@ public class SAXHandler extends DefaultHandler {
 		return featureCollection;
 	}
 
+	@SuppressWarnings("static-method")
 	private Point getPoint(String s) {
 		String[] splitedS = s.split(" ");
 		Point p = new Point(Double.parseDouble(splitedS[0]), Double.parseDouble(splitedS[1]));

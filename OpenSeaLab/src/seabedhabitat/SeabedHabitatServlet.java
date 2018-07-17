@@ -79,6 +79,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		seabedHabitatUCC.getStats(getBBox(req));
 	}
 
+	@SuppressWarnings("static-method")
 	private void responseJSON(String s, HttpServletResponse resp) {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
