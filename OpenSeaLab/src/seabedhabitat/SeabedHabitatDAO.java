@@ -58,8 +58,10 @@ public class SeabedHabitatDAO {
 		if (!Files.exists(statsPath)) {
 			Path geojsonPath = FileSystems.getDefault().getPath(cacheDir + "/" + dataPattern.replace("{id}", id));
 			process(bbox, statsPath, geojsonPath);
+
 		}
 		return new File(pathname);
+
 	}
 
 	private void process(Rectangle bbox, Path statsPath, Path geojsonPath) {

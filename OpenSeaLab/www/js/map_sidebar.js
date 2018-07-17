@@ -175,9 +175,9 @@ function drawRectangleFromInput(){
 
 	firstCoor = L.latLng(minLat, minLng);
 	var lastCoor = L.latLng(maxLat, maxLng);
-	if(polygon != null){
+	/*if(polygon != null){
 		map.removeLayer(polygon);
- 	}
+ 	}*/
 	polygon = L.polygon([
 				    firstCoor,
 				    [firstCoor.lat, lastCoor.lng],
@@ -185,4 +185,26 @@ function drawRectangleFromInput(){
 				    [lastCoor.lat, firstCoor.lng]
 				]);
 	polygon.addTo(map);
+	URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;
+}
+
+function getStatistics(){
+	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
+	var minLat = document.getElementById('minLat').value;
+	var minLng = document.getElementById('minLong').value;
+	var maxLat = document.getElementById('maxLat').value;
+	var maxLng = document.getElementById('maxLong').value;
+
+	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
+	loadStatsFrom(statsURLcoordinates);
+
+
+}
+
+function loadStatsFrom(url){
+	console.log(url);
+	$.get(url, function(json){
+		console.log("finished ---");
+		console.log(json);
+	});
 }
