@@ -41,7 +41,6 @@ public class SeabedHabitatServlet extends DefaultServlet {
 				getGeoJSON(req, resp);
 				break;
 			case "getStats":
-				System.out.println("hi");
 				getStats(req, resp);
 				break;
 			default:

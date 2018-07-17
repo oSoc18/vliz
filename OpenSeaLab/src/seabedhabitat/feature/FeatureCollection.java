@@ -49,7 +49,7 @@ public class FeatureCollection {
 	public FeatureCollection clippedWith(Rectangle r) {
 		List<Feature> features = new ArrayList<>();
 		for (Feature feature : this.features) {
-			Feature f = feature; //.clippedWith(r);
+			Feature f = feature.clippedWith(r);
 			if (f != null) {
 				features.add(f);
 			}

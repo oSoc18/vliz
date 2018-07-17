@@ -65,6 +65,7 @@ public class SeabedHabitatDAO {
 	private void process(Rectangle bbox, Path statsPath, Path geojsonPath) {
 		try {
 			FeatureCollection fc = fetch(bbox);
+			fc = fc.clippedWith(bbox);
 			String stats = calculateStatistics(fc, bbox);
 			store(fc.toGeoJSON(), geojsonPath);
 			store(stats, statsPath);
