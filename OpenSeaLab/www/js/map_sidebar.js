@@ -17,6 +17,35 @@ var URLpart3="&maxLong=";
 
 
 
+map.on({
+	'click': function () {
+		if(rectangle != undefined){
+			map.removeLayer(rectangle);
+		}
+
+		draw = new L.Draw.Rectangle(map);
+		draw.enable();
+	},
+	'draw:created': function (event) {
+		rectangle = event.layer;
+	},
+	'draw:drawstop': function (event) {
+		console.log(rectangle.getLatLngs());
+		rectangle.addTo(map);
+
+		var coors = rectangle.getLatLngs();
+		var lats = coors.map(point => point.lat);
+		var lons = coors.map(point => point.lng);
+		document.getElementById("minLat").value = String(Math.min.apply(null, lats));
+		document.getElementById("maxLat").value = String(Math.max.apply(null, lats));
+		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
+		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
+
+	}
+});
+
+
+
 
 function drawRectangleFromInput(){
 	var minLat = document.getElementById('minLat').value;
