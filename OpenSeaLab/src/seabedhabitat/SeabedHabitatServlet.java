@@ -76,25 +76,8 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	}
 
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
-
-		Rectangle bbox = getBBox(req);
-		
-		File geoJSON = null;
-		try {
-			geoJSON = seabedHabitatUCC.getStats(getBBox(req));
-		} catch (FatalException f) {
-			LOGGER.log(Level.INFO, f.getMessage(), f);
-			sendError(resp, f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return;
-		} catch (Exception e) {
-			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
-			sendError(resp, "Something happened, we can't respond to your request.",
-					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return;
-		}
-		responseJSON(geoJSON, resp);
-		
-		
+		File stats = seabedHabitatUCC.getStats(getBBox(req));
+		responseJSON(stats, resp);
 	}
 
 	private static void responseJSON(File f, HttpServletResponse resp) {
