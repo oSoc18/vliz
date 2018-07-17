@@ -113,7 +113,7 @@ map.on({mouseup :
 				    [lastCoor.lat, firstCoor.lng]
 				])
 			polygon.addTo(map);
-
+			
 			if(firstCoor.lat <= lastCoor.lat ){
 				document.getElementById("minLat").value = String(firstCoor.lat);
 				document.getElementById("maxLat").value = String(lastCoor.lat);
