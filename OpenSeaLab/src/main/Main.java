@@ -21,6 +21,7 @@ public class Main {
 		try {
 			LOGGER.info("Loading app configuration...");
 			AppContext appContext = new AppContext();
+			appContext.configLogger("log.properties");
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
 			SeabedHabitatDAO seabedHabitatDAO = new SeabedHabitatDAO(appContext.getProperty("seabedURL"),
 					appContext.getProperty("cache-dir"), appContext.getProperty("seabed-data"),

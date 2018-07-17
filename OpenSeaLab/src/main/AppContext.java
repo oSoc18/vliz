@@ -2,7 +2,11 @@ package main;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Properties;
+import java.util.logging.LogManager;
 
 import exceptions.FatalException;
 
@@ -11,6 +15,19 @@ public class AppContext {
 
 	public AppContext() {
 		props = new Properties();
+	}
+	
+	public void configLogger(String path) {
+		
+		try(FileInputStream f = new FileInputStream(path)){
+			Path logDir = FileSystems.getDefault().getPath("log");
+			if (!Files.exists(logDir) || !Files.isDirectory(logDir)) {
+				Files.createDirectory(logDir);
+			}
+			LogManager.getLogManager().readConfiguration(f);
+		} catch (IOException exc) {
+			throw new FatalException(exc);
+		}
 	}
 
 	/**
@@ -21,13 +38,9 @@ public class AppContext {
 	 * @return
 	 */
 
-	public boolean loadProperties(String properties) {
+	public void loadProperties(String properties) {
 		try (FileInputStream file = new FileInputStream(properties)) {
-			// System.setProperty("log4j.configurationFile", properties);
-			props.load(file);
-			//LogManager.getLogManager().readConfiguration(file);
-			
-			return true;
+			props.load(file);			
 		} catch (IOException exc) {
 			throw new FatalException(exc);
 		}

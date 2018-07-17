@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.servlet.DefaultServlet;
 
+import exceptions.BizzException;
 import exceptions.FatalException;
 import seabedhabitat.feature.Rectangle;
 
@@ -28,7 +29,6 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		super.doPost(request, response);
 	}
 
@@ -57,14 +57,16 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	}
 
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
-		Rectangle bbox = getBBox(req);
-		
-		File geoJSON = null;
 		try {
-			geoJSON = seabedHabitatUCC.getGeoJSON(bbox);
+			File geoJSON  = seabedHabitatUCC.getGeoJSON(getBBox(req));
+			responseJSON(geoJSON, resp);
+		} catch (BizzException b) {
+			LOGGER.log(Level.FINE, b.getMessage());
+			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
+			return;
 		} catch (FatalException f) {
 			LOGGER.log(Level.INFO, f.getMessage(), f);
-			sendError(resp, f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
 			return;
 		} catch (Exception e) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
@@ -72,20 +74,33 @@ public class SeabedHabitatServlet extends DefaultServlet {
 					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
-		responseJSON(geoJSON, resp);
+
 	}
 
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
-		File stats = seabedHabitatUCC.getStats(getBBox(req));
-		responseJSON(stats, resp);
+		try {
+			File stats = seabedHabitatUCC.getStats(getBBox(req));
+			responseJSON(stats, resp);
+		} catch (BizzException b) {
+			LOGGER.log(Level.FINE, b.getMessage());
+			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		} catch (FatalException f) {
+			LOGGER.log(Level.INFO, f.getMessage(), f);
+			return;
+		} catch (Exception e) {
+			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
+			sendError(resp, "Something happened, we can't respond to your request.",
+					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return;
+		}
 	}
 
 	private static void responseJSON(File f, HttpServletResponse resp) {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
-			// LOGGER.fine("Trying to get " + f.toPath());
-			System.out.println("Trying to get " + f.toPath());
+			LOGGER.fine("Trying to get " + f.toPath());
 			Files.copy(f.toPath(), sos);
 			sos.flush();
 		} catch (Exception exc) {

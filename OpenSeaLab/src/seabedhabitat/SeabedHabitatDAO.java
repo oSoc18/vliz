@@ -12,6 +12,8 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -28,6 +30,7 @@ import seabedhabitat.feature.Geometry;
 import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatDAO {
+	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatDAO.class.getName());
 	private final String url;
 	private final String cacheDir;
 	private final String dataPattern;
@@ -92,7 +95,7 @@ public class SeabedHabitatDAO {
 		SAXParser saxParser = factory.newSAXParser();
 		SAXHandler userhandler = new SAXHandler();
 		saxParser.parse(connection.getInputStream(), userhandler);
-		System.out.println("Got result");
+		LOGGER.log(Level.FINE, "Got result for bbox: "+ bx);
 		return userhandler.getFeatures();
 	}
 
@@ -128,11 +131,11 @@ public class SeabedHabitatDAO {
 		Path cache = FileSystems.getDefault().getPath(cacheDir);
 		if (!Files.exists(cache) || !Files.isDirectory(cache)) {
 			Files.createDirectory(cache);
-			System.out.println("Cacing directory created");
+			LOGGER.log(Level.FINE, "Caching directory created ");
 		}
 		try (Writer writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)) {
 			writer.write(data);
-			System.out.println("Cache file " + p + " created");
+			LOGGER.log(Level.FINE, "Cache file " + p + " created");
 		} catch (IOException io) {
 			throw new FatalException("The file cannot be saved", io);
 		}
