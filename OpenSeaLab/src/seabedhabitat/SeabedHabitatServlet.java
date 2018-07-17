@@ -76,7 +76,8 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	}
 
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
-		seabedHabitatUCC.getStats(getBBox(req));
+		File stats = seabedHabitatUCC.getStats(getBBox(req));
+		responseJSON(stats, resp);
 	}
 
 	private static void responseJSON(File f, HttpServletResponse resp) {
