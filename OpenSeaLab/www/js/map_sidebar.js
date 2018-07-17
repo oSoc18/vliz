@@ -6,6 +6,10 @@ var draw;
 var rectangle;
 map.on({
 	'click': function () {
+		if(rectangle != undefined){
+			map.removeLayer(rectangle);
+		}
+
 		draw = new L.Draw.Rectangle(map);
 		draw.enable();
 	},
@@ -14,6 +18,7 @@ map.on({
 	},
 	'draw:drawstop': function (event) {
 		console.log(rectangle.getLatLngs());
+		rectangle.addTo(map);
 	}
 });
 
