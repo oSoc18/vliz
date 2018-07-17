@@ -96,6 +96,7 @@ public class SeabedHabitatDAO {
 		return userhandler.getFeatures();
 	}
 
+	@SuppressWarnings("static-method")
 	private String calculateStatistics(FeatureCollection fc, Rectangle r) {
 		List<Feature> features = fc.getFeatures();
 
