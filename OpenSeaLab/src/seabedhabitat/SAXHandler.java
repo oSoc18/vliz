@@ -1,4 +1,4 @@
-package seabedhabitat.dal;
+package seabedhabitat;
 
 import java.util.ArrayList;
 import java.util.List;

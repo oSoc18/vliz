@@ -8,7 +8,7 @@ $(function() {
 				minLat: "51.428",
 				minLong: "2.122",
 				maxLat: "51.548",
-				maxLong: "6.03"
+				maxLong: "3.03"
 				
 			},
 			success : function(response) {

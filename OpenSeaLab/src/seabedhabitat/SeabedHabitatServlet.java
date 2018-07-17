@@ -14,18 +14,15 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jetty.servlet.DefaultServlet;
 
 import exceptions.FatalException;
-import seabedhabitat.bizz.BBoxDTO;
-import seabedhabitat.bizz.IUCCSeabedHabitat;
+import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatServlet.class.getName());
-	private IUCCSeabedHabitat seabedHabitatUCC;
-	private IFactory factory;
+	private UCCSeabedHabitat seabedHabitatUCC;
 
-	public SeabedHabitatServlet(IUCCSeabedHabitat seabedHabitatUCC, IFactory factory) {
+	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC) {
 		this.seabedHabitatUCC = seabedHabitatUCC;
-		this.factory = factory;
 	}
 
 	@Override
@@ -54,17 +51,14 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		}
 	}
 
-	private BBoxDTO getBBox(HttpServletRequest req) {
-		BBoxDTO bbox = factory.newBbox();
-		bbox.setMinLat(req.getParameter("minLat"));
-		bbox.setMinLong(req.getParameter("minLong"));
-		bbox.setMaxLat(req.getParameter("maxLat"));
-		bbox.setMaxLong(req.getParameter("maxLong"));
-		return bbox;
+	private Rectangle getBBox(HttpServletRequest req) {
+		return new Rectangle(req.getParameter("minLat"), req.getParameter("minLong"), req.getParameter("maxLat"),
+				req.getParameter("maxLong"));
 	}
 
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
-		BBoxDTO bbox = getBBox(req);
+		Rectangle bbox = getBBox(req);
+		
 		File geoJSON = null;
 		try {
 			geoJSON = seabedHabitatUCC.getGeoJSON(bbox);

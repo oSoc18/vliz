@@ -12,7 +12,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import seabedhabitat.dal.SAXHandler;
+import seabedhabitat.SAXHandler;
 
 public class SaxHandlerTest {
 
