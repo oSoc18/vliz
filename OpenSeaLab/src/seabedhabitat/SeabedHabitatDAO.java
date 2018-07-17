@@ -110,7 +110,7 @@ public class SeabedHabitatDAO {
 		for (Feature f : features) {
 			Geometry geo = f.getGeometry().clippedWith(r);
 			Map<String, Object> m = f.getProperties();
-			String name = (String) m.get("AllcombD");
+			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
 			Double s = sums.get(name);
 			if (s == null) {
 				sums.put(name, geo.surfaceArea());

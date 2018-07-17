@@ -18,47 +18,6 @@ var URLpart3="&maxLong=";
 
 
 
-map.on({
-	'click': function () {
-		if(rectangle != undefined){
-			map.removeLayer(rectangle);
-		}
-
-		draw = new L.Draw.Rectangle(map);
-		draw.enable();
-	},
-	'draw:created': function (event) {
-		rectangle = event.layer;
-	},
-	'draw:drawstop': function (event) {
-		console.log(rectangle.getLatLngs());
-		rectangle.addTo(map);
-
-		var coors = rectangle.getLatLngs();
-		var lats = coors.map(point => point.lat);
-		var lons = coors.map(point => point.lng);
-		document.getElementById("minLat").value = String(Math.min.apply(null, lats));
-		document.getElementById("maxLat").value = String(Math.max.apply(null, lats));
-		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
-		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
-
-	}
-});
-
-
-
-// load data from the coordinates
-function getDataFromCoords(){
-   URLcoordinates = 	URLpart0 + document.getElementById("minLat").value +
-							URLpart1 + document.getElementById("maxLat").value +
-							URLpart2 + document.getElementById("minLong").value + 
-							URLpart3 + document.getElementById("maxLong").value;			
-	loadDataFrom(URLcoordinates);
-	var button = document.getElementById("validateCoordinates");
-	button.textContent = "loading...";
-	button.disabled = true;
-}
-
 function drawRectangleFromInput(){
 	var minLat = document.getElementById('minLat').value;
 	var minLng = document.getElementById('minLong').value;
@@ -162,6 +121,56 @@ function geodesicArea(latLngs) {
 }
 
 
+function getDataFromCoords(){
+	loadDataFrom(URLcoordinates);
+}
+
+function getStatistics(){
+	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
+	var minLat = document.getElementById('minLat').value;
+	var minLng = document.getElementById('minLong').value;
+	var maxLat = document.getElementById('maxLat').value;
+	var maxLng = document.getElementById('maxLong').value;
+
+	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
+	loadStatsFrom(statsURLcoordinates);
+}
+function loadStatsFrom(url){
+	$.getJSON(url, function(json){
+		console.log("trying to get stats");
+		
+		console.log(json); 
+
+		var div = document.getElementById('statsOutput');
+		div.innerHTML = "";
+
+		JSON.parse(JSON.stringify(json), function (key, value) {
+			div.innerHTML += String(value).substring(0,8) + "    " + key  +"<br>";
+		});
+
+		
+		
+
+	} );
+}
+
+
+function hashCode(str) { // java String#hashCode
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+} 
+
+function intToRGB(i){
+    var c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
+}
+
 function randomHex() {
 	var hexNumbers = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
 	// picking a random item of the array
@@ -171,11 +180,11 @@ function randomHex() {
 
 // Genarates a Random Hex color
 function hexGenerator() {
-    hexValue = ['#'];
-    for (var i = 0; i < 6; i += 1) {
-        hexValue.push(randomHex());
-    }
-    return hexValue.join('');
+	hexValue = ['#'];
+	for (var i = 0; i < 6; i += 1) {
+		hexValue.push(randomHex());
+	}
+	return hexValue.join('');
 }
 
 function drawRectangleFromInput(){
@@ -186,14 +195,11 @@ function drawRectangleFromInput(){
 
 	firstCoor = L.latLng(minLat, minLng);
 	var lastCoor = L.latLng(maxLat, maxLng);
-	/*if(polygon != null){
-		map.removeLayer(polygon);
- 	}*/
 	polygon = L.polygon([
-				    firstCoor,
-				    [firstCoor.lat, lastCoor.lng],
-				    lastCoor,
-				    [lastCoor.lat, firstCoor.lng]
+					firstCoor,
+					[firstCoor.lat, lastCoor.lng],
+					lastCoor,
+					[lastCoor.lat, firstCoor.lng]
 				]);
 	polygon.addTo(map);
 	URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;
