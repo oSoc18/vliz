@@ -1,80 +1,132 @@
 <!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="../../favicon.ico">
 
-<html>
+	<title>sidebar template</title>
 
-<head>
-<title>OpenSeaLab</title>
+	<!-- Bootstrap core CSS -->
+	<link href="style/bootstrap.min.css" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="style/font-awesome.min.css"> -->
 
-<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-<link href="style/style-sidebar.css" rel="stylesheet">
-<link href="style/leaflet.css" rel="stylesheet">
-<link href="style/index.css" rel="stylesheet">
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+	<!-- Custom styles for this template -->
+	<link href="style/dashboard.css" rel="stylesheet">
+	<link href="style/style-sidebar.css" rel="stylesheet">
+	<link href="style/leaflet.css" rel="stylesheet">
+	<link href="style/header.css" rel="stylesheet">	
+	<link href="style/index.css" rel="stylesheet">
+	<link href="style/Responsive-sidebar.css" rel="stylesheet">		
 
-</head>
 
-<body>
-	<header>
-		<img class="logo" src="images/EMODnet_logo_CENTRALPORTAL.png" alt="logo">
-	</header>
 
-	<section>
-			<input class="search" type="text" name="search" placeholder="sea,country,coordinates,..."><br>		
-			<form >
-				Lat
-				<input class="coordinates" type="text" id="coord1" name="coordinates1" size= "8">
-				<input class="coordinates" type="text" id="coord2" name="coordinates2" size= "8">
-				Lon
-				<input class="coordinates" type="text" id="coord3" name="coordinates3" size= "8">
-				<input class="coordinates" type="text" id="coord4" name="coordinates4" size= "">   			
-			</form>          
-			<button id="validateCoordinates">Click</button>	
+	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+	<!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
+
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	  <style type="text/css">
+
+	  </style>
+
+  </head>
+
+  <body>
+
+	
+	<div class="container-fluid">
+	<div class="row">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">OpenSeaLab</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a class="active"href="#bathymetry">Bathymetry</a></li>
+						<li><a href="#seabedHabitat">Seabed habitat</a></li>
+						<li><a href="#About">About</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav> 
+	</div>
+</div>
+
+	<div class="container-fluid">
+	  <div class="row">
+		<div class="col-sm-3 col-md-offset-9 col-md-9 col-md-offset-8 sidebar">	
 		
-			<button id="drawRecButton" onclick="drawRectangle()">Draw a rectangle</button>
-				<p id="recBound1"></p>
-				<p id="recBound2"></p>
-
-			<button id="selectCordButton" onclick="selectCordRectangle()">Click first rectangle boundry</button> 
-
-			<button id="clearCordButton" onclick="clearCordRectangle()">Clear rectangle cordinates</button>
-			<p id="recBound1"></p>
-			<p id="recBound2"></p>
-			<button id="drawButton" onclick="drawRectangle()">Draw my rectangle</button>
-			<button id="deleteButton" onclick="deleteRectangle()">Delete my rectangle</button>
-
-			<ul style="list-style-type:none">	  	
-				<li>
-					<button class="dropdown-btn">Bathymetry
-						<i class="fa fa-caret-down"></i>
-					</button>
-					<div class="dropdown-container">
-						<input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth
-						<input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas
-						<input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours
-						<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references
+			<div id="mySidenav" class="sidenavResponsive">
+				<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+				<button class="collapsible">Bathymetry</button>
+					<div class="content">
+					 <div class="dropdown-container">
+								<input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
+								<input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
+								<input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
+								<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
+						</div>
 					</div>
-				</li>
-	
-				<li>
-					<button class="dropdown-btn">Seabed Habitats
-						<i class="fa fa-caret-down"></i>
-					</button>
-					<div class="dropdown-container">
-						<input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map
-						<input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence
-						<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat 
-					</div>
-				</li>		
-			</ul>		
-		<div id="map"></div>	
-	
-	</section>
-	
-	<footer>
-		hey
-	</footer>
-	
+				<button class="collapsible">Seabed Habitats</button>
+					<div class="content">
+						<div class="dropdown-container">
+								<input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
+								<input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
+								<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
+						</div>
+					</div>	
+			</div>		  
+		  
+		  <div id="responsive-main">
+			<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#10096; open</span>	
+		   </div>				
+	</div>
+		<div class="col-sm-12 main">
+				<div id="map">
+					<!-- Map Space -->
+				</div>
+		</div>
+	</div> 
+	</div>
+
+	<!-- Bootstrap core JavaScript -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/leaflet.js"></script>
+	<script src="js/leaflet-providers.js"></script>
+	<script src="js/map_sidebar.js"></script>
+	<script src="js/test.js"></script>
+	<script src="/js/leaflet-0.7.2/leaflet.ajax.min.js"></script>
+	<script src="js/leaflet.ajax.min"></script>
+	<script src="js/GeometryUtil.js"></script>
+	<script src="js/Responsive-sidebar.js"></script>
+
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+	<script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+	<script src="https://raw.github.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+
 	<script src="js/dropdown.js"></script>
-</body>
-
+	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+	<!--<script src="js/holder.js"></script>-->
+	
+  </body>
 </html>
