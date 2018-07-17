@@ -5,7 +5,7 @@ L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 var draw;
 var rectangle;
 
-
+var loadedLayer = undefined;
 
 //create a new dictionary for feature colors
 let dictionary = new Map();
@@ -93,7 +93,7 @@ function getStyle(feature){
 		clr = hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
 	}
-	return {color : clr};
+	return {color : clr, weight : 0.3};
 }
 
 function prepFeature(feature, layer){
@@ -113,10 +113,14 @@ function prepFeature(feature, layer){
 }
 
 function addSeabedLayer(json){
-    L.geoJson(json,
+	if(loadedLayer != undefined){
+		map.removeLayer(loadedLayer);
+	}
+    loadedLayer = L.geoJson(json,
 	   { style: getStyle
       , onEachFeature : prepFeature
-		}).addTo(map); 
+		})
+	loadedLayer.addTo(map); 
 }
 
 
@@ -152,10 +156,22 @@ function geodesicArea(latLngs) {
 
 // load data from the coordinates
 function getDataFromCoords(){
-   URLcoordinates = 	URLpart0 + document.getElementById("minLat").value +
-							URLpart1 + document.getElementById("maxLat").value +
-							URLpart2 + document.getElementById("minLong").value + 
-							URLpart3 + document.getElementById("maxLong").value;			
+
+	var minLat = document.getElementById("minLat").value;
+	var maxLat = document.getElementById("maxLat").value;
+	var minLong = document.getElementById("minLong").value;
+	var maxLong = document.getElementById("maxLong").value;
+
+	if((maxLat - minLat) * (maxLong - minLong) > 10){
+		alert("The selected area is too big to display. (You can load statistics though)");
+		return;
+	} 
+
+
+   URLcoordinates = 	URLpart0 + minLat +
+							URLpart1 + maxLat +
+							URLpart2 + minLong + 
+							URLpart3 + maxLong;			
 	loadDataFrom(URLcoordinates);
 	var button = document.getElementById("validateCoordinates");
 	button.textContent = "loading...";
@@ -184,10 +200,6 @@ function loadStatsFrom(url){
 		JSON.parse(JSON.stringify(json), function (key, value) {
 			div.innerHTML += String(value).substring(0,8) + "    " + key  +"<br>";
 		});
-
-		
-		
-
 	} );
 }
 
@@ -252,6 +264,14 @@ function getStatistics(){
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
 	loadStatsFrom(statsURLcoordinates);
 
+
+}
+
+function clearData(){
+	if(loadedLayer != undefined){
+		map.removeLayer(loadedLayer);
+		loadedLayer = undefined;
+	}
 
 }
 
