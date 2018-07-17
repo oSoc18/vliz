@@ -7,9 +7,9 @@ $(function() {
 			data : {
 				action:"getGeoJSON",
 				minLat: $("#minLat").val()/*"51.428"*/,
-				minLong: $("#minLong").val()/*"2.122"*/,
+				minLong: $("#minLng").val()/*"2.122"*/,
 				maxLat: $("#maxLat").val()/*"51.548"*/,
-				maxLong: $("#maxLong").val()/*"6.03"*/
+				maxLong: $("#maxLng").val()/*"6.03"*/
 				
 			},
 			success : function(response) {
