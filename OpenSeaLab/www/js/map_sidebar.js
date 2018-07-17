@@ -166,3 +166,23 @@ function hexGenerator() {
     }
     return hexValue.join('');
 }
+
+function drawRectangleFromInput(){
+	var minLat = document.getElementById('minLat').value;
+	var minLng = document.getElementById('minLng').value;
+	var maxLat = document.getElementById('maxLat').value;
+	var maxLng = document.getElementById('maxLng').value;
+
+	firstCoor = L.latLng(minLat, minLng);
+	var lastCoor = L.latLng(maxLat, maxLng);
+	if(polygon != null){
+		map.removeLayer(polygon);
+ 	}
+	polygon = L.polygon([
+				    firstCoor,
+				    [firstCoor.lat, lastCoor.lng],
+				    lastCoor,
+				    [lastCoor.lat, firstCoor.lng]
+				]);
+	polygon.addTo(map);
+}
