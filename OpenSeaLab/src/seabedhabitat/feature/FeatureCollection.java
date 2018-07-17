@@ -29,7 +29,7 @@ public class FeatureCollection {
 
 	public String toGeoJSON() {
 		if (features.size() == 0) {
-			throw new IllegalStateException("No elements in the featurecollection");
+			return "{ \"type\": \"FeatureCollection\", \"features\":[]}";
 		}
 		StringBuilder result = new StringBuilder();
 		result.append("{ \"type\": \"FeatureCollection\", \"features\": \n [");
