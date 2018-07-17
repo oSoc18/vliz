@@ -18,14 +18,6 @@ var URLpart3="&maxLong=";
 
 
 map.on({
-	'click': function () {
-		if(rectangle != undefined){
-			map.removeLayer(rectangle);
-		}
-
-		draw = new L.Draw.Rectangle(map);
-		draw.enable();
-	},
 	'draw:created': function (event) {
 		rectangle = event.layer;
 	},
@@ -44,53 +36,12 @@ map.on({
 	}
 });
 
-
-
-
-function drawRectangleFromInput(){
-	var minLat = document.getElementById('minLat').value;
-	var minLng = document.getElementById('minLong').value;
-	var maxLat = document.getElementById('maxLat').value;
-	var maxLng = document.getElementById('maxLong').value;
-
-	firstCoor = L.latLng(minLat, minLng);
-	var lastCoor = L.latLng(maxLat, maxLng);
-	if(polygon != null){
-		map.removeLayer(polygon);
- 	}
-	polygon = L.polygon([
-				    firstCoor,
-				    [firstCoor.lat, lastCoor.lng],
-				    lastCoor,
-				    [lastCoor.lat, firstCoor.lng]
-				]);
-	polygon.addTo(map);
-}
-
-
-function randomHex() {
-	var hexNumbers = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
-	// picking a random item of the array
-	return hexNumbers[Math.floor(Math.random() * hexNumbers.length)];
-}
-
-
-// Genarates a Random Hex color
-function hexGenerator() {
-    hexValue = ['#'];
-    for (var i = 0; i < 6; i += 1) {
-        hexValue.push(randomHex());
-    }
-    return hexValue.join('');
-}
-
-
 function getStyle(feature){
    var clr;
 	if(dictionary.has(feature.properties.WEB_CLASS)){
 		clr = dictionary.get(feature.properties.WEB_CLASS);
 	} else {
-		clr = hexGenerator();
+		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
 	}
 	return {color : clr, weight : 0.3};
@@ -109,13 +60,13 @@ function prepFeature(feature, layer){
 	var list = "<dd>" + feature.properties.Allcomb + "</dd>"
 			+ "<dt>Area : </dt>"
 			+ seaArea ;
-	layer.bindPopup( list );  
+	popupOptions = {maxWidth: 200};
+                
+	layer.bindPopup( list.toString(), popupOptions );  
 }
 
 function addSeabedLayer(json){
-	if(loadedLayer != undefined){
-		map.removeLayer(loadedLayer);
-	}
+	clearData();
     loadedLayer = L.geoJson(json,
 	   { style: getStyle
       , onEachFeature : prepFeature
@@ -129,6 +80,8 @@ function loadDataFrom(url){
 		var button = document.getElementById("validateCoordinates");
 		button.textContent = "Get data";
 		button.disabled = false;
+		clearRect();
+
 		addSeabedLayer(json); 
 	});
 }
@@ -162,6 +115,11 @@ function getDataFromCoords(){
 	var minLong = document.getElementById("minLong").value;
 	var maxLong = document.getElementById("maxLong").value;
 
+	if(minLat == "" || maxLat == "" || minLong == "" || maxLong == ""){
+		alert("Specify an area first");
+		return;
+	}
+
 	if((maxLat - minLat) * (maxLong - minLong) > 10){
 		alert("The selected area is too big to display. (You can load statistics though)");
 		return;
@@ -174,30 +132,24 @@ function getDataFromCoords(){
 							URLpart3 + maxLong;			
 	loadDataFrom(URLcoordinates);
 	var button = document.getElementById("validateCoordinates");
+
 	button.textContent = "loading...";
 	button.disabled = true;
 }
 
-function getStatistics(){
-	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
-	var minLat = document.getElementById('minLat').value;
-	var minLng = document.getElementById('minLong').value;
-	var maxLat = document.getElementById('maxLat').value;
-	var maxLng = document.getElementById('maxLong').value;
 
-	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
-	loadStatsFrom(statsURLcoordinates);
-}
 function loadStatsFrom(url){
 	$.getJSON(url, function(json){
-		console.log("trying to get stats");
-		
-		console.log(json); 
+
+		var button = document.getElementById("validateStats");
+		button.textContent = "Get Stats";
+		button.disabled = false;
 
 		var div = document.getElementById('statsOutput');
 		div.innerHTML = "";
 
 		JSON.parse(JSON.stringify(json), function (key, value) {
+			console.log("adding " + key); 
 			div.innerHTML += String(value).substring(0,8) + "    " + key  +"<br>";
 		});
 	} );
@@ -262,6 +214,10 @@ function getStatistics(){
 	var maxLng = document.getElementById('maxLong').value;
 
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
+	var button = document.getElementById("validateStats");
+	console.log("333" +button.textContent);
+	button.textContent = "loading...";
+	button.disabled = true;
 	loadStatsFrom(statsURLcoordinates);
 
 
@@ -269,10 +225,17 @@ function getStatistics(){
 
 function clearData(){
 	if(loadedLayer != undefined){
+		loadedLayer.clearLayers();
 		map.removeLayer(loadedLayer);
 		loadedLayer = undefined;
 	}
+}
 
+function clearRect(){
+	if(rectangle != null){
+		map.removeLayer(rectangle);
+		rectangle = null;
+	}
 }
 
 function loadStatsFrom(url){
@@ -281,4 +244,10 @@ function loadStatsFrom(url){
 		console.log("finished ---");
 		console.log(json);
 	});
+}
+
+function enableDrawing(){
+	clearRect();
+	draw = new L.Draw.Rectangle(map);
+	draw.enable();
 }

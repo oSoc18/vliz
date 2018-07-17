@@ -69,23 +69,24 @@
 							<h5>Latitude : </h5>
 							<div class="col-sm-4">
 								Min	<input type="text" id="minLat" name="coordinates1" size= "6">
-								Max	<input type="text" id="minLong" name="coordinates2" size= "6">
+								Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
 							</div>
 						</div>
 						<div class="container">
 							<h5>Longitude : </h5>
 							<div class="col-sm-4">
-								Min	<input type="text" id="maxLat" name="coordinates3" size= "6">
+								Min	<input type="text" id="minLong" name="coordinates3" size= "6">
 								Max	<input type="text" id="maxLong" name="coordinates4" size= "6">  
 							</div> 
 						</div>          			
 					</div>  
-					<br>          
+					<br>   
+					<button  type="button" class="btn btn-default" onclick="enableDrawing()" >Select rectangle</button>
 					<button  type="button" class="btn btn-default" onclick="clearData()" >Clear data</button>
 					<button id="validateCoordinates" type="button" class="btn btn-default" onclick="getDataFromCoords()" >Get Data</button>
-
-					<button type="button" class="btn btn-default" onclick="getStatistics()" >Get Stats</button>
+					<button id="validateStats" type="button" class="btn btn-default" onclick="getStatistics()" >Get Stats</button>
 	  				<br><br><br>
+
 	
 	<button class="collapsible">Bathymetry</button>
 		<div class="content">
@@ -104,8 +105,8 @@
 					<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
 			</div>
 		</div>	 
-	<div id="statsOutput">
-	</div>
+
+	<div id="statsOutput"> </div>
 	
 
 	</div>
