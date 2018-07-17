@@ -58,7 +58,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = getBBox(req);
-		
+		req.getParameter("layer");
 		File geoJSON = null;
 		try {
 			geoJSON = seabedHabitatUCC.getGeoJSON(bbox);
@@ -93,8 +93,8 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
-			// LOGGER.fine("Trying to get " + f.toPath());
-			System.out.println("Trying to get " + f.toPath());
+			LOGGER.fine("Trying to get " + f.toPath());
+			//System.out.println("Trying to get " + f.toPath());
 			Files.copy(f.toPath(), sos);
 			// sos.flush();
 		} catch (Exception exc) {
