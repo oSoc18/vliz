@@ -140,6 +140,24 @@ function getDataFromCoords(){
 	loadDataFrom(URLcoordinates);
 }
 
+function getStatistics(){
+	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
+	var minLat = document.getElementById('minLat').value;
+	var minLng = document.getElementById('minLong').value;
+	var maxLat = document.getElementById('maxLat').value;
+	var maxLng = document.getElementById('maxLong').value;
+
+	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
+	loadStatsFrom(statsURLcoordinates);
+}
+function loadStatsFrom(url){
+	$.getJSON(url, function(json){
+		console.log("trying to get stats");
+		
+		console.log(json); 
+	} );
+}
+
 function GetColor(feature){
 	if(dictionary.has(feature.properties.WEB_CLASS)) return dictionary.get(feature.properties.WEB_CLASS);
 	else {
