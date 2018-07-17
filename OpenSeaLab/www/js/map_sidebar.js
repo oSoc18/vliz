@@ -2,6 +2,21 @@ var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.1958007
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
+var draw;
+var rectangle;
+map.on({
+	'click': function () {
+		draw = new L.Draw.Rectangle(map);
+		draw.enable();
+	},
+	'draw:created': function (event) {
+		rectangle = event.layer;
+	},
+	'draw:drawstop': function (event) {
+		console.log(rectangle.getLatLngs());
+	}
+});
+
 //create a new dictionary for feature colors
 let dictionary = new Map();
 
@@ -120,68 +135,6 @@ function geodesicArea(latLngs) {
 			return Math.abs(area);
 }
 
-
-
-map.on({click : function(e){ console.log("click"); map.dragging.enable();}});
-
-
-map.on({mouseup : 
-	function(e){
-		console.log("mouseup");
-		//map.dragging.enable();
-		if(!e.originalEvent.ctrlKey){
-			return;
-		}
-
-
-		if(polygon != null){
-			map.removeLayer(polygon);
-		}
-		var lastCoor = e.latlng;
-		polygon = L.polygon([
-			    firstCoor,
-			    [firstCoor.lat, lastCoor.lng],
-			    lastCoor,
-			    [lastCoor.lat, firstCoor.lng]
-			])
-		polygon.addTo(map);
-
-		if(firstCoor.lat <= lastCoor.lat ){
-			document.getElementById("minLat").value = String(firstCoor.lat);
-			document.getElementById("maxLat").value = String(lastCoor.lat);
-		}else{
-			document.getElementById("minLat").value = String(lastCoor.lat);
-			document.getElementById("maxLat").value = String(firstCoor.lat);
-		}
-		if(firstCoor.lng <= lastCoor.lng ){
-			document.getElementById("minLong").value = String(firstCoor.lng);
-			document.getElementById("maxLong").value = String(lastCoor.lng);
-		}else{
-			document.getElementById("minLong").value = String(lastCoor.lng);
-			document.getElementById("maxLong").value = String(firstCoor.lng);
-		}
-
-		URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;						
-	}
-});
-
-
-map.on({mousedown : 
-	function(e){
-		console.log("Mousedown");
-		if(!e.originalEvent.ctrlKey){
-			return;
-		}
-		//map.dragging.disable();
-		firstCoor = e.latlng;
-		console.log(firstCoor);
-		console.log("Got first coor")
-	}
-});
-
-
-
-
 function randomHex() {
 	var hexNumbers = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
 	// picking a random item of the array
@@ -239,4 +192,3 @@ function loadStatsFrom(url){
 		console.log(json);
 	});
 }
-
