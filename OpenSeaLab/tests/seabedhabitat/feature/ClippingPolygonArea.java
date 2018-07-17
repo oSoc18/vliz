@@ -1,14 +1,10 @@
 package seabedhabitat.feature;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 
 public class ClippingPolygonArea {
 
+	@SuppressWarnings("static-method")
 	@Test
 	public void test() {
 		Point  p0 = new Point(45, 4);

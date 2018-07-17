@@ -1,13 +1,10 @@
 package seabedhabitat.feature;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import junit.framework.Assert;
 
 public class GeoJSONTests {
 
+	@SuppressWarnings("static-method")
 	@Test
 	public void test() {
 		Point  p0 = new Point(51.123, 4.123);

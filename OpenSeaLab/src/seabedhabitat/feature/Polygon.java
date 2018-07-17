@@ -3,12 +3,9 @@ package seabedhabitat.feature;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import static java.lang.Math.*;
 
 public class Polygon extends Geometry {
 	private final List<Point> points;
-	private final int surface;
-	private int clippedSurface;
 	public Polygon(Point... points) {
 
 		this(Arrays.asList(points));
@@ -18,19 +15,6 @@ public class Polygon extends Geometry {
 
 		super("Polygon");
 		this.points = points;
-		surface = points.size();
-	}
-
-	public int getSurface() {
-		return surface/2;
-	}
-
-	public int getClippedSurface() {
-		return clippedSurface/2;
-	}
-
-	public List<Point> testMethod() {
-		return points;
 	}
 
 	@Override
@@ -52,16 +36,6 @@ public class Polygon extends Geometry {
 		if (points.get(0).equals(points.get(points.size() - 1))) {
 			diff = 1;
 		}
-		/*
-		double surface = 0.0;
-		for (int i = 0; i < points.size() - diff; i++) {
-			Point p = points.get(i);
-			Point n = points.get((i + 1) % points.size());
-			surface += (n.getLat() - p.getLat()) * (p.getLon() + n.getLon());
-		}
-
-		return Math.abs(surface) / 2;*/
-
 
 		int pointsCount = points.size() - diff;
 		Double	area = 0.0;
@@ -80,8 +54,6 @@ public class Polygon extends Geometry {
 		}
 
 		return Math.abs(area);
-
-
 
 	}
 
@@ -111,8 +83,6 @@ public class Polygon extends Geometry {
 					newPolygon.add(intersection(A, B, P, Q));
 			}
 		}
-		
-		clippedSurface = newPolygon.size();
 		
 		if(newPolygon.isEmpty()) {
 			return null;
