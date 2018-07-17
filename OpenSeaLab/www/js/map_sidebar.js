@@ -10,12 +10,12 @@ var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 
-var testURL = "http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=51&maxLat=52&minLong=2&maxLong=3";
+//var testURL = "http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=51&maxLat=52&minLong=2&maxLong=3";
 
 function loadDataFrom(url){
-	$.getJSON(testURL, function(json){
+	$.getJSON(url, function(json){
 		console.log("LOADED!");
-		/*L.geoJson(json, {
+		L.geoJson(json, {
 			 style: function(feature) {return {color: GetColor(feature) } ; }
 		   ,
 		   onEachFeature: function (feature, layer) {
@@ -33,7 +33,7 @@ function loadDataFrom(url){
 						+ seaArea ;
 			layer.bindPopup( list );  
 		   }
-		}).addTo(map); */
+		}).addTo(map); 
 		console.log("Added to map"); 
 	} );
 }
@@ -113,7 +113,7 @@ map.on({mouseup :
 				    [lastCoor.lat, firstCoor.lng]
 				])
 			polygon.addTo(map);
-			
+
 			if(firstCoor.lat <= lastCoor.lat ){
 				document.getElementById("minLat").value = String(firstCoor.lat);
 				document.getElementById("maxLat").value = String(lastCoor.lat);
