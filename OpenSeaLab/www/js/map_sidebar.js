@@ -20,15 +20,15 @@ function loadDataFrom(url){
 		   ,
 		   onEachFeature: function (feature, layer) {
 			var seaarea = 0;
-		   	if(feature.geometry.type == "MultiPolygon"){
-		   		var i;
+			if(feature.geometry.type == "MultiPolygon"){
+				var i;
 				for(i = 0; i < feature.geometry.coordinates.length; i++) {
-				    seaArea = geodesicArea(layer.getLatLngs()[i]);
+					seaArea = geodesicArea(layer.getLatLngs()[i]);
 				} 
-		   	}else{
-		   		seaArea = geodesicArea(layer.getLatLngs()); 		
-		   	}
-		   	var list = "<dd>" + feature.properties.Allcomb + "</dd>"
+			}else{
+				seaArea = geodesicArea(layer.getLatLngs()); 		
+			}
+			var list = "<dd>" + feature.properties.Allcomb + "</dd>"
 						+ "<dt>Area : </dt>"
 						+ seaArea ;
 			layer.bindPopup( list );  
@@ -48,17 +48,17 @@ L.geoJson(states, {
 	   ,
 	   onEachFeature: function (feature, layer) {
 		var seaarea = 0
-	   	if(feature.geometry.type == "MultiPolygon"){
-	   		var i;
+		if(feature.geometry.type == "MultiPolygon"){
+			var i;
 			for(i = 0; i < feature.geometry.coordinates.length; i++) {
-			    seaArea = geodesicArea(layer.getLatLngs()[i]);
+				seaArea = geodesicArea(layer.getLatLngs()[i]);
 			} 
-	   			
+				
 
-	   	}else{
-	   		seaArea = geodesicArea(layer.getLatLngs()); 		
-	   	}
-	   	var list = "<dd>" + feature.properties.Allcomb + "</dd>"
+		}else{
+			seaArea = geodesicArea(layer.getLatLngs()); 		
+		}
+		var list = "<dd>" + feature.properties.Allcomb + "</dd>"
 					+ "<dt>Area : </dt>"
 					+ seaArea ;
 		layer.bindPopup( list );  
@@ -104,13 +104,13 @@ map.on({mouseup :
 			map.dragging.enable();
 			if(polygon != null){
 				map.removeLayer(polygon);
- 			}
- 			var lastCoor = e.latlng;
+			}
+			var lastCoor = e.latlng;
 			polygon = L.polygon([
-				    firstCoor,
-				    [firstCoor.lat, lastCoor.lng],
-				    lastCoor,
-				    [lastCoor.lat, firstCoor.lng]
+					firstCoor,
+					[firstCoor.lat, lastCoor.lng],
+					lastCoor,
+					[lastCoor.lat, firstCoor.lng]
 				])
 			polygon.addTo(map);
 
@@ -155,6 +155,17 @@ function loadStatsFrom(url){
 		console.log("trying to get stats");
 		
 		console.log(json); 
+
+		var div = document.getElementById('statsOutput');
+		div.innerHTML = "";
+
+		JSON.parse(JSON.stringify(json), function (key, value) {
+			div.innerHTML += String(value).substring(0,8) + "    " + key  +"<br>";
+		});
+
+		
+		
+
 	} );
 }
 
@@ -178,11 +189,11 @@ function randomHex() {
 
 // Genarates a Random Hex color
 function hexGenerator() {
-    hexValue = ['#'];
-    for (var i = 0; i < 6; i += 1) {
-        hexValue.push(randomHex());
-    }
-    return hexValue.join('');
+	hexValue = ['#'];
+	for (var i = 0; i < 6; i += 1) {
+		hexValue.push(randomHex());
+	}
+	return hexValue.join('');
 }
 
 function drawRectangleFromInput(){
@@ -195,12 +206,12 @@ function drawRectangleFromInput(){
 	var lastCoor = L.latLng(maxLat, maxLng);
 	if(polygon != null){
 		map.removeLayer(polygon);
- 	}
+	}
 	polygon = L.polygon([
-				    firstCoor,
-				    [firstCoor.lat, lastCoor.lng],
-				    lastCoor,
-				    [lastCoor.lat, firstCoor.lng]
+					firstCoor,
+					[firstCoor.lat, lastCoor.lng],
+					lastCoor,
+					[lastCoor.lat, firstCoor.lng]
 				]);
 	polygon.addTo(map);
 }

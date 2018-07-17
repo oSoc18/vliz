@@ -117,7 +117,7 @@ public class SeabedHabitatDAO {
 
 		for (Map.Entry<String, Double> entries : sums.entrySet()) {
 			double d = entries.getValue() / sum * 100;
-			percentages.put(entries.getKey(), d);
+			percentages.put(entries.getKey(), d.toString());
 		}
 		return new Genson().serialize(percentages);
 	}
