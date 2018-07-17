@@ -35,39 +35,57 @@ public class SeabedHabitatDAO {
 	private final String cacheDir;
 	private final String dataPattern;
 	private final String statPattern;
+	private final String defaultType;
 
-	public SeabedHabitatDAO(String url, String cacheDir, String dataPattern, String statPattern) {
+	/**
+	 * Constructs a data object access that manages everything linked to pure data. 
+	 * @param url
+	 * @param defaultType
+	 * @param cacheDir
+	 * @param dataPattern
+	 * @param statPattern
+	 */
+	public SeabedHabitatDAO(String url, String defaultType, String cacheDir, String dataPattern, String statPattern) {
 		this.url = url;
 		this.cacheDir = cacheDir;
 		this.dataPattern = dataPattern;
 		this.statPattern = statPattern;
+		this.defaultType = defaultType;
 	}
 
-	public File getGeoJson(Rectangle bbox) {
-			String id = bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLon();
-			String pathname = cacheDir + "/" + dataPattern.replace("{id}", id);
-			Path p = FileSystems.getDefault().getPath(pathname);
-			if (!Files.exists(p)) {
-				Path statsPath = FileSystems.getDefault().getPath(cacheDir + "/" + statPattern.replace("{id}", id));
-				process(bbox, statsPath, p);
-			}
-			return new File(pathname);
-	}
-
-	public File getStats(Rectangle bbox) {
-		String id = bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLon();
-		String pathname = cacheDir + "/" + statPattern.replace("{id}", id);
-		Path statsPath = FileSystems.getDefault().getPath(pathname);
-		if (!Files.exists(statsPath)) {
-			Path geojsonPath = FileSystems.getDefault().getPath(cacheDir + "/" + dataPattern.replace("{id}", id));
-			process(bbox, statsPath, geojsonPath);
+	public File getGeoJson(Rectangle bbox, String type) {
+		if (type == null || type.isEmpty())
+			type = defaultType;
+		String id = type + "-" + bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-"
+				+ bbox.getMaxLon();
+		String pathname = cacheDir + "/" + dataPattern.replace("{id}", id);
+		Path p = FileSystems.getDefault().getPath(pathname);
+		if (!Files.exists(p)) {
+			Path statsPath = FileSystems.getDefault()
+					.getPath(cacheDir + "/" + statPattern.replace("{id}", id));
+			process(bbox, statsPath, p, type);
 		}
 		return new File(pathname);
 	}
 
-	private void process(Rectangle bbox, Path statsPath, Path geojsonPath) {
+	public File getStats(Rectangle bbox, String type) {
+		if (type == null || type.isEmpty())
+			type = defaultType;
+		String id = type + "-" + bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-"
+				+ bbox.getMaxLon();
+		String pathname = cacheDir + "/" + statPattern.replace("{id}", id);
+		Path statsPath = FileSystems.getDefault().getPath(pathname);
+		if (!Files.exists(statsPath)) {
+			Path geojsonPath = FileSystems.getDefault()
+					.getPath(cacheDir + "/" + dataPattern.replace("{id}", id));
+			process(bbox, statsPath, geojsonPath, type);
+		}
+		return new File(pathname);
+	}
+
+	private void process(Rectangle bbox, Path statsPath, Path geojsonPath, String type) {
 		try {
-			FeatureCollection fc = fetch(bbox);
+			FeatureCollection fc = fetch(bbox, type);
 			String stats = calculateStatistics(fc, bbox);
 			store(fc.toGeoJSON(), geojsonPath);
 			store(stats, statsPath);
@@ -78,10 +96,12 @@ public class SeabedHabitatDAO {
 		}
 	}
 
-	private FeatureCollection fetch(Rectangle bbox) throws SAXException, IOException, ParserConfigurationException {
+	private FeatureCollection fetch(Rectangle bbox, String type)
+			throws SAXException, IOException, ParserConfigurationException {
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
-		System.out.println("Querying WMS server");
-		HttpURLConnection connection = (HttpURLConnection) new URL(url.replace("{bbox}", bx)).openConnection();
+		LOGGER.log(Level.FINE, "Querying WMS server");
+		HttpURLConnection connection = (HttpURLConnection) new URL(url.replace("{bbox}", bx).replace("{type}", type))
+				.openConnection();
 		connection.setReadTimeout(20000);
 		connection.setConnectTimeout(20000);
 		connection.setRequestMethod("GET");
@@ -92,7 +112,7 @@ public class SeabedHabitatDAO {
 		SAXParser saxParser = factory.newSAXParser();
 		SAXHandler userhandler = new SAXHandler();
 		saxParser.parse(connection.getInputStream(), userhandler);
-		LOGGER.log(Level.FINE, "Got result for bbox: "+ bx);
+		LOGGER.log(Level.FINE, "Got result for bbox: " + bx);
 		return userhandler.getFeatures();
 	}
 

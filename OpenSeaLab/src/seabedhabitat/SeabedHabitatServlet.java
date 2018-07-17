@@ -59,7 +59,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			File geoJSON  = seabedHabitatUCC.getGeoJSON(getBBox(req));
+			File geoJSON  = seabedHabitatUCC.getGeoJSON(getBBox(req), req.getParameter("type"));
 			responseJSON(geoJSON, resp);
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
@@ -80,7 +80,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			File stats = seabedHabitatUCC.getStats(getBBox(req));
+			File stats = seabedHabitatUCC.getStats(getBBox(req), req.getParameter("type"));
 			responseJSON(stats, resp);
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());

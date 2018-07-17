@@ -12,15 +12,17 @@ public class BathymetryServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected void doGet(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doGet(arg0, arg1);
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String action = req.getParameter("action");
+		switch(action) {
+			default:
+				break;
+		}
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		super.doPost(request, response);
 	}
 }

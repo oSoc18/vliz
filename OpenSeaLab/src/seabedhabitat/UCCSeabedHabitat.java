@@ -11,11 +11,11 @@ public class UCCSeabedHabitat {
 		this.seabedHabitatDAO = seabedHabitatDAO;
 	}
 
-	public File getGeoJSON(Rectangle bbox) {
-		return seabedHabitatDAO.getGeoJson(bbox);
+	public File getGeoJSON(Rectangle bbox, String type) {
+		return seabedHabitatDAO.getGeoJson(bbox, type);
 	}
 
-	public File getStats(Rectangle bbox) {
-		return seabedHabitatDAO.getStats(bbox);
+	public File getStats(Rectangle bbox, String type) {
+		return seabedHabitatDAO.getStats(bbox, type);
 	}
 }

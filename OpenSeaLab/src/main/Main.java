@@ -10,6 +10,7 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import bathymetry.BathymetryServlet;
 import seabedhabitat.SeabedHabitatDAO;
 import seabedhabitat.SeabedHabitatServlet;
 import seabedhabitat.UCCSeabedHabitat;
@@ -24,8 +25,8 @@ public class Main {
 			appContext.configLogger("log.properties");
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
 			SeabedHabitatDAO seabedHabitatDAO = new SeabedHabitatDAO(appContext.getProperty("seabedURL"),
-					appContext.getProperty("cache-dir"), appContext.getProperty("seabed-data"),
-					appContext.getProperty("seabed-stat"));
+					appContext.getProperty("default-type"), appContext.getProperty("cache-dir"),
+					appContext.getProperty("seabed-data"), appContext.getProperty("seabed-stat"));
 			UCCSeabedHabitat uccSeabedHabitat = new UCCSeabedHabitat(seabedHabitatDAO);
 			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat);
 		} catch (Exception exc) {
@@ -41,9 +42,11 @@ public class Main {
 		context.setResourceBase("www");
 
 		HttpServlet seabedServlet = new SeabedHabitatServlet(uccSeabedHabit);
+		HttpServlet bathymetryServlet = new BathymetryServlet();
 
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");
 		context.addServlet(new ServletHolder(seabedServlet), "/seabed");
+		context.addServlet(new ServletHolder(bathymetryServlet), "/bathymetry");
 
 		server.setHandler(context);
 		server.start();

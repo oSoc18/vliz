@@ -42,7 +42,6 @@ public class Rectangle extends Geometry {
 
 	@Override
 	public Geometry clippedWith(Rectangle r) {
-		// TODO Auto-generated method stub
 		throw new IllegalArgumentException("No implementation yet");
 	}
 
@@ -73,6 +72,13 @@ public class Rectangle extends Geometry {
 		return new Point[] { new Point(minLat, minLon), new Point(maxLat, maxLon) };
 	}
 
+	/**
+	 * Rounds the bounding box, makes minimum lower and maximum higher. The coordinates are reordered if needed.
+	 * @param minLat minimum latitude
+	 * @param minLong minimum longitude
+	 * @param maxLat maximum latitude
+	 * @param maxLong maximum longitude
+	 */
 	private void extendRectangle(double minLat, double minLong, double maxLat, double maxLong) {
 		if (minLat > maxLat) {
 			double tempLat = minLat;
