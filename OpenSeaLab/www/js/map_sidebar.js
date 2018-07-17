@@ -4,6 +4,20 @@ L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
 var draw;
 var rectangle;
+
+
+
+//create a new dictionary for feature colors
+let dictionary = new Map();
+
+var URLpart0 ="http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=";
+var URLpart1="&maxLat=";
+var URLpart2="&minLong=";
+var URLpart3="&maxLong=";
+
+
+
+
 map.on({
 	'click': function () {
 		if(rectangle != undefined){
@@ -19,28 +33,30 @@ map.on({
 	'draw:drawstop': function (event) {
 		console.log(rectangle.getLatLngs());
 		rectangle.addTo(map);
+
+		var coors = rectangle.getLatLngs();
+		var lats = coors.map(point => point.lat);
+		var lons = coors.map(point => point.lng);
+		document.getElementById("minLat").value = String(Math.min.apply(null, lats));
+		document.getElementById("maxLat").value = String(Math.max.apply(null, lats));
+		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
+		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
+
 	}
 });
-
-//create a new dictionary for feature colors
-let dictionary = new Map();
-
-var URLpart0 ="http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=";
-var URLpart1="&maxLat=";
-var URLpart2="&minLong=";
-var URLpart3="&maxLong=";
-
-
-var firstCoor; // saves the coordinate of the first ctrl+click
-var polygon; // The rectangle that is drawn
-var URLcoordinates; // the coordinates of the rectangle
-
 
 
 
 // load data from the coordinates
 function getDataFromCoords(){
+   URLcoordinates = 	URLpart0 + document.getElementById("minLat").value +
+							URLpart1 + document.getElementById("maxLat").value +
+							URLpart2 + document.getElementById("minLong").value + 
+							URLpart3 + document.getElementById("maxLong").value;			
 	loadDataFrom(URLcoordinates);
+	var button = document.getElementById("validateCoordinates");
+	button.textContent = "loading...";
+	button.disabled = true;
 }
 
 function drawRectangleFromInput(){
@@ -117,7 +133,12 @@ function addSeabedLayer(json){
 
 
 function loadDataFrom(url){
-	$.getJSON(url, addSeabedLayer);
+	$.getJSON(url, function(json){ 
+		var button = document.getElementById("validateCoordinates");
+		button.textContent = "Get data";
+		button.disabled = false;
+		addSeabedLayer(json); 
+	});
 }
 
 
