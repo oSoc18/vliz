@@ -150,8 +150,16 @@ function geodesicArea(latLngs) {
 }
 
 
+// load data from the coordinates
 function getDataFromCoords(){
+   URLcoordinates = 	URLpart0 + document.getElementById("minLat").value +
+							URLpart1 + document.getElementById("maxLat").value +
+							URLpart2 + document.getElementById("minLong").value + 
+							URLpart3 + document.getElementById("maxLong").value;			
 	loadDataFrom(URLcoordinates);
+	var button = document.getElementById("validateCoordinates");
+	button.textContent = "loading...";
+	button.disabled = true;
 }
 
 function getStatistics(){
