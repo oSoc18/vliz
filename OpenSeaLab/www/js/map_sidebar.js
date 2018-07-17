@@ -44,47 +44,6 @@ map.on({
 	}
 });
 
-
-
-
-function drawRectangleFromInput(){
-	var minLat = document.getElementById('minLat').value;
-	var minLng = document.getElementById('minLong').value;
-	var maxLat = document.getElementById('maxLat').value;
-	var maxLng = document.getElementById('maxLong').value;
-
-	firstCoor = L.latLng(minLat, minLng);
-	var lastCoor = L.latLng(maxLat, maxLng);
-	if(polygon != null){
-		map.removeLayer(polygon);
- 	}
-	polygon = L.polygon([
-				    firstCoor,
-				    [firstCoor.lat, lastCoor.lng],
-				    lastCoor,
-				    [lastCoor.lat, firstCoor.lng]
-				]);
-	polygon.addTo(map);
-}
-
-
-function randomHex() {
-	var hexNumbers = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
-	// picking a random item of the array
-	return hexNumbers[Math.floor(Math.random() * hexNumbers.length)];
-}
-
-
-// Genarates a Random Hex color
-function hexGenerator() {
-    hexValue = ['#'];
-    for (var i = 0; i < 6; i += 1) {
-        hexValue.push(randomHex());
-    }
-    return hexValue.join('');
-}
-
-
 function getStyle(feature){
    var clr;
 	if(dictionary.has(feature.properties.WEB_CLASS)){
