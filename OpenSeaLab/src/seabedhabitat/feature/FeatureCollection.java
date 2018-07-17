@@ -35,9 +35,9 @@ public class FeatureCollection {
 		result.append("{ \"type\": \"FeatureCollection\", \"features\": \n [");
 		for (Feature f : features) {
 			result.append(f.toGeoJSON());
-			result.append(", ");
+			result.append(", \n");
 		}
-		result.delete(result.length() - 2, result.length());
+		result.delete(result.length() - 3, result.length());
 		return result.append("]\n}").toString();
 	}
 

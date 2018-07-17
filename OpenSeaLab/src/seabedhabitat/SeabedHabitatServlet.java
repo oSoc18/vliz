@@ -87,7 +87,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 			// LOGGER.fine("Trying to get " + f.toPath());
 			System.out.println("Trying to get " + f.toPath());
 			Files.copy(f.toPath(), sos);
-			// sos.flush();
+			sos.flush();
 		} catch (Exception exc) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
