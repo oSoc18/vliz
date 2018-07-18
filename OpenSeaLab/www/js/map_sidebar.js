@@ -10,13 +10,16 @@ var loadedLayer = undefined;
 //create a new dictionary for feature colors
 let dictionary = new Map();
 
+// layer source http://portal.emodnet-bathymetry.eu/services/#wms
+let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
+
 var URLpart0 ="http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=";
 var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 
 L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
-    layers: 'mean_rainbowcolour', transparent: true,
+    layers: 'contours', transparent: true,
     format: 'image/png'
 }).addTo(map);
 
