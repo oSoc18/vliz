@@ -115,10 +115,10 @@ header {
   margin: 1.2rem;
 }
 
-.main {
+/* .main {
   width: 100vw;
   height: 85vh;
-}
+} */
 
 .map {
   display: flex;
@@ -220,9 +220,9 @@ header {
   visibility: hidden;
 }
 
-main {
+/* main {
   display: flex;
-}
+} */
 
 .tabs {
   display: flex;
@@ -303,10 +303,10 @@ h5 {
 
 @media (max-width: 750px) {
 
-  main {
+  /* main {
     flex-direction: column;
     height: auto;
-  }
+  } */
 
   .map {
     order: 2;

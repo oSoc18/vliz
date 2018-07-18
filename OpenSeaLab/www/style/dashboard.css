@@ -40,7 +40,7 @@ body {
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
-    /*top: 51px;*/ 
+    /*top: 51px;*/
     top: 50px;
     bottom: 0;
     left: 0;
@@ -80,7 +80,7 @@ body {
  * Main content
  */
 
-.main {
+/* .main {
   padding: 0px;
   height:100vh;
 }
@@ -92,7 +92,7 @@ body {
 }
 .main .page-header {
   margin-top: 0;
-}
+} */
 
 /*
  * input-container with icon
@@ -100,8 +100,8 @@ body {
 
 #input-container {
     /*max-width: 500px; */
-    text-align: center; 
-    display: inline-block; 
+    text-align: center;
+    display: inline-block;
     width: 100%;
 }
 
@@ -109,14 +109,14 @@ body {
     position: relative;
 }
 .right-inner-addon input {
-    padding-right: 30px;    
+    padding-right: 30px;
 }
 .right-inner-addon i {
     position: absolute;
     right: 0px;
     padding: 10px 12px;
     pointer-events: none;
-}  
+}
 
 
 /*

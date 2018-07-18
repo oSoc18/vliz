@@ -131,57 +131,12 @@ Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
   <section class="map">
     <div class="container-fluid">
       <div class="row">
-        <div id="mySidenav" class="sidenavResponsive">
-          <div class="col-sm-6">
-            <h3>Data sources</h3>
-            <br>
-            <button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)">Bathymetry</button>
-            <div class="content">
-              <div class="dropdown-container">
-                <input type="checkbox" id="Bathymetry-opt1" />Mean depth<br>
-                <input type="checkbox" id="Bathymetry-opt2" />Coastal Areas<br>
-                <input type="checkbox" id="Bathymetry-opt3" />Depth contours<br>
-                <input type="checkbox" id="Bathymetry-opt4" />Source references<br>
-              </div>
-            </div>
-            <button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)">Seabed Habitats</button>
-            <div class="content">
-              <div class="dropdown-container">
-                <input type="checkbox" id="Seabed1" />Broad-Scale Predictive Habitat Map<br>
-                <input type="checkbox" id="Seabed2" />Broad-Scale Predictive Habitat Map- Confidence<br>
-                <input type="checkbox" id="Seabed3" />Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
-              </div>
-            </div>
-            <div id="statsOutput"> </div>
-          </div>
-          <div class="col-sm-6">
 
-            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <h3>Filters</h3>
-            <br>
-            <br>
-            <p id="AddFilter"> Select a layer to view filters</p>
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6 main">
+          <div id="responsive-main">
+            <span style="font-size:30px;cursor:pointer;"onclick="openNav()">&#10096;</span>
           </div>
 
-          <div class="Summary">
-            <div id="myNav" class="overlay">
-              <a href="javascript:void(0)" class="closebtn" onclick="closeNavSum()">&times;</a>
-              <h3>Summary</h3>
-              <br>
-              <p>select an area on the map to receive data</p>
-              <br>
-              <button class="btn"><i class="fa fa-download"></i>Downdload report</button>
-            </div>
-            <span style="font-size:30px;cursor:pointer;margin-top:100px" onclick="openNavSum()">&#9776; summary</span>
-          </div>
-
-        </div>
-
-        <div id="responsive-main">
-          <span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNav()">&#10096;</span>
-        </div>
-
-        <div class="col-sm-12 main">
           <div id="map" class="actual-map">
             <!-- Map Space -->
             <div class="map">
@@ -193,7 +148,7 @@ Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
                 </form>
                 <div class="coordinates">
 
-                  <div class="row coordinates-container" >
+                  <div class="row coordinates-container">
                     <div class="container">
                       <h5>Latitude: </h5>
                       <div class="col-sm-4">
@@ -228,6 +183,57 @@ Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
             </div>
           </div>
         </div>
+
+        <div id="mySidenav" class="col-sm-6 col-lg-6 sidenavResponsive">
+
+          <div class="row">
+            <div class="col-sm-6">
+              <h3>Data sources</h3>
+              <br>
+              <button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)">Bathymetry</button>
+              <div class="content">
+                <div class="dropdown-container">
+                  <input type="checkbox" id="Bathymetry-opt1" />Mean depth<br>
+                  <input type="checkbox" id="Bathymetry-opt2" />Coastal Areas<br>
+                  <input type="checkbox" id="Bathymetry-opt3" />Depth contours<br>
+                  <input type="checkbox" id="Bathymetry-opt4" />Source references<br>
+                </div>
+              </div>
+              <button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)">Seabed Habitats</button>
+              <div class="content">
+                <div class="dropdown-container">
+                  <input type="checkbox" id="Seabed1" />Broad-Scale Predictive Habitat Map<br>
+                  <input type="checkbox" id="Seabed2" />Broad-Scale Predictive Habitat Map- Confidence<br>
+                  <input type="checkbox" id="Seabed3" />Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
+                </div>
+              </div>
+              <div id="statsOutput"> </div>
+            </div>
+
+            <div class="col-sm-6">
+              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+              <h3>Filters</h3>
+              <br>
+              <br>
+              <p id="AddFilter"> Select a layer to view filters</p>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 Summary">
+              <div id="myNav" class="overlay">
+                <a href="javascript:void(0)" class="closebtn" onclick="closeNavSum()">&times;</a>
+                <h3>Summary</h3>
+                <br>
+                <p>select an area on the map to receive data</p>
+                <br>
+                <button class="btn"><i class="fa fa-download"></i>Downdload report</button>
+              </div>
+              <span style="font-size:30px;cursor:pointer;margin-top:100px" onclick="openNavSum()">&#9776; summary</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
