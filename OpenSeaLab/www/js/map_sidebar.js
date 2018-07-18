@@ -34,7 +34,8 @@ map.on({
 		document.getElementById("maxLat").value = String(Math.max.apply(null, lats));
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
-
+		getStatistics();
+		getDataFromCoords();
 	}
 });
 
