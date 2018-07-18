@@ -35,6 +35,9 @@ map.on({
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
+		getStatistics();
+		getDataFromCoords();
+
 	}
 });
 
@@ -142,6 +145,8 @@ function drawRectangleFromInput(){
 				]);
 	polygon.addTo(map);
 	URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;
+
+
 }
 
 function getStatistics(){
