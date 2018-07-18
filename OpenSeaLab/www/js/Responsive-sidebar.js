@@ -11,7 +11,7 @@ function closeNav() {
 }
 function openNavSum() {
     document.getElementById("myNav").style.height = "30%";
-	document.getElementById("myNav").style.width = "500px";
+	document.getElementById("myNav").style.width = "700px";
 }
 
 function closeNavSum() {
