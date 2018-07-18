@@ -39,7 +39,9 @@ public class Feature {
 		sb.append(type);
 		sb.append("\", \"bbox\": [");
 		sb.append(bbox[0].getLat()+","+bbox[0].getLon()+","+bbox[1].getLat()+","+bbox[1].getLon()+ "],");
+		sb.append("\n");
 		sb.append(geometry.toGeoJSON());
+		sb.append("\n");
 		sb.append(", \"properties\": { ");
 		for(Map.Entry<String, Object> entries : properties.entrySet()) {
 			if(entries.getValue() instanceof String) {

@@ -93,11 +93,13 @@ public class SeabedHabitatDAO {
 			process(bbox, statsPath, geojsonPath, type);
 		}
 		return new File(pathname);
+
 	}
 
 	private void process(Rectangle bbox, Path statsPath, Path geojsonPath, String type) {
 		try {
 			FeatureCollection fc = fetch(bbox, type);
+			fc = fc.clippedWith(bbox);
 			String stats = calculateStatistics(fc, bbox);
 			store(fc.toGeoJSON(), geojsonPath);
 			store(stats, statsPath);
@@ -139,7 +141,7 @@ public class SeabedHabitatDAO {
 		for (Feature f : features) {
 			Geometry geo = f.getGeometry().clippedWith(r);
 			Map<String, Object> m = f.getProperties();
-			String name = (String) m.get("AllcombD");
+			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
 			Double s = sums.get(name);
 			if (s == null) {
 				sums.put(name, geo.surfaceArea());

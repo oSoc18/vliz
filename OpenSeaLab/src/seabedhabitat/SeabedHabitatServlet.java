@@ -102,6 +102,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 			resp.setCharacterEncoding("UTF-8");
 			LOGGER.fine("Trying to get " + f.toPath());
 			Files.copy(f.toPath(), sos);
+			sos.flush();
 		} catch (Exception exc) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
