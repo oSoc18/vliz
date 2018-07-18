@@ -19,12 +19,9 @@ var URLpart3="&maxLong=";
 
 map.on({
 	'draw:created': function (event) {
-		console.log("Drawing started");
 		rectangle = event.layer;
-		console.log(rectangle);
 	},
 	'draw:drawstop': function (event) {
-		console.log(rectangle.getLatLngs());
 		rectangle.addTo(map);
 
 		var coors = rectangle.getLatLngs()[0];
@@ -62,9 +59,8 @@ function prepFeature(feature, layer){
 	var list = "<dd>" + feature.properties.Allcomb + "</dd>"
 			+ "<dt>Area : </dt>"
 			+ seaArea ;
-	popupOptions = {maxWidth: 200};
-                
-	layer.bindPopup( list.toString(), popupOptions );  
+ 
+	layer.bindPopup("Hi" );  
 }
 
 function addSeabedLayer(json){
@@ -151,7 +147,6 @@ function loadStatsFrom(url){
 		div.innerHTML = "";
 
 		JSON.parse(JSON.stringify(json), function (key, value) {
-			console.log("adding " + key); 
 			div.innerHTML += String(value).substring(0,8) + "    " + key  +"<br>";
 		});
 	} );
@@ -217,7 +212,6 @@ function getStatistics(){
 
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
 	var button = document.getElementById("validateStats");
-	console.log("333" +button.textContent);
 	button.textContent = "loading...";
 	button.disabled = true;
 	loadStatsFrom(statsURLcoordinates);
@@ -241,9 +235,7 @@ function clearRect(){
 }
 
 function loadStatsFrom(url){
-	console.log(url);
 	$.get(url, function(json){
-		console.log("finished ---");
 		console.log(json);
 	});
 }
