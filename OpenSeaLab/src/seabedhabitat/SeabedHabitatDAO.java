@@ -69,7 +69,7 @@ public class SeabedHabitatDAO {
 		if (!Files.exists(p)) {
 			Path statsPath = FileSystems.getDefault()
 					.getPath(cacheDir + "/" + statPattern.replace("{id}", id));
-			process(bbox, statsPath, p, type);
+			process(bbox.extendRectangle(), statsPath, p, type);
 		}
 		return new File(pathname);
 	}
@@ -99,8 +99,11 @@ public class SeabedHabitatDAO {
 	private void process(Rectangle bbox, Path statsPath, Path geojsonPath, String type) {
 		try {
 			FeatureCollection fc = fetch(bbox, type);
-			fc = fc.clippedWith(bbox);
-			String stats = calculateStatistics(fc, bbox);
+			
+			Map<String, Double> percentages = 
+					fc.clippedWith(bbox).calculatePercentages();
+			String stats = new Genson().serialize(percentages);
+					
 			store(fc.toGeoJSON(), geojsonPath);
 			store(stats, statsPath);
 		} catch (IOException | SAXException | ParserConfigurationException e) {
@@ -110,6 +113,15 @@ public class SeabedHabitatDAO {
 		}
 	}
 
+	/**
+	 * Gets the data from the WMS
+	 * @param bbox
+	 * @param type
+	 * @return
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
 	private FeatureCollection fetch(Rectangle bbox, String type)
 			throws SAXException, IOException, ParserConfigurationException {
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
@@ -142,12 +154,10 @@ public class SeabedHabitatDAO {
 			Geometry geo = f.getGeometry().clippedWith(r);
 			Map<String, Object> m = f.getProperties();
 			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
-			Double s = sums.get(name);
-			if (s == null) {
-				sums.put(name, geo.surfaceArea());
-			} else {
-				sums.put(name, sums.get(name) + geo.surfaceArea());
-			}
+			Double s = sums.getOrDefault(name, 0.0);
+			
+			sums.put(name, s + geo.surfaceArea());
+			
 			sum += geo.surfaceArea();
 		}
 
@@ -155,9 +165,15 @@ public class SeabedHabitatDAO {
 			double d = entries.getValue() / sum * 100;
 			percentages.put(entries.getKey(), d);
 		}
-		return new Genson().serialize(percentages);
+		return ;
 	}
 
+	/**
+	 * Caches the given data
+	 * @param data
+	 * @param p
+	 * @throws IOException
+	 */
 	private void store(String data, Path p) throws IOException {
 		Path cache = FileSystems.getDefault().getPath(cacheDir);
 		if (!Files.exists(cache) || !Files.isDirectory(cache)) {

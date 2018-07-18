@@ -63,16 +63,12 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
 			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
-			return;
 		} catch (FatalException f) {
 			LOGGER.log(Level.INFO, f.getMessage(), f);
-
-			return;
 		} catch (Exception e) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
 			sendError(resp, "Something happened, we can't respond to your request.",
 					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return;
 		}
 
 	}
@@ -84,15 +80,12 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
 			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
-			return;
 		} catch (FatalException f) {
 			LOGGER.log(Level.INFO, f.getMessage(), f);
-			return;
 		} catch (Exception e) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
 			sendError(resp, "Something happened, we can't respond to your request.",
 					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			return;
 		}
 	}
 

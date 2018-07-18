@@ -1,7 +1,9 @@
 package seabedhabitat.feature;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FeatureCollection {
 	private final List<Feature> features;
@@ -56,4 +58,33 @@ public class FeatureCollection {
 		}
 		return new FeatureCollection(features);
 	}
+
+	/**
+	 * Will calculate the total area of each kind of surface and save that into
+	 * 'totalsToBeFilled'. The total surface is returned
+	 * 
+	 * @return
+	 */
+	public double calculateTotals(Map<String, Double> totalsToBeFilled) {
+		double totalArea = 0;
+		for (Feature f : features) {
+			Geometry geo = f.getGeometry();
+			Map<String, Object> m = f.getProperties();
+			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
+			Double s = totalsToBeFilled.getOrDefault(name, 0.0);
+			totalsToBeFilled.put(name, s + geo.surfaceArea());
+			totalArea += geo.surfaceArea();
+		}
+		return totalArea;
+	}
+
+	public Map<String, Double> calculatePercentages() {
+		Map<String, Double> totals = new HashMap<>();
+		double total = calculateTotals(totals);
+		for (String k : totals.keySet()) {
+			totals.put(k, 100 * totals.get(k) / total);
+		}
+		return totals;
+	}
+
 }
