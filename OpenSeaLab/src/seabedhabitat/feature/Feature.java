@@ -67,6 +67,9 @@ public class Feature {
 		Feature f=  new Feature();
 		f.bbox = r.asBBox();
 		f.geometry = this.geometry.clippedWith(r);
+		if(f.geometry == null) {
+			return null;
+		}
 		f.properties = this.properties;
 		return f;
 	}

@@ -2,6 +2,7 @@ package seabedhabitat;
 
 import java.io.File;
 
+import seabedhabitat.feature.FeatureCollection;
 import seabedhabitat.feature.Rectangle;
 
 public class UCCSeabedHabitat {
@@ -26,8 +27,8 @@ public class UCCSeabedHabitat {
 	 *            layer type
 	 * @return geojson file
 	 */
-	public File getGeoJSON(Rectangle bbox, String type) {
-		return seabedHabitatDAO.getGeoJson(bbox, type);
+	public FeatureCollection getFeatures(Rectangle bbox, String type) {
+		return seabedHabitatDAO.getFeatures(bbox, type);
 	}
 
 	/**
@@ -39,7 +40,7 @@ public class UCCSeabedHabitat {
 	 *            layer type
 	 * @return json file
 	 */
-	public File getStats(Rectangle bbox, String type) {
+	public String getStats(Rectangle bbox, String type) {
 		return seabedHabitatDAO.getStats(bbox, type);
 	}
 }

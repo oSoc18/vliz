@@ -24,22 +24,24 @@ public class Main {
 		try {
 			LOGGER.info("Loading app configuration...");
 			AppContext appContext = new AppContext();
-			appContext.configLogger("log.properties");
+			AppContext.configLogger("log.properties");
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
 			SeabedHabitatDAO seabedHabitatDAO = new SeabedHabitatDAO(appContext.getProperty("seabedURL"),
-					appContext.getProperty("default-type"), appContext.getProperty("cache-dir"),
-					appContext.getProperty("seabed-data"), appContext.getProperty("seabed-stat"));
+					appContext.getProperty("default-type"));
 			BathymetryDAO bathymetryDAO = new BathymetryDAO(appContext.getProperty("bathymetryURL"),
 					appContext.getProperty("cache-dir"), appContext.getProperty("bathymetry-stat"));
 			UCCSeabedHabitat uccSeabedHabitat = new UCCSeabedHabitat(seabedHabitatDAO);
 			UCCBathymetry uccBathymetry = new UCCBathymetry(bathymetryDAO);
-			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat,uccBathymetry);
+			
+			CachingManager cm = new CachingManager(appContext.getProperty("cache-dir"), appContext.getProperty("seabed-data"));
+			
+			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat,uccBathymetry, cm, appContext.getProperty("default-type"));
 		} catch (Exception exc) {
 			LOGGER.log(Level.SEVERE, "App configuration failed !", exc);
 		}
 	}
 
-	private static void startServer(int port, UCCSeabedHabitat uccSeabedHabit, UCCBathymetry uccBathymetry)
+	private static void startServer(int port, UCCSeabedHabitat uccSeabedHabit, UCCBathymetry uccBathymetry, CachingManager cm, String defaultType)
 			throws Exception {
 		LOGGER.info("Starting the server...");
 		Server server = new Server(port);
@@ -47,7 +49,7 @@ public class Main {
 
 		context.setResourceBase("www");
 
-		HttpServlet seabedServlet = new SeabedHabitatServlet(uccSeabedHabit);
+		HttpServlet seabedServlet = new SeabedHabitatServlet(uccSeabedHabit, cm, defaultType);
 		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");

@@ -1,11 +1,12 @@
 package seabedhabitat.feature;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FeatureCollection {
+public class FeatureCollection implements Serializable{
 	private final List<Feature> features;
 	private Point[] bbox = new Point[2];
 
@@ -86,5 +87,7 @@ public class FeatureCollection {
 		}
 		return totals;
 	}
+	
+	
 
 }

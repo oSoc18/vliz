@@ -1,6 +1,12 @@
 package main;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
@@ -10,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.FatalException;
+import seabedhabitat.feature.FeatureCollection;
 import seabedhabitat.feature.Rectangle;
 
 public class CachingManager {
@@ -37,15 +44,35 @@ public class CachingManager {
 		}
 	}
 
+	public void store(Serializable ser, Rectangle bbox, String type) {
+		Path p = getPath(bbox, type);
+		try (ObjectOutputStream fileOut = new XMLObjectOutputStream(new FileOutputStream(new File(p.toString())))) {
+			fileOut.writeObject(ser);
+			fileOut.flush();
+		} catch (Exception e) {
+			throw new FatalException(e);
+		}
+	}
+
+	public FeatureCollection restore(Rectangle bbox, String type) {
+		try (ObjectInputStream in = new ObjectInputStream(
+				new FileInputStream(new File(getPath(bbox, type).toString())))) {
+			return (FeatureCollection) in.readObject();
+		} catch (Exception e) {
+			System.out.println("Could not laod "+getPath(bbox, type));
+			throw new FatalException(e);
+		}
+	}
+
 	public void store(String data, Rectangle bbox) {
 		store(data, bbox, null);
 	}
 
-	private Path getPath(Rectangle bbox, String type) {
+	public Path getPath(Rectangle bbox, String type) {
 		return FileSystems.getDefault().getPath(cache + "/" + pattern.replace("{id}", getId(bbox, type)));
 	}
 
-	private String getId(Rectangle bbox, String type) {
+	private static String getId(Rectangle bbox, String type) {
 		if (type == null) {
 			type = "";
 		} else {
@@ -54,8 +81,8 @@ public class CachingManager {
 		return type + bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLon();
 	}
 
-	public boolean isInCache(Path p) {
-		return Files.exists(p);
+	public boolean isInCache(Rectangle bbox, String type) {
+		return Files.exists(getPath(bbox, type));
 	}
 
 }

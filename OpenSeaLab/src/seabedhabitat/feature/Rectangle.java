@@ -1,7 +1,5 @@
 package seabedhabitat.feature;
 
-import exceptions.BizzException;
-
 public class Rectangle extends Geometry {
 
 	private final double minLat, minLon, maxLat, maxLon;
@@ -93,7 +91,10 @@ public class Rectangle extends Geometry {
 	 *            maximum longitude
 	 */
 	public Rectangle extendRectangle() {
-		return new Rectangle(Math.floor(this.minLat), Math.floor(this.minLon), Math.ceil(this.maxLat),
+		return new Rectangle(
+				Math.floor(this.minLat), 
+				Math.floor(this.minLon), 
+				Math.ceil(this.maxLat),
 				Math.ceil(this.maxLon));
 	}
 }

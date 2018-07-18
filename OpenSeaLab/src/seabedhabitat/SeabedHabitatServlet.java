@@ -1,8 +1,10 @@
 package seabedhabitat;
 
-import java.io.File;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -15,15 +17,24 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 
 import exceptions.BizzException;
 import exceptions.FatalException;
+import main.CachingManager;
 import main.Util;
+import seabedhabitat.feature.FeatureCollection;
+import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatServlet.class.getName());
-	private UCCSeabedHabitat seabedHabitatUCC;
+	private final UCCSeabedHabitat seabedHabitatUCC;
 
-	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC) {
+	private final CachingManager cm;
+	private final String defaultType;
+
+	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC, CachingManager cm, String defaultType) {
 		this.seabedHabitatUCC = seabedHabitatUCC;
+		this.cm = cm;
+		this.defaultType = defaultType;
+
 	}
 
 	@Override
@@ -50,15 +61,36 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		}
 	}
 
+
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			File geoJSON  = seabedHabitatUCC.getGeoJSON(Util.getBBox(req), req.getParameter("type"));
-			responseJSON(geoJSON, resp);
+			
+			Rectangle bbox = Util.getBBox(req);
+			
+			/*
+			 * By extending the bbox, rectangles will have a bigger chance of being the same
+			 * This way, caching works more reliably
+			 */
+			Rectangle extended = bbox.extendRectangle();
+			
+			String type=  req.getParameter("type");
+			if(cm.isInCache(extended, type)) {
+				FeatureCollection fc = cm.restore(extended, type);
+				fc = fc.clippedWith(bbox);
+				responseFromString(fc.toGeoJSON(), resp);
+			}else {
+				FeatureCollection fc = seabedHabitatUCC.getFeatures(extended, type);
+				cm.store(fc.toGeoJSON(), extended);
+				responseFromString(fc.clippedWith(bbox).toGeoJSON(), resp);
+			}
+			
+			
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
 			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
 		} catch (FatalException f) {
 			LOGGER.log(Level.INFO, f.getMessage(), f);
+			sendError(resp, "Something went wrong: "+f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
 			sendError(resp, "Something happened, we can't respond to your request.",
@@ -69,8 +101,15 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			File stats = seabedHabitatUCC.getStats(Util.getBBox(req), req.getParameter("type"));
-			responseJSON(stats, resp);
+			
+			Rectangle bbox = Util.getBBox(req);
+			String type = req.getParameter("type");
+			String stats = seabedHabitatUCC.getStats(bbox, type == null ? defaultType : type);
+			responseFromString(stats, resp);
+			
+			
+			
+			
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
 			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
@@ -80,18 +119,6 @@ public class SeabedHabitatServlet extends DefaultServlet {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
 			sendError(resp, "Something happened, we can't respond to your request.",
 					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
-
-	private static void responseJSON(File f, HttpServletResponse resp) {
-		try (ServletOutputStream sos = resp.getOutputStream()) {
-			resp.setContentType("application/json");
-			resp.setCharacterEncoding("UTF-8");
-			LOGGER.fine("Trying to get " + f.toPath());
-			Files.copy(f.toPath(), sos);
-			sos.flush();
-		} catch (Exception exc) {
-			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
 	}
 
@@ -103,5 +130,17 @@ public class SeabedHabitatServlet extends DefaultServlet {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
 	}
+	
+	private static void responseFromString(String data, HttpServletResponse resp) {
+		try (BufferedWriter sos = new BufferedWriter(new OutputStreamWriter(resp.getOutputStream()))) {
+			resp.setContentType("application/json");
+			resp.setCharacterEncoding("UTF-8");
+			sos.write(data);
+			sos.flush();
+		} catch (Exception exc) {
+			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
+		}
+	}
+
 
 }
