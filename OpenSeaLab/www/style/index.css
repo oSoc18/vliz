@@ -43,7 +43,6 @@ time, mark, audio, video {
     background-color: #f1f1f1;
 }
 
-<<<<<<< HEAD
 header {
   width: 100vw;
   height: 15vh;
@@ -311,7 +310,7 @@ main {
     height: 100%;
   }
 }
-=======
+
 .seaBedColorSquare {
 
   width: 20px;
@@ -319,5 +318,3 @@ main {
   margin: 5px;
   border: 1px solid rgba(0, 0, 0, .2);
 }
-
->>>>>>> master
