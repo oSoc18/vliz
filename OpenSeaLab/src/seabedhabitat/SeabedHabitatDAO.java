@@ -39,11 +39,11 @@ public class SeabedHabitatDAO {
 
 	/**
 	 * Constructs a data object access that manages everything linked to pure data. 
-	 * @param url
-	 * @param defaultType
-	 * @param cacheDir
-	 * @param dataPattern
-	 * @param statPattern
+	 * @param url webservice url
+	 * @param defaultType type name of the seabed habitat
+	 * @param cacheDir directory of cached files
+	 * @param dataPattern geojson files pattern
+	 * @param statPattern stat files pattern
 	 */
 	public SeabedHabitatDAO(String url, String defaultType, String cacheDir, String dataPattern, String statPattern) {
 		this.url = url;
@@ -53,6 +53,12 @@ public class SeabedHabitatDAO {
 		this.defaultType = defaultType;
 	}
 
+	/**
+	 * Fetchs, saves and returns a geojson file.
+	 * @param bbox bounding box
+	 * @param type seabed habitat type
+	 * @return geojson file
+	 */
 	public File getGeoJson(Rectangle bbox, String type) {
 		if (type == null || type.isEmpty())
 			type = defaultType;
@@ -67,7 +73,13 @@ public class SeabedHabitatDAO {
 		}
 		return new File(pathname);
 	}
-
+	
+	/**
+	 * Fetchs, saves and returns statistics in json format.
+	 * @param bbox bounding box
+	 * @param type seabed habitat type
+	 * @return a file of statistics
+	 */
 	public File getStats(Rectangle bbox, String type) {
 		if (type == null || type.isEmpty())
 			type = defaultType;

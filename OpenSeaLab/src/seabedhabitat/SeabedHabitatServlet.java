@@ -44,7 +44,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 				getStats(req, resp);
 				break;
 			default:
-				sendError(resp, "", HttpServletResponse.SC_NOT_FOUND);
+				sendError(resp, "Unknown action", HttpServletResponse.SC_NOT_FOUND);
 				break;
 			}
 		}
