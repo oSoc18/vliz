@@ -23,7 +23,7 @@ public class BathymetryDAO {
 		String baseurl = "http://rest.emodnet-bathymetry.eu/depth/profile?geom=LINESTRING";
 		String lineString = "";
 		SortedSet<Double> mins = new TreeSet<>(); // stores the minimum values
-		SortedSet<Double> maxs = new TreeSet<>(); // sotres the maximum values
+		SortedSet<Double> maxs = new TreeSet<>(); // stores the maximum values
 		int size = 0; // logical size
 		double sum = 0; // sum of all values
 		
