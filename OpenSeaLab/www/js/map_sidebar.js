@@ -19,9 +19,12 @@ var URLpart3="&maxLong=";
 map.on({
 	
 	'draw:created': function (event) {
+		console.log("Drawing started");
 		rectangle = event.layer;
+		console.log(rectangle);
 	},
 	'draw:drawstop': function (event) {
+		console.log(rectangle.getLatLngs());
 		rectangle.addTo(map);
 
 		var coors = rectangle.getLatLngs()[0];
@@ -48,27 +51,10 @@ function getStyle(feature){
 }
 
 function prepFeature(feature, layer){
-<<<<<<< HEAD
 	var list = feature.properties.Allcomb ;
 	popupOptions = {maxWidth: 200};
                 
-	layer.bindPopup( list.toString(), popupOptions );  
-=======
-	var seaarea = 0;
-	if(feature.geometry.type == "MultiPolygon"){
-		var i;
-		for(i = 0; i < feature.geometry.coordinates.length; i++) {
-			 seaArea = geodesicArea(layer.getLatLngs()[i]);
-		} 
-	}else{
-		seaArea = geodesicArea(layer.getLatLngs()); 		
-	}
-	var list = "<dd>" + feature.properties.Allcomb + "</dd>"
-			+ "<dt>Area : </dt>"
-			+ seaArea ;
- 
-	layer.bindPopup("Hi" );  
->>>>>>> master
+	layer.bindPopup( /*list.toString(), popupOptions*/ "hey" );  
 }
 
 function addSeabedLayer(json){
@@ -121,6 +107,8 @@ function getDataFromCoords(){
 	button.textContent = "loading...";
 	button.disabled = true;
 }
+
+
 
 function hashCode(str) { // java String#hashCode
     var hash = 0;
@@ -209,8 +197,11 @@ function clearRect(){
 	}
 }
 
+
+
 function isInt(value) {
   return !isNaN(value) && !isNaN(parseInt(value, 10));
+}
 
 function enableDrawing(){
 	clearRect();
