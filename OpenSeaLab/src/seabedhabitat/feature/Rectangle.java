@@ -1,16 +1,28 @@
 package seabedhabitat.feature;
 
+import exceptions.BizzException;
+
 public class Rectangle extends Geometry {
 
-	private final double minLat, minLon, maxLat, maxLon;
+	private double minLat, minLon, maxLat, maxLon;
 
 	public Rectangle(double minLat, double minLong, double maxLat, double maxLong) {
 		super("Polygon");
-		this.maxLat = maxLat;
-		this.minLat = minLat;
-		this.maxLon = maxLong;
-		this.minLon = minLong;
+		extendRectangle(minLat, minLong, maxLat, maxLong);
 
+	}
+	
+	public Rectangle(String minLat, String minLong, String maxLat, String maxLong) {
+		super("Polygon");
+		if (minLat == null || minLat.isEmpty() || minLong == null || minLong.isEmpty() || maxLong == null
+				|| minLong.isEmpty() || maxLat == null || maxLat.isEmpty()) {
+			throw new BizzException("Missing argument(s). Please check your coordinates.");
+		}
+		try {
+			extendRectangle(Double.parseDouble(minLat), Double.parseDouble(minLong), Double.parseDouble(maxLat), Double.parseDouble(maxLong));
+		} catch (NumberFormatException nfe) {
+			throw new BizzException("Please enter valid numbers.");
+		}
 	}
 
 	@Override
@@ -57,19 +69,28 @@ public class Rectangle extends Geometry {
 		return true;
 	}
 
-	@Override
-	public int getSurface() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public int getClippedSurface() {
-		throw new UnsupportedOperationException();
-	}
-	
-	
 	public Point[] asBBox() {
 		return new Point[] { new Point(minLat, minLon), new Point(maxLat, maxLon) };
 	}
 
+	private void extendRectangle(double minLat, double minLong, double maxLat, double maxLong) {
+		if (minLat > maxLat) {
+			double tempLat = minLat;
+
+			minLat = maxLat;
+			maxLat = tempLat;
+
+		}
+		if(maxLong < minLong) {
+			double temLon = maxLong;
+			
+			maxLong = minLong;
+			minLong = temLon;
+		}
+
+		this.minLat = Math.floor(minLat);
+		this.minLon = Math.floor(minLong);
+		this.maxLat = Math.ceil(maxLat);
+		this.maxLon = Math.ceil(maxLong);
+	}
 }
