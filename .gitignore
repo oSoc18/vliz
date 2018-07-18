@@ -6,6 +6,5 @@ Servers/*
 OpenSeaLab/bin/*
 OpenSeaLab/cache/*
 OpenSeaLab/www/.DS_Store
-.DS_Store
-.DS_Store
+**.DS_Store
 OpenSeaLab/www/map.html
