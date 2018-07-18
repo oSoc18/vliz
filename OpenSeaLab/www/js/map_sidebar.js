@@ -165,17 +165,27 @@ function loadStatsFrom(url){
 		button.disabled = false;
 
 		var div = document.getElementById('statsOutput');
+		var divInit = document.getElementById('statsInit');
+
 		div.innerHTML = "";
 		console.log(json);
 		JSON.parse(JSON.stringify(json), function (key, value) {
 			if(isInt(value)){
+
+				var y = document.createElement("div");
+				y.id = "wrapper";
+
 				var x = document.createElement("div");
 			    x.className = "seaBedColorSquare";
 				x.style.backgroundColor = "#"+ intToRGB(hashCode(key));
-
-			    x.innerHTML = (String(value).substring(0,8) + "    " + key);
+				
+				y.appendChild(x);
+				
+				var x1 = document.createElement("div");
+			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
 			    
-			   	div.appendChild(x);
+			    y.appendChild(x1);
+			   	div.insertBefore(y,divInit);
 			}
 			
 		});
