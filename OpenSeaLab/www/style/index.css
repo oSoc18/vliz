@@ -122,7 +122,7 @@ header {
 
 .map {
   display: flex;
-  width: 50vw;
+  width: 100vw;
   height: 85vh;
   justify-content: space-between;
   flex-direction: column;
@@ -152,7 +152,7 @@ header {
   background-color: white;
   justify-content: space-between;
   align-items: center;
-  z-index: 99;
+  z-index: 1;
   position: relative;
   box-shadow: 0 5px 20px 0 #678B9C;
   top: -15px;
