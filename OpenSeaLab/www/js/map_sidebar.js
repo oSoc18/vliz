@@ -1,4 +1,4 @@
-var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 8);
+var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 3);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
@@ -15,6 +15,10 @@ var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 
+L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+    layers: 'mean_rainbowcolour', transparent: true,
+    format: 'image/png'
+}).addTo(map);
 
 map.on({
 	
@@ -223,5 +227,17 @@ function enableDrawing(){
 	draw = new L.Draw.Rectangle(map);
 	draw.enable();
 }
+
+
+
+var layer = new ol.layer.Image({
+	extent: [-36, 25, 43, 85],
+	source: new ol.source.ImageWMS({
+		url: 'http://ows.emodnet-bathymetry.eu/wms',
+		// refer to the section layer name to find the name of the layer 
+		params: {'LAYERS': 'mean_atlas_land'}			
+	})
+}); 
+
 
 

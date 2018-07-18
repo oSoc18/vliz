@@ -35,3 +35,6 @@
     overflow: hidden; /* will contain if #first is longer than #second */
 }
 
+.leaflet-container {
+    background-color:rgba(255,0,0,0.0);
+}
