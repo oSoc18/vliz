@@ -21,7 +21,8 @@
 	<link href="style/leaflet.css" rel="stylesheet">
 	<link href="style/header.css" rel="stylesheet">
 	<link href="style/index.css" rel="stylesheet">
-
+	<link href="style/Responsive-sidebar.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	  <style type="text/css">
 
@@ -128,80 +129,111 @@
 <main>
 
 <section class="map">
-
-
-    <div id="map" class="actual-map">
-      <!-- Map Space -->
-      <div class="map">
-      <div class="input-tab">
-        <form class="search-bar">
-          <input type="text" placeholder="Country, sea, coördinates,...">
-          <button type="submit">
-          </button>
-        </form>
-        <div class="coordinates">
-
-					<div class="row coordinates-container" >
-						<div class="container">
-							<div class="col-sm-4">
-                <h5>Latitude: </h5>
-								Min	<input type="text" id="minLat" name="coordinates1" size= "6">
-								Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
+	<div class="container-fluid">
+		<div class="row">
+			<div id="mySidenav" class="sidenavResponsive">
+				<div class="col-sm-6">
+					<h3>Data sources</h3>
+					<br>
+					<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)">Bathymetry</button>
+						<div class="content">
+						 <div class="dropdown-container">
+									<input type="checkbox" id="Bathymetry-opt1" />Mean depth<br>
+									<input type="checkbox" id="Bathymetry-opt2" />Coastal Areas<br>
+									<input type="checkbox" id="Bathymetry-opt3" />Depth contours<br>
+									<input type="checkbox" id="Bathymetry-opt4" />Source references<br>
 							</div>
 						</div>
-						<div class="container">
-							<div class="col-sm-4">
-                <h5>Longitude: </h5>
-								Min	<input type="text" id="minLong" name="coordinates3" size= "6">
-								Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
+					<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)">Seabed Habitats</button>
+						<div class="content">
+							<div class="dropdown-container">
+									<input type="checkbox" id="Seabed1" />Broad-Scale Predictive Habitat Map<br>
+									<input type="checkbox" id="Seabed2" />Broad-Scale Predictive Habitat Map- Confidence<br>
+									<input type="checkbox" id="Seabed3" />Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
 							</div>
 						</div>
-            <div class="buttons">
-              <button  type="button" class="btn btn-default" onclick="enableDrawing()" >Select rectangle</button>
-              <button  type="button" class="btn btn-default" onclick="clearData()" >Clear data</button>
-              <button id="validateCoordinates" type="button" class="btn btn-default" onclick="getDataFromCoords()" >Get Data</button>
-              <button id="validateStats" type="button" class="btn btn-default" onclick="getStatistics()" >Get Stats</button>
-            </div class="buttons">
-        </div>
-      </div>
-      </div>
-      <div class="select-area">
-      </div>
-      <div class="map-attributes">
-        <div class="km">
-        </div>
-        <div class="zoom">
-        </div>
-      </div>
-    </div>
-  </div>
+						<div id="statsOutput"> </div>
+				</div>
+				<div class="col-sm-6">
 
+					<a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+					<h3>Filters</h3>
+					<br>
+					<br>
+					<p id="AddFilter"> Select a layer to view filters</p>
+					</div>
+
+				<div class="Summary">
+					<div id="myNav" class="overlay">
+						<a href="javascript:void(0)" class="closebtn" onclick="closeNavSum()">&times;</a>
+						<h3>Summary</h3>
+						<br>
+						<p>select an area on the map to receive data</p>
+						<br>
+						<button class="btn"><i class="fa fa-download"></i>Downdload report</button>
+					</div>
+					<span style="font-size:30px;cursor:pointer;margin-top:100px" onclick="openNavSum()">&#9776; summary</span>
+				</div>
+
+			</div>
+
+			<div id="responsive-main">
+				<span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNav()">&#10096;</span>
+			</div>
+	</div>
+
+		<div class="col-sm-12 main">
+			<div id="map" class="actual-map">
+			  <!-- Map Space -->
+			  <div class="map">
+			  <div class="input-tab">
+				<form class="search-bar">
+				  <input type="text" placeholder="Country, sea, coördinates,...">
+				  <button type="submit">
+				  </button>
+				</form>
+				<div class="coordinates">
+
+							<div class="row coordinates-container" >
+								<div class="container">
+									<h5>Latitude: </h5>
+									<div class="col-sm-4">
+										Min	<input type="text" id="minLat" name="coordinates1" size= "6">
+										Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
+									</div>
+								</div>
+								<div class="container">
+									<h5>Longitude: </h5>
+									<div class="col-sm-4">
+										Min	<input type="text" id="minLong" name="coordinates3" size= "6">
+										Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
+									</div>
+								</div>
+					<div class="buttons">
+					  <button  type="button" class="btn btn-default" onclick="enableDrawing()" >Select rectangle</button>
+					  <button  type="button" class="btn btn-default" onclick="clearData()" >Clear data</button>
+					  <button id="validateCoordinates" type="button" class="btn btn-default" onclick="getDataFromCoords()" >Get Data</button>
+					  <button id="validateStats" type="button" class="btn btn-default" onclick="getStatistics()" >Get Stats</button>
+					</div class="buttons">
+				</div>
+			  </div>
+			  </div>
+			  <div class="select-area">
+			  </div>
+			  <div class="map-attributes">
+				<div class="km">
+				</div>
+				<div class="zoom">
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+
+</div>
+</div>
 
 </section>
-
-
-
-
-<section class="tabs">
-  <div class="tabs-container">
-    <div class="data-sources">
-
-
-
-
-
-
-    </div>
-    <div class="filter">
-
-    </div>
-  </div>
-  <div class="summary">
-  </div>
-</section>
-
-
-
 
 </main>
 
@@ -214,6 +246,8 @@
 	<script src="js/map_sidebar.js"></script>
 	<script src="js/leaflet.ajax.min"></script>
 	<script src="js/GeometryUtil.js"></script>
+	<script src="js/Responsive-sidebar.js"></script>
+	<script src="js/filters.js"></script>
 
 	<script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 	<script src="https://raw.github.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
