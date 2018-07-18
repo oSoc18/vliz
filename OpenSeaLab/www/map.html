@@ -56,21 +56,21 @@
 				<div class="col-sm-6">			
 					<h3>Data sources</h3>
 					<br>
-					<button class="collapsible">Bathymetry</button>
+					<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)">Bathymetry</button>
 						<div class="content">
 						 <div class="dropdown-container">
-									<input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
-									<input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
-									<input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
-									<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
+									<input type="checkbox" id="Bathymetry-opt1" />Mean depth<br>
+									<input type="checkbox" id="Bathymetry-opt2" />Coastal Areas<br>
+									<input type="checkbox" id="Bathymetry-opt3" />Depth contours<br>
+									<input type="checkbox" id="Bathymetry-opt4" />Source references<br>
 							</div>
 						</div>
-					<button class="collapsible">Seabed Habitats</button>
+					<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)">Seabed Habitats</button>
 						<div class="content">
 							<div class="dropdown-container">
-									<input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
-									<input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
-									<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
+									<input type="checkbox" id="Seabed1" />Broad-Scale Predictive Habitat Map<br>
+									<input type="checkbox" id="Seabed2" />Broad-Scale Predictive Habitat Map- Confidence<br>
+									<input type="checkbox" id="Seabed3" />Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
 							</div>
 						</div>					
 				</div>
@@ -80,24 +80,26 @@
 					<h3>Filters</h3>
 					<br>
 					<br>
-					<p> Select a layer to view filters</p>
-					
+					<p id="AddFilter"> Select a layer to view filters</p>					
 					</div>
 					
 				<div class="Summary">
-					<h3>Summary</h3>
-					<br>
-					<p>select an area on the map to receive data</p>
-					<button class="btn"><i class="fa fa-download"></i>Downdload report</button>				
+					<div id="myNav" class="overlay">
+						<a href="javascript:void(0)" class="closebtn" onclick="closeNavSum()">&times;</a>
+						<h3>Summary</h3>
+						<br>
+						<p>select an area on the map to receive data</p>
+						<br>
+						<button class="btn"><i class="fa fa-download"></i>Downdload report</button>	
+					</div>
+					<span style="font-size:30px;cursor:pointer;margin-top:100px" onclick="openNavSum()">&#9776; summary</span>								
 				</div>	
 				
-				</div>	
-				
-	  
-		  
-		  <div id="responsive-main">
-			<span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNav()">&#10096;</span>	
-		   </div>				
+			</div>	
+						  
+			<div id="responsive-main">
+				<span style="font-size:30px;cursor:pointer;margin-left:1500px"onclick="openNav()">&#10096;</span>	
+			</div>				
 	</div>
 		<div class="col-sm-12 main">
 				<div id="map">
@@ -118,6 +120,7 @@
 	<script src="js/leaflet.ajax.min"></script>
 	<script src="js/GeometryUtil.js"></script>
 	<script src="js/Responsive-sidebar.js"></script>
+	<script src="js/filters.js"></script>
 
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 	<script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
