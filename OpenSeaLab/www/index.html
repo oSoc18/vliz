@@ -129,15 +129,8 @@ Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
 <main>
 
   <section class="map">
-    <div class="container-fluid">
-      <div class="row">
-
-        <div class="col-12 col-sm-12 col-md-6 col-lg-6 main">
-          <div id="responsive-main">
-            <span style="font-size:30px;cursor:pointer;"onclick="openNav()">&#10096;</span>
-          </div>
-
-          <div id="map" class="actual-map">
+	<div id="responsive-main">
+		<div id="map" class="actual-map">
             <!-- Map Space -->
             <div class="map">
               <div class="input-tab">
@@ -147,7 +140,6 @@ Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
                   </button>
                 </form>
                 <div class="coordinates">
-
                   <div class="row coordinates-container">
                     <div class="container">
                       <h5>Latitude: </h5>
@@ -182,7 +174,12 @@ Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
               </div>
             </div>
           </div>
+		  <span class="SelectLayerSide" style="cursor:pointer;"onclick="openNav()">&#10096;Select Layer</span>	
         </div>
+			
+	</div>
+
+          
 
         <div id="mySidenav" class="col-sm-6 col-lg-6 sidenavResponsive">
 

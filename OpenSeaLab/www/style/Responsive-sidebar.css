@@ -1,6 +1,7 @@
+
 .sidenavResponsive {
     height: 100%;
-    width: 0;
+    width: 100;
     position: fixed;
     z-index: 2;
     top: 10;
@@ -37,12 +38,12 @@
 }
 
 #responsive-main {
-    transition: margin-lef .5s;
+    transition: margin-left .5s;
     padding: 16px;
 	position:fixed;
 	right:0;
-	top:400px;
-	z-index:5;
+	top:40px;
+	z-index:1;
 
 }
 
@@ -68,7 +69,7 @@
 	margin-left: 20px;
 }
 
-/* Darker background on mouse-over */
+
 .btn:hover {
     background-color: RoyalBlue;
 }
@@ -120,4 +121,13 @@
     top: 15px;
     right: 35px;
   }
+}
+.SelectLayerSide{
+	z-index:20;
+	right:0;
+	position:fixed;
+	font-size:40px;
+	top: 400px;
+	width: 300px;
+	
 }
