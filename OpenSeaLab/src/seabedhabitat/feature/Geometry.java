@@ -45,10 +45,6 @@ public abstract class Geometry {
 	@Override
 	public String toString() {
 		return this.toGeoJSON();
-	}
-	
-	public abstract int getSurface();
-	public abstract int getClippedSurface();
-	
+	}	
 
 }
