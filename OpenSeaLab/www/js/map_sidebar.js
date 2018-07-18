@@ -1,4 +1,4 @@
-var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 5);
+var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 8);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
@@ -16,8 +16,8 @@ var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 
 
-
 map.on({
+	
 	'draw:created': function (event) {
 		console.log("Drawing started");
 		rectangle = event.layer;
@@ -37,6 +37,7 @@ map.on({
 
 	}
 });
+
 
 function getStyle(feature){
    var clr;
@@ -62,7 +63,7 @@ function addSeabedLayer(json){
 	   { style: getStyle
       , onEachFeature : prepFeature
 		})
-	loadedLayer.addTo(map); 
+    loadedLayer.addTo(map); 	
 }
 
 
@@ -207,3 +208,5 @@ function enableDrawing(){
 	draw = new L.Draw.Rectangle(map);
 	draw.enable();
 }
+
+
