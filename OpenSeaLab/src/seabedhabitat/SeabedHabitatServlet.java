@@ -13,25 +13,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.servlet.DefaultServlet;
 
+import exceptions.BizzException;
 import exceptions.FatalException;
-import seabedhabitat.bizz.BBoxDTO;
-import seabedhabitat.bizz.IUCCSeabedHabitat;
+import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatServlet.class.getName());
-	private IUCCSeabedHabitat seabedHabitatUCC;
-	private IFactory factory;
+	private UCCSeabedHabitat seabedHabitatUCC;
 
-	public SeabedHabitatServlet(IUCCSeabedHabitat seabedHabitatUCC, IFactory factory) {
+	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC) {
 		this.seabedHabitatUCC = seabedHabitatUCC;
-		this.factory = factory;
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		super.doPost(request, response);
 	}
 
@@ -44,7 +41,6 @@ public class SeabedHabitatServlet extends DefaultServlet {
 				getGeoJSON(req, resp);
 				break;
 			case "getStats":
-				System.out.println("hi");
 				getStats(req, resp);
 				break;
 			default:
@@ -54,23 +50,23 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		}
 	}
 
-	private BBoxDTO getBBox(HttpServletRequest req) {
-		BBoxDTO bbox = factory.newBbox();
-		bbox.setMinLat(req.getParameter("minLat"));
-		bbox.setMinLong(req.getParameter("minLong"));
-		bbox.setMaxLat(req.getParameter("maxLat"));
-		bbox.setMaxLong(req.getParameter("maxLong"));
-		return bbox;
+	@SuppressWarnings("static-method")
+	private Rectangle getBBox(HttpServletRequest req) {
+		return new Rectangle(req.getParameter("minLat"), req.getParameter("minLong"), req.getParameter("maxLat"),
+				req.getParameter("maxLong"));
 	}
 
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
-		BBoxDTO bbox = getBBox(req);
-		File geoJSON = null;
 		try {
-			geoJSON = seabedHabitatUCC.getGeoJSON(bbox);
+			File geoJSON  = seabedHabitatUCC.getGeoJSON(getBBox(req));
+			responseJSON(geoJSON, resp);
+		} catch (BizzException b) {
+			LOGGER.log(Level.FINE, b.getMessage());
+			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
+			return;
 		} catch (FatalException f) {
 			LOGGER.log(Level.INFO, f.getMessage(), f);
-			sendError(resp, f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
 			return;
 		} catch (Exception e) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
@@ -78,20 +74,25 @@ public class SeabedHabitatServlet extends DefaultServlet {
 					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			return;
 		}
-		responseJSON(geoJSON, resp);
+
 	}
 
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
-		seabedHabitatUCC.getStats(getBBox(req));
-	}
-
-	private void responseJSON(String s, HttpServletResponse resp) {
-		try (ServletOutputStream sos = resp.getOutputStream()) {
-			resp.setContentType("application/json");
-			resp.setCharacterEncoding("UTF-8");
-			sos.print(s);
-		} catch (Exception exc) {
-			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
+		try {
+			File stats = seabedHabitatUCC.getStats(getBBox(req));
+			responseJSON(stats, resp);
+		} catch (BizzException b) {
+			LOGGER.log(Level.FINE, b.getMessage());
+			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
+			return;
+		} catch (FatalException f) {
+			LOGGER.log(Level.INFO, f.getMessage(), f);
+			return;
+		} catch (Exception e) {
+			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
+			sendError(resp, "Something happened, we can't respond to your request.",
+					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			return;
 		}
 	}
 
@@ -99,15 +100,15 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		try (ServletOutputStream sos = resp.getOutputStream()) {
 			resp.setContentType("application/json");
 			resp.setCharacterEncoding("UTF-8");
-			// LOGGER.fine("Trying to get " + f.toPath());
-			System.out.println("Trying to get " + f.toPath());
+			LOGGER.fine("Trying to get " + f.toPath());
 			Files.copy(f.toPath(), sos);
-			// sos.flush();
+			sos.flush();
 		} catch (Exception exc) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
 	}
 
+	@SuppressWarnings("static-method")
 	private void sendError(HttpServletResponse resp, String msg, int code) {
 		try {
 			resp.sendError(code, msg);

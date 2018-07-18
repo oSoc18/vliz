@@ -6,8 +6,6 @@ import java.util.List;
 
 public class MultiPolygon extends Geometry {
 	private final List<Polygon> polygons;
-	private int surface;
-	private int clippedSurface;
 
 	public MultiPolygon(Polygon... polygons) {
 		this(Arrays.asList(polygons));
@@ -24,15 +22,6 @@ public class MultiPolygon extends Geometry {
 
 	public void addPolygon(Polygon polygon) {
 		polygons.add(polygon);
-		surface += polygon.getSurface();
-	}
-
-	public int getSurface() {
-		return surface;
-	}
-
-	public int getClippedSurface() {
-		return clippedSurface;
 	}
 
 	@Override
@@ -60,11 +49,9 @@ public class MultiPolygon extends Geometry {
 	public MultiPolygon clippedWith(Rectangle r) {
 		List<Polygon> newPolyes = new ArrayList<>();
 		for (Polygon polygon : polygons) {
-			surface += polygon.getSurface();
 			Polygon n = polygon.clippedWith(r);
 			if (n != null) {
 				newPolyes.add(n);
-				clippedSurface += polygon.getClippedSurface();
 			}
 		}
 		if (newPolyes.isEmpty()) {

@@ -29,15 +29,15 @@ public class FeatureCollection {
 
 	public String toGeoJSON() {
 		if (features.size() == 0) {
-			throw new IllegalStateException("No elements in the featurecollection");
+			return "{ \"type\": \"FeatureCollection\", \"features\":[]}";
 		}
 		StringBuilder result = new StringBuilder();
 		result.append("{ \"type\": \"FeatureCollection\", \"features\": \n [");
 		for (Feature f : features) {
 			result.append(f.toGeoJSON());
-			result.append(", ");
+			result.append(", \n");
 		}
-		result.delete(result.length() - 2, result.length());
+		result.delete(result.length() - 3, result.length());
 		return result.append("]\n}").toString();
 	}
 
@@ -49,7 +49,7 @@ public class FeatureCollection {
 	public FeatureCollection clippedWith(Rectangle r) {
 		List<Feature> features = new ArrayList<>();
 		for (Feature feature : this.features) {
-			Feature f = feature; //.clippedWith(r);
+			Feature f = feature.clippedWith(r);
 			if (f != null) {
 				features.add(f);
 			}

@@ -1,12 +1,12 @@
 package seabedhabitat.feature;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
-import org.hamcrest.core.Is;
 import org.junit.Test;
 
 public class ClippingTest {
 	
+	@SuppressWarnings("static-method")
 	@Test
 	public void testClipping() throws Exception {
 		Rectangle r = new Rectangle(0, 0, 1, 2);

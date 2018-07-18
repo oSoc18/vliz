@@ -12,27 +12,16 @@
 	<title>sidebar template</title>
 
 	<!-- Bootstrap core CSS -->
-	<!-- <link href="style/bootstrap.min.css" rel="stylesheet"> -->
+	<link href="style/bootstrap.min.css" rel="stylesheet">
 	<!-- <link rel="stylesheet" href="style/font-awesome.min.css"> -->
 
 	<!-- Custom styles for this template -->
 	<link href="style/dashboard.css" rel="stylesheet">
 	<link href="style/style-sidebar.css" rel="stylesheet">
 	<link href="style/leaflet.css" rel="stylesheet">
-	<link href="style/header.css" rel="stylesheet">
-	<link href="style/index.css" rel="stylesheet">
+	<link href="style/header.css" rel="stylesheet">	
+	<link href="style/index.css" rel="stylesheet">	
 
-
-
-	<!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-	<!--<script src="../../assets/js/ie-emulation-modes-warning.js"></script>-->
-
-	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-	  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-	<![endif]-->
 
 	  <style type="text/css">
 
@@ -42,10 +31,7 @@
 
   <body>
 
-
-<header>
-
-
+	
 	<div class="container-fluid">
 	<div class="row">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -67,108 +53,70 @@
 					</ul>
 				</div>
 			</div>
-		</nav>
+		</nav> 
 	</div>
 </div>
 
+	<div class="container-fluid">
+	  <div class="row">
+		<div class="col-md-3 sidebar">
+			
+					<br>
+					<h3>Enter Coordinates : </h3>
 
+					<div class="row" >
+						<div class="container">
+							<h5>Latitude : </h5>
+							<div class="col-sm-4">
+								Min	<input type="text" id="minLat" name="coordinates1" size= "6">
+								Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
+							</div>
+						</div>
+						<div class="container">
+							<h5>Longitude : </h5>
+							<div class="col-sm-4">
+								Min	<input type="text" id="minLong" name="coordinates3" size= "6">
+								Max	<input type="text" id="maxLong" name="coordinates4" size= "6">  
+							</div> 
+						</div>          			
+					</div>  
+					<br>   
+					<button  type="button" class="btn btn-default" onclick="enableDrawing()" >Select rectangle</button>
+					<button  type="button" class="btn btn-default" onclick="clearData()" >Clear data</button>
+					<button id="validateCoordinates" type="button" class="btn btn-default" onclick="getDataFromCoords()" >Get Data</button>
+					<button id="validateStats" type="button" class="btn btn-default" onclick="getStatistics()" >Get Stats</button>
+	  				<br><br><br>
 
-</header>
+	
+	<button class="collapsible">Bathymetry</button>
+		<div class="content">
+		 <div class="dropdown-container">
+					<input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
+					<input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
+					<input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
+					<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
+			</div>
+		</div>
+	<button class="collapsible">Seabed Habitats</button>
+		<div class="content">
+			<div class="dropdown-container">
+					<input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
+					<input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
+					<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
+			</div>
+		</div>	 
 
-<main>
+	<div id="statsOutput"> </div>
+	
 
-<section class="map">
-
-
-    <div id="map" class="actual-map">
-      <!-- Map Space -->
-      <div class="map">
-      <div class="input-tab">
-        <div class="search-bar">
-        </div>
-        <div class="coordinates">
-        </div>
-      </div>
-      <div class="select-area">
-      </div>
-      <div class="map-attributes">
-        <div class="km">
-        </div>
-        <div class="zoom">
-        </div>
-      </div>
-    </div>
-  </div>
-
-
-</section>
-
-
-
-
-<section class="tabs">
-  <div class="tabs-container">
-    <div class="data-sources">
-
-
-        <!-- <div class="col-sm-3 col-md-offset-9 col-md-9 col-md-offset-8 sidebar"> -->
-              <br>
-              <h3>Enter Coordinates : </h3>
-
-              <div class="row" >
-                <div class="container">
-                  <h5>Latitude : </h5>
-                  <div class="col-sm-4">
-                    Min	<input type="text" id="minLat" name="coordinates1" size= "6">
-                    Max	<input type="text" id="minLong" name="coordinates2" size= "6">
-                  </div>
-                </div>
-                <div class="container">
-                  <h5>Longitude : </h5>
-                  <div class="col-sm-4">
-                    Min	<input type="text" id="maxLat" name="coordinates3" size= "6">
-                    Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
-                  </div>
-                </div>
-              </div>
-              <br>
-              <button id="validateCoordinates" type="button" class="btn btn-default" onclick="drawRectangleFromInput()" >Get Data</button>
-                <br><br><br>
-
-      <button class="collapsible">Bathymetry</button>
-        <div class="content">
-         <div class="dropdown-container">
-              <input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
-              <input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
-              <input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
-              <input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
-          </div>
-        </div>
-      <button class="collapsible">Seabed Habitats</button>
-        <div class="content">
-          <div class="dropdown-container">
-              <input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
-              <input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
-              <input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
-          </div>
-        </div>
-
-      <!-- </div> -->
-
-
-
-    </div>
-    <div class="filter">
-    </div>
-  </div>
-  <div class="summary">
-  </div>
-</section>
-
-
-
-
-</main>
+	</div>
+		<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
+			<div id="map">
+				<!-- Map Space -->
+			</div>
+		</div>
+	</div> 
+	</div>
 
 	<!-- Bootstrap core JavaScript -->
 	<!-- Placed at the end of the document so the pages load faster -->
@@ -177,19 +125,18 @@
 	<script src="js/leaflet.js"></script>
 	<script src="js/leaflet-providers.js"></script>
 	<script src="js/map_sidebar.js"></script>
-	<script src="js/test.js"></script>
-	<script src="/js/leaflet-0.7.2/leaflet.ajax.min.js"></script>
 	<script src="js/leaflet.ajax.min"></script>
 	<script src="js/GeometryUtil.js"></script>
 
-	<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
 	<script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 	<script src="https://raw.github.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
 	<script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
 
 	<script src="js/dropdown.js"></script>
-	<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-	<!--<script src="js/holder.js"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
 
   </body>
 </html>
+
