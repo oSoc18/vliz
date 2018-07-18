@@ -266,6 +266,13 @@ h5 {
 .col-sm-4 {
   margin-bottom: 15px;
 }
+.leaflet-touch .leaflet-bar {
+  border: none;
+}
+
+.leaflet-top {
+  z-index: 1;
+}
 
 @media (max-width: 1000px) {
 
