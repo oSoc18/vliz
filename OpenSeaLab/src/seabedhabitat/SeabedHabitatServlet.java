@@ -15,7 +15,7 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 
 import exceptions.BizzException;
 import exceptions.FatalException;
-import seabedhabitat.feature.Rectangle;
+import main.Util;
 
 public class SeabedHabitatServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
@@ -50,15 +50,9 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		}
 	}
 
-	@SuppressWarnings("static-method")
-	private Rectangle getBBox(HttpServletRequest req) {
-		return new Rectangle(req.getParameter("minLat"), req.getParameter("minLong"), req.getParameter("maxLat"),
-				req.getParameter("maxLong"));
-	}
-
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			File geoJSON  = seabedHabitatUCC.getGeoJSON(getBBox(req), req.getParameter("type"));
+			File geoJSON  = seabedHabitatUCC.getGeoJSON(Util.getBBox(req), req.getParameter("type"));
 			responseJSON(geoJSON, resp);
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
@@ -79,7 +73,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			File stats = seabedHabitatUCC.getStats(getBBox(req), req.getParameter("type"));
+			File stats = seabedHabitatUCC.getStats(Util.getBBox(req), req.getParameter("type"));
 			responseJSON(stats, resp);
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());

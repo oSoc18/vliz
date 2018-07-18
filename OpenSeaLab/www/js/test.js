@@ -1,10 +1,10 @@
 $(function() {
-	$('#validateCoordinates').click(function(){
+	$('#bath').click(function(){
 		$.ajax({
-			url : '/seabed',
+			url : '/bathymetry',
 			type : 'GET',
 			data : {
-				action:"getGeoJSON",
+				action:"getStats",
 				minLat: "51.428",
 				minLong: "2.122",
 				maxLat: "51.548",
