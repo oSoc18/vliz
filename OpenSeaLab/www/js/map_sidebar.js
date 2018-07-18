@@ -50,18 +50,7 @@ function getStyle(feature){
 }
 
 function prepFeature(feature, layer){
-	var seaarea = 0;
-	if(feature.geometry.type == "MultiPolygon"){
-		var i;
-		for(i = 0; i < feature.geometry.coordinates.length; i++) {
-			 seaArea = geodesicArea(layer.getLatLngs()[i]);
-		} 
-	}else{
-		seaArea = geodesicArea(layer.getLatLngs()); 		
-	}
-	var list = "<dd>" + feature.properties.Allcomb + "</dd>"
-			+ "<dt>Area : </dt>"
-			+ seaArea ;
+	var list = feature.properties.Allcomb ;
 	popupOptions = {maxWidth: 200};
                 
 	layer.bindPopup( list.toString(), popupOptions );  
@@ -87,27 +76,6 @@ function loadDataFrom(url){
 		addSeabedLayer(json); 
 	});
 }
-
-
-
-function geodesicArea(latLngs) {
-			var pointsCount = latLngs.length,
-				area = 0.0,
-				d2r = Math.PI / 180,
-				p1, p2;
-			if (pointsCount > 2) {
-				for (var i = 0; i < pointsCount; i++) {
-					p1 = latLngs[i];
-					p2 = latLngs[(i + 1) % pointsCount];
-					area += ((p2.lng - p1.lng) * d2r) *
-						(2 + Math.sin(p1.lat * d2r) + Math.sin(p2.lat * d2r));
-				}
-				area = area * 6378137.0 * 6378137.0 / 2.0;
-			}
-
-			return Math.abs(area);
-}
-
 
 // load data from the coordinates
 function getDataFromCoords(){
@@ -157,22 +125,6 @@ function intToRGB(i){
     return "00000".substring(0, 6 - c.length) + c;
 }
 
-function randomHex() {
-	var hexNumbers = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F']
-	// picking a random item of the array
-	return hexNumbers[Math.floor(Math.random() * hexNumbers.length)];
-}
-
-
-// Genarates a Random Hex color
-function hexGenerator() {
-	hexValue = ['#'];
-	for (var i = 0; i < 6; i += 1) {
-		hexValue.push(randomHex());
-	}
-	return hexValue.join('');
-}
-
 function drawRectangleFromInput(){
 	var minLat = document.getElementById('minLat').value;
 	var minLng = document.getElementById('minLong').value;
@@ -203,28 +155,9 @@ function getStatistics(){
 	button.textContent = "loading...";
 	button.disabled = true;
 	loadStatsFrom(statsURLcoordinates);
-
-
 }
-
-function clearData(){
-	if(loadedLayer != undefined){
-		loadedLayer.clearLayers();
-		map.removeLayer(loadedLayer);
-		loadedLayer = undefined;
-	}
-}
-
-function clearRect(){
-	if(rectangle != null){
-		map.removeLayer(rectangle);
-		rectangle = null;
-	}
-}
-
 function loadStatsFrom(url){
 	$.getJSON(url, function(json){
-
 
 		var button = document.getElementById("validateStats");
 		button.textContent = "Get Stats";
@@ -247,6 +180,23 @@ function loadStatsFrom(url){
 		});
 	} );
 }
+
+function clearData(){
+	if(loadedLayer != undefined){
+		loadedLayer.clearLayers();
+		map.removeLayer(loadedLayer);
+		loadedLayer = undefined;
+	}
+}
+
+function clearRect(){
+	if(rectangle != null){
+		map.removeLayer(rectangle);
+		rectangle = null;
+	}
+}
+
+
 
 function isInt(value) {
   return !isNaN(value) && !isNaN(parseInt(value, 10));
