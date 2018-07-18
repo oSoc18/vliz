@@ -1,3 +1,4 @@
+
 $(function() {
 	$('#bath').click(function(){
 		$.ajax({
@@ -16,6 +17,10 @@ $(function() {
 				console.log(response)
 			},error : function(error){
 				console.log("error")
+				console.log($("#minLat").val())
+				console.log($("#minLong").val())
+				console.log($("#maxLat").val())
+				console.log($("#maxLong").val())
 				console.log(error)
 			}
 		});	

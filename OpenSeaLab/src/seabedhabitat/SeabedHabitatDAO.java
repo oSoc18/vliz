@@ -7,8 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,9 +21,7 @@ import com.owlike.genson.Genson;
 
 import exceptions.FatalException;
 import main.Util;
-import seabedhabitat.feature.Feature;
 import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Geometry;
 import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatDAO {
@@ -75,8 +71,9 @@ public class SeabedHabitatDAO {
 		String pathname = cacheDir + "/" + dataPattern.replace("{id}", id);
 		Path p = FileSystems.getDefault().getPath(pathname);
 		if (!Files.exists(p)) {
-			Path statsPath = FileSystems.getDefault().getPath(cacheDir + "/" + statPattern.replace("{id}", id));
-			process(bbox, statsPath, p, type);
+			Path statsPath = FileSystems.getDefault()
+					.getPath(cacheDir + "/" + statPattern.replace("{id}", id));
+			process(bbox.extendRectangle(), statsPath, p, type);
 		}
 		return new File(pathname);
 	}
@@ -102,12 +99,17 @@ public class SeabedHabitatDAO {
 			process(bbox, statsPath, geojsonPath, type);
 		}
 		return new File(pathname);
+
 	}
 
 	private void process(Rectangle bbox, Path statsPath, Path geojsonPath, String type) {
 		try {
 			FeatureCollection fc = fetch(bbox, type);
-			String stats = calculateStatistics(fc, bbox);
+			
+			Map<String, Double> percentages = 
+					fc.clippedWith(bbox).calculatePercentages();
+			String stats = new Genson().serialize(percentages);
+					
 			store(fc.toGeoJSON(), geojsonPath);
 			store(stats, statsPath);
 		} catch (IOException | SAXException | ParserConfigurationException e) {
@@ -117,6 +119,15 @@ public class SeabedHabitatDAO {
 		}
 	}
 
+	/**
+	 * Gets the data from the WMS
+	 * @param bbox
+	 * @param type
+	 * @return
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
 	private FeatureCollection fetch(Rectangle bbox, String type)
 			throws SAXException, IOException, ParserConfigurationException {
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
@@ -131,34 +142,12 @@ public class SeabedHabitatDAO {
 		return userhandler.getFeatures();
 	}
 
-	@SuppressWarnings("static-method")
-	private String calculateStatistics(FeatureCollection fc, Rectangle r) {
-		List<Feature> features = fc.getFeatures();
-
-		double sum = 0;
-		Map<String, Double> sums = new HashMap<>();
-		Map<String, Double> percentages = new HashMap<>();
-
-		for (Feature f : features) {
-			Geometry geo = f.getGeometry().clippedWith(r);
-			Map<String, Object> m = f.getProperties();
-			String name = (String) m.get("AllcombD");
-			Double s = sums.get(name);
-			if (s == null) {
-				sums.put(name, geo.surfaceArea());
-			} else {
-				sums.put(name, sums.get(name) + geo.surfaceArea());
-			}
-			sum += geo.surfaceArea();
-		}
-
-		for (Map.Entry<String, Double> entries : sums.entrySet()) {
-			double d = entries.getValue() / sum * 100;
-			percentages.put(entries.getKey(), d);
-		}
-		return new Genson().serialize(percentages);
-	}
-
+	/**
+	 * Caches the given data
+	 * @param data
+	 * @param p
+	 * @throws IOException
+	 */
 	private void store(String data, Path p) throws IOException {
 		Path cache = FileSystems.getDefault().getPath(cacheDir);
 		if (!Files.exists(cache) || !Files.isDirectory(cache)) {
