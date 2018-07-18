@@ -3,14 +3,10 @@ package seabedhabitat;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,9 +20,8 @@ import org.xml.sax.SAXException;
 import com.owlike.genson.Genson;
 
 import exceptions.FatalException;
-import seabedhabitat.feature.Feature;
+import main.Util;
 import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Geometry;
 import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatDAO {
@@ -38,12 +33,18 @@ public class SeabedHabitatDAO {
 	private final String defaultType;
 
 	/**
-	 * Constructs a data object access that manages everything linked to pure data. 
-	 * @param url webservice url
-	 * @param defaultType type name of the seabed habitat
-	 * @param cacheDir directory of cached files
-	 * @param dataPattern geojson files pattern
-	 * @param statPattern stat files pattern
+	 * Constructs a data object access that manages everything linked to pure data.
+	 * 
+	 * @param url
+	 *            webservice url
+	 * @param defaultType
+	 *            type name of the seabed habitat
+	 * @param cacheDir
+	 *            directory of cached files
+	 * @param dataPattern
+	 *            geojson files pattern
+	 * @param statPattern
+	 *            stat files pattern
 	 */
 	public SeabedHabitatDAO(String url, String defaultType, String cacheDir, String dataPattern, String statPattern) {
 		this.url = url;
@@ -55,8 +56,11 @@ public class SeabedHabitatDAO {
 
 	/**
 	 * Fetchs, saves and returns a geojson file.
-	 * @param bbox bounding box
-	 * @param type seabed habitat type
+	 * 
+	 * @param bbox
+	 *            bounding box
+	 * @param type
+	 *            seabed habitat type
 	 * @return geojson file
 	 */
 	public File getGeoJson(Rectangle bbox, String type) {
@@ -73,11 +77,14 @@ public class SeabedHabitatDAO {
 		}
 		return new File(pathname);
 	}
-	
+
 	/**
 	 * Fetchs, saves and returns statistics in json format.
-	 * @param bbox bounding box
-	 * @param type seabed habitat type
+	 * 
+	 * @param bbox
+	 *            bounding box
+	 * @param type
+	 *            seabed habitat type
 	 * @return a file of statistics
 	 */
 	public File getStats(Rectangle bbox, String type) {
@@ -88,8 +95,7 @@ public class SeabedHabitatDAO {
 		String pathname = cacheDir + "/" + statPattern.replace("{id}", id);
 		Path statsPath = FileSystems.getDefault().getPath(pathname);
 		if (!Files.exists(statsPath)) {
-			Path geojsonPath = FileSystems.getDefault()
-					.getPath(cacheDir + "/" + dataPattern.replace("{id}", id));
+			Path geojsonPath = FileSystems.getDefault().getPath(cacheDir + "/" + dataPattern.replace("{id}", id));
 			process(bbox, statsPath, geojsonPath, type);
 		}
 		return new File(pathname);
@@ -126,46 +132,14 @@ public class SeabedHabitatDAO {
 			throws SAXException, IOException, ParserConfigurationException {
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
 		LOGGER.log(Level.FINE, "Querying WMS server");
-		HttpURLConnection connection = (HttpURLConnection) new URL(url.replace("{bbox}", bx).replace("{type}", type))
-				.openConnection();
-		connection.setReadTimeout(20000);
-		connection.setConnectTimeout(20000);
-		connection.setRequestMethod("GET");
-		connection.setDoInput(true);
-		connection.connect();
+		String URL = url.replace("{bbox}", bx).replace("{type}", type);
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser saxParser = factory.newSAXParser();
 		SAXHandler userhandler = new SAXHandler();
-		saxParser.parse(connection.getInputStream(), userhandler);
+		saxParser.parse(Util.fetchFrom(URL), userhandler);
 		LOGGER.log(Level.FINE, "Got result for bbox: " + bx);
 		return userhandler.getFeatures();
-	}
-
-	@SuppressWarnings("static-method")
-	private String calculateStatistics(FeatureCollection fc, Rectangle r) {
-		List<Feature> features = fc.getFeatures();
-
-		double sum = 0;
-		Map<String, Double> sums = new HashMap<>();
-		Map<String, Double> percentages = new HashMap<>();
-
-		for (Feature f : features) {
-			Geometry geo = f.getGeometry().clippedWith(r);
-			Map<String, Object> m = f.getProperties();
-			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
-			Double s = sums.getOrDefault(name, 0.0);
-			
-			sums.put(name, s + geo.surfaceArea());
-			
-			sum += geo.surfaceArea();
-		}
-
-		for (Map.Entry<String, Double> entries : sums.entrySet()) {
-			double d = entries.getValue() / sum * 100;
-			percentages.put(entries.getKey(), d);
-		}
-		return ;
 	}
 
 	/**

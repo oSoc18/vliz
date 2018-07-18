@@ -10,7 +10,9 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
+import bathymetry.BathymetryDAO;
 import bathymetry.BathymetryServlet;
+import bathymetry.UCCBathymetry;
 import seabedhabitat.SeabedHabitatDAO;
 import seabedhabitat.SeabedHabitatServlet;
 import seabedhabitat.UCCSeabedHabitat;
@@ -27,14 +29,18 @@ public class Main {
 			SeabedHabitatDAO seabedHabitatDAO = new SeabedHabitatDAO(appContext.getProperty("seabedURL"),
 					appContext.getProperty("default-type"), appContext.getProperty("cache-dir"),
 					appContext.getProperty("seabed-data"), appContext.getProperty("seabed-stat"));
+			BathymetryDAO bathymetryDAO = new BathymetryDAO(appContext.getProperty("bathymetryURL"),
+					appContext.getProperty("cache-dir"), appContext.getProperty("bathymetry-stat"));
 			UCCSeabedHabitat uccSeabedHabitat = new UCCSeabedHabitat(seabedHabitatDAO);
-			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat);
+			UCCBathymetry uccBathymetry = new UCCBathymetry(bathymetryDAO);
+			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat,uccBathymetry);
 		} catch (Exception exc) {
 			LOGGER.log(Level.SEVERE, "App configuration failed !", exc);
 		}
 	}
 
-	private static void startServer(int port, UCCSeabedHabitat uccSeabedHabit) throws Exception {
+	private static void startServer(int port, UCCSeabedHabitat uccSeabedHabit, UCCBathymetry uccBathymetry)
+			throws Exception {
 		LOGGER.info("Starting the server...");
 		Server server = new Server(port);
 		WebAppContext context = new WebAppContext();
@@ -42,7 +48,7 @@ public class Main {
 		context.setResourceBase("www");
 
 		HttpServlet seabedServlet = new SeabedHabitatServlet(uccSeabedHabit);
-		HttpServlet bathymetryServlet = new BathymetryServlet();
+		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");
 		context.addServlet(new ServletHolder(seabedServlet), "/seabed");
