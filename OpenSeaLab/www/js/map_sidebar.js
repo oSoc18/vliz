@@ -140,23 +140,6 @@ function getDataFromCoords(){
 }
 
 
-function loadStatsFrom(url){
-	$.getJSON(url, function(json){
-
-		var button = document.getElementById("validateStats");
-		button.textContent = "Get Stats";
-		button.disabled = false;
-
-		var div = document.getElementById('statsOutput');
-		div.innerHTML = "";
-
-		JSON.parse(JSON.stringify(json), function (key, value) {
-			console.log("adding " + key); 
-			div.innerHTML += String(value).substring(0,8) + "    " + key  +"<br>";
-		});
-	} );
-}
-
 
 function hashCode(str) { // java String#hashCode
     var hash = 0;
@@ -217,7 +200,6 @@ function getStatistics(){
 
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
 	var button = document.getElementById("validateStats");
-	console.log("333" +button.textContent);
 	button.textContent = "loading...";
 	button.disabled = true;
 	loadStatsFrom(statsURLcoordinates);
@@ -241,11 +223,33 @@ function clearRect(){
 }
 
 function loadStatsFrom(url){
-	console.log(url);
-	$.get(url, function(json){
-		console.log("finished ---");
+	$.getJSON(url, function(json){
+
+
+		var button = document.getElementById("validateStats");
+		button.textContent = "Get Stats";
+		button.disabled = false;
+
+		var div = document.getElementById('statsOutput');
+		div.innerHTML = "";
 		console.log(json);
-	});
+		JSON.parse(JSON.stringify(json), function (key, value) {
+			if(isInt(value)){
+				var x = document.createElement("div");
+			    x.className = "seaBedColorSquare";
+				x.style.backgroundColor = "#"+ intToRGB(hashCode(key));
+
+			    x.innerHTML = (String(value).substring(0,8) + "    " + key);
+			    
+			   	div.appendChild(x);
+			}
+			
+		});
+	} );
+}
+
+function isInt(value) {
+  return !isNaN(value) && !isNaN(parseInt(value, 10));
 }
 
 function enableDrawing(){
