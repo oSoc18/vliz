@@ -47,7 +47,73 @@ time, mark, audio, video {
 header {
   width: 100vw;
   height: 15vh;
-  background-color: black;
+  background: url('../images/header_background.png');
+  background-size: cover;
+}
+
+.leaflet-top {
+  top: auto;
+  left: auto;
+  bottom: 3rem;
+  right: 3rem;
+}
+
+.leaflet-bar a {
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 0px;
+  background-color: #2073B0;
+  color: white;
+  border: none;
+  margin: .2rem;
+}
+
+.leaflet-bar {
+  box-shadow: none;
+}
+
+.color-container {
+  display: flex;
+  width: 100%;
+  height: 1rem;
+}
+
+.yellow, .green, .brown, .blue, .blue-green, .gray, .red {
+  width: 14.3%;
+  height: 100%;
+}
+
+.yellow {
+  background-color: #FEDF32;
+}
+
+.green {
+  background-color: #9DC553;
+}
+
+.brown {
+  background-color: #B68B27;
+}
+
+.blue {
+  background-color: #1C9CBC;
+}
+
+.blue-green {
+  background-color: #66AC95;
+}
+
+.gray {
+  background-color: #8BA1B5;
+}
+
+.red {
+  background-color: #B54448;
+}
+
+.header-logo {
+  margin: 1rem;
 }
 
 .main {
@@ -57,7 +123,6 @@ header {
 
 .map {
   display: flex;
-  background-color: blue;
   width: 50vw;
   height: 85vh;
   justify-content: space-between;
@@ -66,7 +131,7 @@ header {
 }
 
 #map {
-  top: 0;
+  top: 15px;
 }
 
 .leaflet-map-pane, .leaflet-control-container {
@@ -85,25 +150,55 @@ header {
   display: flex;
   height: 70px;
   width: 100%;
-  background-color: red;
+  background-color: white;
   justify-content: space-between;
   align-items: center;
   z-index: 99;
   position: relative;
+  box-shadow: 0 5px 20px 0 #678B9C;
+  top: -15px;
 }
 
 .search-bar, .km {
-  width: 200px;
+  width: 250px;
   height: 50%;
-  background-color: black;
   margin-left: 20px;
+  display: flex;
+  justify-content: space-between;
 }
 
-.coordinates, .zoom {
+.search-bar input[type=text] {
+  padding: 6px;
+  font-size: 14px;
+  border: 1px solid #7BADD1;
+  border-radius: 7px;
+  width: 200px;
+}
+
+.search-bar button[type=submit] {
+  background-image: url('../images/search.png');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  margin-top: 8px;
+}
+
+.zoom {
   width: 200px;
   height: 50%;
   background-color: black;
   margin-right: 20px;
+}
+
+.coordinates {
+  width: 300px;
+  height: 110%;
+  background-color: white;
+  margin-top: 5%;
+  border-bottom-left-radius: 100px;
+  box-shadow: 0 5px 20px -6px #678B9C;
 }
 
 .map-attributes {
@@ -114,6 +209,7 @@ header {
   align-items: center;
   z-index: 99;
   position: relative;
+  visibility: hidden;
 }
 
 main {
