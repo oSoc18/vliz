@@ -1,6 +1,5 @@
 
-.navbar-primary {
-  background-color: #d9edf791;
+.navbar-primary {  
   bottom: 0px;
   right: 0px;
   position: absolute;
@@ -61,14 +60,14 @@
 }
 
 .navbar-primary-menu li button:hover {
-  background-color: #000;
+  background-color: #EEEEEE ;
   text-decoration: none;
-  color: white;
+  color:#2073B0;	
 }
 
 .navbar-primary h3{
 	font-size : 30px;
-	color : #2f93c3;
+	color : #073056;
 	text-align: center;
 }
 .navbar-primary p{
@@ -87,7 +86,9 @@
 .collapsed + .main-content {
   margin-right: 40px;
 }
-
+.col-lg-6{
+	width:360px;
+}
 /*
 .sidenavResponsive {
     height: 100%;

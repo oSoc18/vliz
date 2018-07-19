@@ -23,11 +23,13 @@ time, mark, audio, video {
     background-color: white;
     cursor: pointer;
     padding: 20px;
-    width: 100%;
     border: none;
     text-align: left;
     outline: none;
     font-size: 20px;
+	width: 345px;
+	color: #678B9C;
+	font-style: gras;
 }
 
 .active, .collapsible:hover {
