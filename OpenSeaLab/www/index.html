@@ -99,28 +99,30 @@
 							</button>
 						</form>
 						<div class="coordinates">
-							<div class="row coordinates-container">
-								<div class="container-fluid container-coordinates">
+							<div class="row">
+								<div class="col-sm-2">
 									<h5>Latitude: </h5>
-									<div class="col-sm-4 minmax">
-										Min	<input type="text" id="minLat" name="coordinates1" size= "6">
-										Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
-									</div>
 								</div>
-								<div class="container-fluid container-coordinates">
-									<h5>Longitude: </h5>
-									<div class="col-sm-4 minmax">
-										Min	<input type="text" id="minLong" name="coordinates3" size= "6">
-										Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
-									</div>
+								<div class="col-sm-4 minmax">
+									Min	<input type="text" id="minLat" name="coordinates1" size= "6">
+									Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
 								</div>
 							</div>
-							<div class="buttons">
-								<button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
-								<button type="button" class="delete btn btn-default" onclick="clearData()" ></button>
-							 </div>
+							<div class="row">
+								<div class="col-sm-2">
+									<h5>Longitude: </h5>
+								</div>
+								<div class="col-sm-4 minmax">
+									Min	<input type="text" id="minLong" name="coordinates3" size= "6">
+									Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
+								</div>
+							</div>
 						</div>
 					</div>
+					<div class="buttons">
+						<button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
+						<button type="button" class="delete btn btn-default" onclick="clearData()" ></button>
+					</div>					
 				</div>
 			</div>
 		</nav>

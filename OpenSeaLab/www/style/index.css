@@ -192,11 +192,10 @@ header {
 .coordinates {
   width: 22rem;
   height: 100%;
-  margin-top: 5%;
-}
-
-.container-coordinates {
-  width: 16rem;
+  margin-top: 4%;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;  
 }
 
 .minmax {
@@ -209,10 +208,12 @@ header {
   display: flex;
   width: 2rem;
   height: 5rem;
-  margin-left: 17rem;
-  margin-top: 1rem;
   flex-direction: column;
   justify-content: space-between;
+  position: absolute;
+  right: 2.5rem;
+  top: 5rem;
+  z-index: 5;
 }
 
 #minLat, #maxLat, #minLong, #maxLong {
@@ -267,12 +268,6 @@ header {
   width: 100%;
   height: 30vh;
   background-color: black;
-}
-
-.coordinates-container {
-  margin-left: 1rem;
-  display: flex;
-  flex-direction: column;
 }
 
 h5 {
