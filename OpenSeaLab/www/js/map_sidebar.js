@@ -70,9 +70,6 @@ function addSeabedLayer(json){
 
 function loadDataFrom(url){
 	$.getJSON(url, function(json){ 
-		var button = document.getElementById("validateCoordinates");
-		button.textContent = "Get data";
-		button.disabled = false;
 		clearRect();
 
 		addSeabedLayer(json); 
@@ -103,10 +100,6 @@ function getDataFromCoords(){
 							URLpart2 + minLong + 
 							URLpart3 + maxLong;			
 	loadDataFrom(URLcoordinates);
-	var button = document.getElementById("validateCoordinates");
-
-	button.textContent = "loading...";
-	button.disabled = true;
 }
 
 
@@ -153,17 +146,10 @@ function getStatistics(){
 	var maxLng = document.getElementById('maxLong').value;
 
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
-	var button = document.getElementById("validateStats");
-	button.textContent = "loading...";
-	button.disabled = true;
 	loadStatsFrom(statsURLcoordinates);
 }
 function loadStatsFrom(url){
 	$.getJSON(url, function(json){
-
-		var button = document.getElementById("validateStats");
-		button.textContent = "Get Stats";
-		button.disabled = false;
 
 		var div = document.getElementById('statsOutput');
 		div.innerHTML = "";
