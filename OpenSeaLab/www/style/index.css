@@ -19,6 +19,10 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
+main, #map {
+  height: 83vh;
+}
+
 .collapsible {
     background-color: white;
     cursor: pointer;
@@ -138,10 +142,10 @@ header {
   flex-direction: column;
   align-items: center;
 }
-
+/*
 #map {
   top: 15px;
-}
+} */
 
 .leaflet-map-pane, .leaflet-control-container {
 
@@ -157,7 +161,7 @@ header {
 
 .input-tab {
   display: flex;
-  height: 70px;
+  height: 90px;
   width: 100%;
   background-color: white;
   justify-content: space-between;
@@ -182,6 +186,7 @@ header {
   border: 1px solid #7BADD1;
   border-radius: 7px;
   width: 200px;
+  height: 2rem;
 }
 
 .search-bar button[type=submit] {
@@ -202,14 +207,17 @@ header {
 }
 
 .coordinates {
-  width: 20rem;
+  width: 22rem;
   height: 100%;
   margin-top: 5%;
-  margin-right: 6rem;
+}
+
+.container-coordinates {
+  width: 16rem;
 }
 
 .minmax {
-  width: 7rem;
+  margin-left: 2.8rem;
   display: flex;
   flex-direction: row;
 }
@@ -218,16 +226,18 @@ header {
   display: flex;
   width: 2rem;
   height: 5rem;
-  margin-left: 21rem;
+  margin-left: 17rem;
   margin-top: 1rem;
   flex-direction: column;
   justify-content: space-between;
 }
 
 #minLat, #maxLat, #minLong, #maxLong {
-  width: 5rem;
+  min-width: 4rem;
   border-radius: 5px;
   border: 1px solid #97BFDB;
+  margin-right: .5rem;
+  margin-left: .3rem;
 }
 
 .map-attributes {
@@ -279,11 +289,12 @@ header {
 .coordinates-container {
   margin-left: 1rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 h5 {
   display: inline-block;
+  position: absolute;
 }
 
 .col-sm-4 {
@@ -317,6 +328,10 @@ h5 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 1.5rem;
+}
+
+.main-content {
+  margin-top: 0;
 }
 
 @media (max-width: 1000px) {
@@ -386,4 +401,3 @@ h5 {
 .leaflet-container {
     background-color:rgba(255,0,0,0.0);
 }
-
