@@ -10,6 +10,7 @@
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
+  box-shadow: 0 5px 20px 0 #678B9C;
 }
 
 .navbar-primary.collapsed {
@@ -69,6 +70,7 @@
 	font-size : 30px;
 	color : #073056;
 	text-align: center;
+	border-bottom : 1px solid #EEEEEE;
 }
 .navbar-primary p{
 	font-size : 18px;
@@ -89,6 +91,7 @@
 .col-lg-6{
 	width:360px;
 }
+
 /*
 .sidenavResponsive {
     height: 100%;
