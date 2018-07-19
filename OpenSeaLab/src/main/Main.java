@@ -32,24 +32,28 @@ public class Main {
 					appContext.getProperty("cache-dir"), appContext.getProperty("bathymetry-stat"));
 			UCCSeabedHabitat uccSeabedHabitat = new UCCSeabedHabitat(seabedHabitatDAO);
 			UCCBathymetry uccBathymetry = new UCCBathymetry(bathymetryDAO);
-			
-			CachingManager cm = new CachingManager(appContext.getProperty("cache-dir"), appContext.getProperty("seabed-data"));
-			
-			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat,uccBathymetry, cm, appContext.getProperty("default-type"));
+
+			CachingManager cm = new CachingManager(appContext.getProperty("cache-dir"),
+					appContext.getProperty("seabed-data"));
+			CachingManager statsCache = new CachingManager(appContext.getProperty("cache-dir"),
+					appContext.getProperty("seabed-stat"));
+
+			startServer(Integer.parseInt(appContext.getProperty("port")), uccSeabedHabitat, uccBathymetry, cm,
+					statsCache, appContext.getProperty("default-type"));
 		} catch (Exception exc) {
 			LOGGER.log(Level.SEVERE, "App configuration failed !", exc);
 		}
 	}
 
-	private static void startServer(int port, UCCSeabedHabitat uccSeabedHabit, UCCBathymetry uccBathymetry, CachingManager cm, String defaultType)
-			throws Exception {
+	private static void startServer(int port, UCCSeabedHabitat uccSeabedHabit, UCCBathymetry uccBathymetry,
+			CachingManager cm, CachingManager statsCache, String defaultType) throws Exception {
 		LOGGER.info("Starting the server...");
 		Server server = new Server(port);
 		WebAppContext context = new WebAppContext();
 
 		context.setResourceBase("www");
 
-		HttpServlet seabedServlet = new SeabedHabitatServlet(uccSeabedHabit, cm, defaultType);
+		HttpServlet seabedServlet = new SeabedHabitatServlet(uccSeabedHabit, cm, statsCache, defaultType);
 		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");

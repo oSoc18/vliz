@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.FatalException;
-import seabedhabitat.feature.FeatureCollection;
 import seabedhabitat.feature.Rectangle;
 
 public class CachingManager {
@@ -51,9 +50,10 @@ public class CachingManager {
 		}
 	}
 
-	public FeatureCollection restore(Rectangle bbox, String type) {
+	@SuppressWarnings("unchecked")
+	public <T> T restore(Rectangle bbox, String type) {
 		try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(getPath(bbox, type)))) {
-			return (FeatureCollection) in.readObject();
+			return (T) in.readObject();
 		} catch (Exception e) {
 			System.out.println("Could not laod "+getPath(bbox, type));
 			throw new FatalException(e);

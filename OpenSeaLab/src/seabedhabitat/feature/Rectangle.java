@@ -91,10 +91,17 @@ public class Rectangle extends Geometry {
 	 *            maximum longitude
 	 */
 	public Rectangle extendRectangle() {
-		return new Rectangle(
-				Math.floor(this.minLat), 
-				Math.floor(this.minLon), 
-				Math.ceil(this.maxLat),
+		return new Rectangle(Math.floor(this.minLat), Math.floor(this.minLon), Math.ceil(this.maxLat),
 				Math.ceil(this.maxLon));
+	}
+
+	public Rectangle bboxWith(Rectangle r) {
+		return new Rectangle(Math.min(this.minLat, r.minLat), Math.min(this.minLon, r.minLon),
+				Math.max(this.maxLat, r.maxLat), Math.max(this.maxLon, r.maxLon));
+	}
+	
+	public boolean edgePoint(int lat, int lon) {
+		return (Math.floor(this.minLat) == lat || Math.ceil(this.maxLat) == lat +1
+				|| Math.floor(this.minLon) == lon || Math.ceil(this.maxLon) == lon+1);
 	}
 }
