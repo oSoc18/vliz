@@ -118,11 +118,19 @@ header {
 /* .main {
   width: 100vw;
   height: 85vh;
-} */
-
+} 
 .map {
   display: flex;
   width: 100vw;
+  height: 85vh;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+}
+*/
+
+.map {
+  display: flex;
   height: 85vh;
   justify-content: space-between;
   flex-direction: column;
