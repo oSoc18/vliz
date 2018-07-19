@@ -17,7 +17,7 @@ public class AppContext {
 		props = new Properties();
 	}
 	
-	public void configLogger(String path) {
+	public static void configLogger(String path) {
 		
 		try(FileInputStream f = new FileInputStream(path)){
 			Path logDir = FileSystems.getDefault().getPath("log");

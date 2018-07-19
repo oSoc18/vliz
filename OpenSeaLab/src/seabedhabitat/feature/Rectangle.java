@@ -1,28 +1,21 @@
 package seabedhabitat.feature;
 
-import exceptions.BizzException;
-
 public class Rectangle extends Geometry {
 
-	private double minLat, minLon, maxLat, maxLon;
+	private final double minLat, minLon, maxLat, maxLon;
 
 	public Rectangle(double minLat, double minLong, double maxLat, double maxLong) {
 		super("Polygon");
-		extendRectangle(minLat, minLong, maxLat, maxLong);
+		this.minLat = Math.min(minLat, maxLat);
+		this.maxLat = Math.max(minLat, maxLat);
+		this.minLon = Math.min(minLong, maxLong);
+		this.maxLon = Math.max(minLong, maxLong);
 
 	}
-	
+
 	public Rectangle(String minLat, String minLong, String maxLat, String maxLong) {
-		super("Polygon");
-		if (minLat == null || minLat.isEmpty() || minLong == null || minLong.isEmpty() || maxLong == null
-				|| minLong.isEmpty() || maxLat == null || maxLat.isEmpty()) {
-			throw new BizzException("Missing argument(s). Please check your coordinates.");
-		}
-		try {
-			extendRectangle(Double.parseDouble(minLat), Double.parseDouble(minLong), Double.parseDouble(maxLat), Double.parseDouble(maxLong));
-		} catch (NumberFormatException nfe) {
-			throw new BizzException("Please enter valid numbers.");
-		}
+		this(validateArgument("minLat", minLat), validateArgument("minLong", minLong),
+				validateArgument("maxLat", maxLat), validateArgument("maxLong", maxLong));
 	}
 
 	@Override
@@ -42,7 +35,6 @@ public class Rectangle extends Geometry {
 
 	@Override
 	public Geometry clippedWith(Rectangle r) {
-		// TODO Auto-generated method stub
 		throw new IllegalArgumentException("No implementation yet");
 	}
 
@@ -73,24 +65,36 @@ public class Rectangle extends Geometry {
 		return new Point[] { new Point(minLat, minLon), new Point(maxLat, maxLon) };
 	}
 
-	private void extendRectangle(double minLat, double minLong, double maxLat, double maxLong) {
-		if (minLat > maxLat) {
-			double tempLat = minLat;
-
-			minLat = maxLat;
-			maxLat = tempLat;
-
+	private static double validateArgument(String argName, String argument) {
+		if (argument == null || argument.isEmpty()) {
+			throw new IllegalArgumentException("Missing argument: " + argName + ". Please check your coordinates.");
 		}
-		if(maxLong < minLong) {
-			double temLon = maxLong;
-			
-			maxLong = minLong;
-			minLong = temLon;
+		try {
+			return Double.parseDouble(argument);
+		} catch (Exception e) {
+			throw new IllegalArgumentException(
+					"Could not parse argument " + argName + " as double, it contains " + argument, e);
 		}
+	}
 
-		this.minLat = Math.floor(minLat);
-		this.minLon = Math.floor(minLong);
-		this.maxLat = Math.ceil(maxLat);
-		this.maxLon = Math.ceil(maxLong);
+	/**
+	 * Rounds the bounding box, makes minimum lower and maximum higher. The
+	 * coordinates are reordered if needed.
+	 * 
+	 * @param minLat
+	 *            minimum latitude
+	 * @param minLong
+	 *            minimum longitude
+	 * @param maxLat
+	 *            maximum latitude
+	 * @param maxLong
+	 *            maximum longitude
+	 */
+	public Rectangle extendRectangle() {
+		return new Rectangle(
+				Math.floor(this.minLat), 
+				Math.floor(this.minLon), 
+				Math.ceil(this.maxLat),
+				Math.ceil(this.maxLon));
 	}
 }

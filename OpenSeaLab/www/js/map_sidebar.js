@@ -34,6 +34,7 @@ map.on({
 		document.getElementById("maxLat").value = String(Math.max.apply(null, lats));
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
+
 		getStatistics();
 		getDataFromCoords();
 	}
@@ -70,9 +71,6 @@ function addSeabedLayer(json){
 
 function loadDataFrom(url){
 	$.getJSON(url, function(json){ 
-		var button = document.getElementById("validateCoordinates");
-		button.textContent = "Get data";
-		button.disabled = false;
 		clearRect();
 
 		addSeabedLayer(json); 
@@ -103,10 +101,6 @@ function getDataFromCoords(){
 							URLpart2 + minLong + 
 							URLpart3 + maxLong;			
 	loadDataFrom(URLcoordinates);
-	var button = document.getElementById("validateCoordinates");
-
-	button.textContent = "loading...";
-	button.disabled = true;
 }
 
 
@@ -143,6 +137,8 @@ function drawRectangleFromInput(){
 				]);
 	polygon.addTo(map);
 	URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;
+
+
 }
 
 function getStatistics(){
@@ -153,30 +149,33 @@ function getStatistics(){
 	var maxLng = document.getElementById('maxLong').value;
 
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
-	var button = document.getElementById("validateStats");
-	button.textContent = "loading...";
-	button.disabled = true;
 	loadStatsFrom(statsURLcoordinates);
 }
 function loadStatsFrom(url){
 	$.getJSON(url, function(json){
 
-		var button = document.getElementById("validateStats");
-		button.textContent = "Get Stats";
-		button.disabled = false;
-
 		var div = document.getElementById('statsOutput');
+		var divInit = document.getElementById('statsInit');
+
 		div.innerHTML = "";
 		console.log(json);
 		JSON.parse(JSON.stringify(json), function (key, value) {
 			if(isInt(value)){
+
+				var y = document.createElement("div");
+				y.id = "wrapper";
+
 				var x = document.createElement("div");
 			    x.className = "seaBedColorSquare";
 				x.style.backgroundColor = "#"+ intToRGB(hashCode(key));
-
-			    x.innerHTML = (String(value).substring(0,8) + "    " + key);
+				
+				y.appendChild(x);
+				
+				var x1 = document.createElement("div");
+			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
 			    
-			   	div.appendChild(x);
+			    y.appendChild(x1);
+			   	div.insertBefore(y,divInit);
 			}
 			
 		});
