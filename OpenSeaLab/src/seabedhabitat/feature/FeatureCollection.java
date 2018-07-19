@@ -6,9 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class FeatureCollection implements Serializable{
+public class FeatureCollection implements Serializable {
 	private final List<Feature> features;
-	private Point[] bbox = new Point[2];
 
 	public FeatureCollection(List<Feature> features) {
 		this.features = features;
@@ -24,10 +23,6 @@ public class FeatureCollection implements Serializable{
 
 	public void addFeature(Feature f) {
 		features.add(f);
-	}
-
-	public Point[] getBbox() {
-		return bbox;
 	}
 
 	public String toGeoJSON() {
@@ -66,28 +61,25 @@ public class FeatureCollection implements Serializable{
 	 * 
 	 * @return
 	 */
-	public double calculateTotals(Map<String, Double> totalsToBeFilled) {
+	public SurfaceCount calculateTotals() {
 		double totalArea = 0;
+		HashMap<String, Double> parts = new HashMap<>();
 		for (Feature f : features) {
 			Geometry geo = f.getGeometry();
 			Map<String, Object> m = f.getProperties();
 			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
-			Double s = totalsToBeFilled.getOrDefault(name, 0.0);
-			totalsToBeFilled.put(name, s + geo.surfaceArea());
+			Double s = parts.getOrDefault(name, 0.0);
+			parts.put(name, s + geo.surfaceArea());
 			totalArea += geo.surfaceArea();
 		}
-		return totalArea;
+		return new SurfaceCount(totalArea, parts);
 	}
 
-	public Map<String, Double> calculatePercentages() {
-		Map<String, Double> totals = new HashMap<>();
-		double total = calculateTotals(totals);
-		for (String k : totals.keySet()) {
-			totals.put(k, 100 * totals.get(k) / total);
-		}
-		return totals;
+	public FeatureCollection joinWith(FeatureCollection fc) {
+		List<Feature> feats = new ArrayList<>(this.features.size() + fc.features.size());
+		feats.addAll(this.features);
+		feats.addAll(fc.features);
+		return new FeatureCollection(feats);
 	}
-	
-	
 
 }
