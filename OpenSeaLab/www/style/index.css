@@ -224,6 +224,8 @@ header {
 
 #minLat, #maxLat, #minLong, #maxLong {
   width: 5rem;
+  border-radius: 5px;
+  border: 1px solid #97BFDB;
 }
 
 .map-attributes {
