@@ -45,17 +45,50 @@ map.on({
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
-		var button = document.getElementById("selectRectangle");
-		button.textContent = "loading...";
-		button.disabled = true;
-
 		getDataFromCoords();
-
 	}
 });
 
 ////// Adding seabed Habitat Data to the map
 
+
+function getStyle(feature){
+   var clr;
+	if(dictionary.has(feature.properties.WEB_CLASS)){
+		clr = dictionary.get(feature.properties.WEB_CLASS);
+	} else {
+		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
+		dictionary.set(feature.properties.WEB_CLASS,clr);
+	}
+	return {color : clr, weight : 0.3};
+}
+
+function prepFeature(feature, layer){
+	var list = feature.properties.Allcomb ;
+	popupOptions = {maxWidth: 200};
+                
+	layer.bindPopup( /*list.toString(), popupOptions*/ "hey" );  
+}
+
+function addSeabedLayer(json){
+	clearData();
+    loadedLayer = L.geoJson(json,
+	   { style: getStyle
+      , onEachFeature : prepFeature
+		})
+    loadedLayer.addTo(map); 	
+}
+
+
+function loadDataFrom(url){
+	$.getJSON(url, function(json){ 
+		clearRect();
+
+		addSeabedLayer(json); 
+	});
+}
+
+// load data from the coordinates
 function getDataFromCoords(){
 
 	var minLat = document.getElementById("minLat").value;
@@ -88,40 +121,17 @@ function getDataFromCoords(){
 
 }
 
-function loadDataFrom(url){
-	$.getJSON(url, function(json){ 
 
-		clearRect();
+function getStatistics(){
+	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
+	var minLat = document.getElementById('minLat').value;
+	var minLng = document.getElementById('minLong').value;
+	var maxLat = document.getElementById('maxLat').value;
+	var maxLng = document.getElementById('maxLong').value;
 
-		addSeabedLayer(json); 
-	});
-}
+	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
+	loadStatsFrom(statsURLcoordinates);
 
-function addSeabedLayer(json){
-	clearData();
-    loadedLayer = L.geoJson(json,
-	   { style: getStyle
-      , onEachFeature : prepFeature
-		})
-    loadedLayer.addTo(map); 	
-}
-
-function getStyle(feature){
-   var clr;
-	if(dictionary.has(feature.properties.WEB_CLASS)){
-		clr = dictionary.get(feature.properties.WEB_CLASS);
-	} else {
-		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
-		dictionary.set(feature.properties.WEB_CLASS,clr);
-	}
-	return {color : clr, weight : 0.3};
-}
-
-function prepFeature(feature, layer){
-	var list = feature.properties.Allcomb ;
-	popupOptions = {maxWidth: 200};
-                
-	layer.bindPopup( /*list.toString(), popupOptions*/ "hey" );  
 }
 
 // Get statistics from the URL
@@ -154,9 +164,6 @@ function loadStatsFrom(url){
 			}
 			
 		});
-		var button = document.getElementById("selectRectangle");
-		button.textContent = "Select rectangle";
-		button.disabled = false;
 	} );
 }
 

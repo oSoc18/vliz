@@ -1,16 +1,15 @@
 
 $(function() {
-	$('#validateCoordinates').click(function(){
-		console.log($("#minLat").val())
+	$('#bath').click(function(){
 		$.ajax({
-			url : '127.0.0.1:8080/seabed',
+			url : '/bathymetry',
 			type : 'GET',
 			data : {
-				action:"getGeoJSON",
-				minLat: $("#minLat").val()/*"51.428"*/,
-				minLong: $("#minLong").val()/*"2.122"*/,
-				maxLat: $("#maxLat").val()/*"51.548"*/,
-				maxLong: $("#maxLong").val()/*"6.03"*/
+				action:"getStats",
+				minLat: "51.428",
+				minLong: "2.122",
+				maxLat: "51.548",
+				maxLong: "3.03"
 				
 			},
 			success : function(response) {

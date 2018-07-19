@@ -1,0 +1,217 @@
+
+.navbar-primary {
+  background-color: #d9edf791;
+  bottom: 0px;
+  right: 0px;
+  position: absolute;
+  top: 51px;
+  width: 700px;
+  z-index: 8;
+  overflow: hidden;
+  -webkit-transition: all 0.1s ease-in-out;
+  -moz-transition: all 0.1s ease-in-out;
+  transition: all 0.1s ease-in-out;
+}
+
+.navbar-primary.collapsed {
+  width: 40px;
+}
+
+.navbar-primary.collapsed .glyphicon {
+  font-size: 22px;
+}
+
+.navbar-primary.collapsed .nav-label {
+  display: none;
+}
+
+.btn-expand-collapse {
+    position: absolute;
+    display: block;
+    right: 0px;
+    bottom:0;
+    width: 100%;
+    padding: 8px 0;
+    border-top:solid 1px #666;
+    color: grey;
+    font-size: 20px;
+    text-align: center;
+}
+
+.btn-expand-collapse:hover,
+.btn-expand-collapse:focus {
+    background-color: #222;
+}
+
+.btn-expand-collapse:active {
+    background-color: #111;
+}
+
+.navbar-primary-menu,
+.navbar-primary-menu li {
+  margin:0; padding:0;
+  list-style: none;
+}
+
+.navbar-primary-menu li a {
+  display: block;
+  padding: 10px 18px;
+  text-align: left;
+  border-bottom:solid 1px #444;
+}
+
+.navbar-primary-menu li button:hover {
+  background-color: #000;
+  text-decoration: none;
+  color: white;
+}
+
+.navbar-primary-menu li a .glyphicon {
+  margin-left: 6px;
+}
+
+.main-content {
+  margin-top: 20px;
+  margin-right: 700px;
+  padding: 0px;
+}
+
+.collapsed + .main-content {
+  margin-right: 40px;
+}
+
+/*
+.sidenavResponsive {
+    height: 100%;
+    width: 100;
+    position: fixed;
+    z-index: 2;
+    top:0;
+    right: 0;
+    background-color: white;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.SelectLayerSide{
+	z-index:20;
+	right:0;
+	position:fixed;
+	font-size:40px;
+	top: 400px;
+	width: 300px;
+	
+}
+.sidenavResponsive a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenavResponsive h3{
+	 font-size: 30px;
+	 color: blue;
+}
+.sidenavResponsive a:hover {
+    color: #f1f1f1;
+}
+
+.sidenavResponsive .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+	margin-left : 50px;
+}
+
+#responsive-main {
+    transition: margin-left .5s;
+    padding: 16px;
+	position:fixed;
+	right:0;
+	top:40px;
+	z-index:0;
+
+}
+
+@media screen and (max-height: 450px) {
+  .sidenavResponsive {padding-top: 15px;}
+  .sidenavResponsive a {font-size: 18px;}
+}
+.Summary{
+	bottom:0;
+	padding-top: 300px;
+}
+
+
+//download button
+.btn {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+	right:0;
+	margin-left: 20px;
+}
+
+
+.btn:hover {
+    background-color: RoyalBlue;
+}
+.overlay {
+    height: 0%;
+    width: 100%;
+    position: fixed;
+    z-index: 3;
+    bottom: 0;
+    right: 0;
+    background-color: rgb(0, 191, 255);
+    overflow-y: hidden;
+    transition: 0.5s;
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+  .overlay {overflow-y: auto;}
+  .overlay a {font-size: 20px}
+  .overlay .closebtn {
+    font-size: 40px;
+    top: 15px;
+    right: 35px;
+  }
+}
+
+*/

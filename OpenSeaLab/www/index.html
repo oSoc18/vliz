@@ -1,107 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="icon" href="../../favicon.ico">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../../favicon.ico">
 
-	<title>sidebar template</title>
+  <title>sidebar template</title>
 
-	<!-- Bootstrap core CSS -->
-	<link href="style/bootstrap.min.css" rel="stylesheet">
-	<!-- <link rel="stylesheet" href="style/font-awesome.min.css"> -->
+  <!-- Bootstrap core CSS -->
+  <link href="style/bootstrap.min.css" rel="stylesheet">
+  <!-- <link rel="stylesheet" href="style/font-awesome.min.css"> -->
 
-	<!-- Custom styles for this template -->
-	<link href="style/dashboard.css" rel="stylesheet">
-	<link href="style/style-sidebar.css" rel="stylesheet">
-	<link href="style/leaflet.css" rel="stylesheet">
-	<link href="style/header.css" rel="stylesheet">	
-	<link href="style/index.css" rel="stylesheet">	
+  <!-- Custom styles for this template -->
+  <link href="style/leaflet.css" rel="stylesheet">
+  <link href="style/index.css" rel="stylesheet">
+  <link href="style/Responsive-sidebar.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+  <style type="text/css">
+  </style>
 
-	  <style type="text/css">
+</head>
 
-	  </style>
-
-  </head>
-
-  <body>
-
-	
-	<div class="container-fluid">
-	<div class="row">
-		<nav class="navbar navbar-inverse navbar-fixed-top">
-			<div class="container-fluid">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href="#">OpenSeaLab</a>
+<body>
+	<header>
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a href="index.html"><img class="header-logo" src="images/logo.png" width="450" height="65" /></a>
+				<div class="color-container">
+					<div class="yellow"></div>
+					<div class="green"></div>
+					<div class="brown"></div>
+					<div class="blue"></div>
+					<div class="blue-green"></div>
+					<div class="gray"></div>
+					<div class="red"></div>
 				</div>
-				<div id="navbar" class="navbar-collapse collapse">
-					<ul class="nav navbar-nav navbar-right">
-						<li><a href="#About">About</a></li>
-					</ul>
-				</div>
-			</div>
-		</nav> 
-	</div>
-</div>
 
-	<div class="container-fluid">
-	  <div class="row">
-		<div class="col-md-3 sidebar">
-			
-					<br>
-					<h3>Enter Coordinates : </h3>
-
-					<div class="row" >
-						<div class="container">
-							<h5>Latitude : </h5>
-							<div class="col-sm-4">
-								Min	<input type="text" id="minLat" name="coordinates1" size= "6">
-								Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
-							</div>
-						</div>
-						<div class="container">
-							<h5>Longitude : </h5>
-							<div class="col-sm-4">
-								Min	<input type="text" id="minLong" name="coordinates3" size= "6">
-								Max	<input type="text" id="maxLong" name="coordinates4" size= "6">  
-							</div> 
-						</div>          			
-					</div>  
-					<br>   
-					<button  id="selectRectangle" type="button" class="btn btn-default" onclick="enableDrawing()" >Select rectangle</button>
-					<button  type="button" class="btn btn-default" onclick="clearData()" >Clear data</button>
-					
-	  				<br><br><br>
-
-	
-	<button class="collapsible">Bathymetry</button>
-		<div class="content">
-		 <div class="dropdown-container">
-					<input type="checkbox" id="Bathymetry-opt1" value="Bathymetry-opt1">Mean depth<br>
-					<input type="checkbox" id="Bathymetry-opt2" value="Bathymetry-opt2"/>Coastal Areas<br>
-					<input type="checkbox" id="Bathymetry-opt3" value="Bathymetry-opt3"/>Depth contours<br>
-					<input type="checkbox" id="Bathymetry-opt4" value="Bathymetry-opt4"/>Source references<br>
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+				</button>
 			</div>
 		</div>
-	<button class="collapsible">Seabed Habitats</button>
-		<div class="content">
-			<div class="dropdown-container">
-					<input type="checkbox" id="Seabed-opt1" value="Seabed-opt1">Broad-Scale Predictive Habitat Map<br>
-					<input type="checkbox" id="Seabed-opt2" value="Seabed-opt2"/>Broad-Scale Predictive Habitat Map- Confidence<br>
-					<input type="checkbox" id="Seabed-opt3" value="Seabed-opt3"/>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br> 
+	</header>
+
+	<main>
+		<nav class="navbar-primary">
+			<a href="#" class="btn-expand-collapse"><span class="glyphicon glyphicon-menu-left"></span></a>
+			<div class="row">
+				<div class="col-lg-6 data-source">
+					<h3>Data sources</h3>
+					<ul class="navbar-primary-menu">
+						<li>
+							<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)">Bathymetry</button>
+								<div class="content">
+									<div class="dropdown-container">
+										<input type="checkbox" id="Bathymetry-opt1" />Mean depth<br>
+										<input type="checkbox" id="Bathymetry-opt2" />Coastal Areas<br>
+										<input type="checkbox" id="Bathymetry-opt3" />Depth contours<br>
+										<input type="checkbox" id="Bathymetry-opt4" />Source references<br>
+									</div>
+								</div>
+							<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)">Seabed Habitats</button>
+								<div class="content">
+									<div class="dropdown-container">
+										<input type="checkbox" id="Seabed1" />Broad-Scale Predictive Habitat Map<br>
+										<input type="checkbox" id="Seabed2" />Broad-Scale Predictive Habitat Map- Confidence<br>
+										<input type="checkbox" id="Seabed3" />Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
+									</div>
+								</div>
+						</li>
+
+					</ul>
+				<div id="statsOutput"> </div>
 			</div>
-		</div>	 
+
 
 	<br><br><br>
 	<div id="statsOutput"> 
@@ -112,32 +89,67 @@
 	
 
 	</div>
-		<div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3 main">
-			<div id="map">
-				<!-- Map Space -->
+		
+		</nav>
+		<nav class="main-content">
+			<div id="map" class="actual-map">
+			<!-- Map Space -->
+				<div class="map">
+					<div class="input-tab">
+						<form class="search-bar">
+							<input type="text" placeholder="Country, sea, coördinates,...">
+							<button type="submit">
+							</button>
+						</form>
+						<div class="coordinates">
+							<div class="row coordinates-container">
+								<div class="container">
+									<h5>Latitude: </h5>
+									<div class="col-sm-4 minmax">
+										Min	<input type="text" id="minLat" name="coordinates1" size= "6">
+										Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
+									</div>
+								</div>
+								<div class="container">
+									<h5>Longitude: </h5>
+									<div class="col-sm-4 minmax">
+										Min	<input type="text" id="minLong" name="coordinates3" size= "6">
+										Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
+									</div>
+								</div>
+							</div>
+              <div class="buttons">
+                <button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
+                <buttontype="button" class="delete btn btn-default" onclick="clearData()" ></button>
+              </div>
+						</div>
+					</div>
+				</div>
 			</div>
-		</div>
-	</div> 
-	</div>
+		</nav>
 
-	<!-- Bootstrap core JavaScript -->
-	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="js/jquery.min.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/leaflet.js"></script>
-	<script src="js/leaflet-providers.js"></script>
-	<script src="js/map_sidebar.js"></script>
-	<script src="js/leaflet.ajax.min"></script>
-	<script src="js/GeometryUtil.js"></script>
+	</main>
 
-	<script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
-	<script src="https://raw.github.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
-	<script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
+<!-- Bootstrap core JavaScript -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/leaflet.js"></script>
+<script src="js/leaflet-providers.js"></script>
+<script src="js/map_sidebar.js"></script>
+<script src="js/leaflet.ajax.min"></script>
+<script src="js/GeometryUtil.js"></script>
+<script src="js/Responsive-sidebar.js"></script>
+<script src="js/filters.js"></script>
 
-	<script src="js/dropdown.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+<script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+<script src="https://raw.github.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.js" type="text/javascript"></script>
 
-  </body>
+<script src="js/dropdown.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.2/leaflet.draw.js"></script>
+
+</body>
 </html>

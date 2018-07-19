@@ -1,6 +1,8 @@
 package seabedhabitat.feature;
 
-public abstract class Geometry {
+import java.io.Serializable;
+
+public abstract class Geometry implements Serializable {
 
 	private final String type;
 
