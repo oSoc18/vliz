@@ -19,10 +19,10 @@ var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 
-L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
-    layers: 'contours', transparent: true,
+/*L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+    layers: 'mean_rainbowcolour', transparent: true,
     format: 'image/png'
-}).addTo(map);
+}).addTo(map);*/
 
 
 // Draw the rectangle on the map
