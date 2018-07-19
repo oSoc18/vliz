@@ -49,7 +49,7 @@ function getStyle(feature){
 		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
 	}
-	return {color : clr, weight : 0.3};
+	return {color : clr, weight : 0.0};
 }
 
 function prepFeature(feature, layer){
@@ -90,9 +90,9 @@ function getDataFromCoords(){
 		return;
 	}
 
-	if((maxLat - minLat) * (maxLong - minLong) > 10){
-		alert("The selected area is too big to display. (You can load statistics though)");
-		return;
+	if((maxLat - minLat) * (maxLong - minLong) > 100){
+		//alert("The selected area is too big to display. (You can load statistics though)");
+		//return;
 	} 
 
 

@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -56,6 +57,7 @@ public class CachingManager {
 			return (FeatureCollection) in.readObject();
 		} catch (Exception e) {
 			System.out.println("Could not laod "+getPath(bbox, type));
+			new File(getPath(bbox, type).toString()).delete();
 			throw new FatalException(e);
 		}
 	}
