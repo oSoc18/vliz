@@ -14,7 +14,7 @@
 }
 
 .navbar-primary.collapsed {
-  width: 60px;
+  width: 40px;
 }
 
 .navbar-primary.collapsed .glyphicon {
@@ -41,7 +41,6 @@
 .btn-expand-collapse:hover,
 .btn-expand-collapse:focus {
     background-color: #222;
-    color: white;
 }
 
 .btn-expand-collapse:active {
@@ -59,7 +58,6 @@
   padding: 10px 18px;
   text-align: left;
   border-bottom:solid 1px #444;
-  color: #ccc;
 }
 
 .navbar-primary-menu li button:hover {
