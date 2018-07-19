@@ -20,15 +20,14 @@ time, mark, audio, video {
 }
 
 .collapsible {
-    background-color: #777;
-    color: white;
+    background-color: #368cb7;
     cursor: pointer;
-    padding: 18px;
+    padding: 20px;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
-    font-size: 15px;
+    font-size: 20px;
 }
 
 .active, .collapsible:hover {
@@ -325,11 +324,11 @@ h5 {
     height: 100%;
     background-color: green;
   }
-
+/*
   .map {
     width: 100vw;
   }
-
+*/
   .tabs {
     width: 30vw;
   }
