@@ -1,4 +1,4 @@
-var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 8);
+var map = L.map('map', {zoomControl:true}).setView([47.3791104480105, -2.19580078125], 4);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
@@ -10,12 +10,22 @@ var loadedLayer = undefined;
 //create a new dictionary for feature colors
 let dictionary = new Map();
 
+// layer source http://portal.emodnet-bathymetry.eu/services/#wms
+let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
+
 var URLpart0 ="http://127.0.0.1:8080/seabed?action=getGeoJSON&minLat=";
+var URLpart0Stats ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
 var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 
+L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+    layers: 'contours', transparent: true,
+    format: 'image/png'
+}).addTo(map);
 
+
+// Draw the rectangle on the map
 map.on({
 	
 	'draw:created': function (event) {
@@ -35,10 +45,11 @@ map.on({
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
-		getStatistics();
 		getDataFromCoords();
 	}
 });
+
+////// Adding seabed Habitat Data to the map
 
 
 function getStyle(feature){
@@ -90,56 +101,26 @@ function getDataFromCoords(){
 		return;
 	}
 
-	if((maxLat - minLat) * (maxLong - minLong) > 10){
+	if((maxLat - minLat) * (maxLong - minLong) > 500){
 		alert("The selected area is too big to display. (You can load statistics though)");
 		return;
 	} 
 
 
-   URLcoordinates = 	URLpart0 + minLat +
-							URLpart1 + maxLat +
-							URLpart2 + minLong + 
-							URLpart3 + maxLong;			
+    URLcoordinates = URLpart0 + minLat +
+						URLpart1 + maxLat +
+						URLpart2 + minLong + 
+						URLpart3 + maxLong;	
+	StatsURLcoordinates = URLpart0Stats + minLat +
+						URLpart1 + maxLat +
+						URLpart2 + minLong + 
+						URLpart3 + maxLong;	
+
 	loadDataFrom(URLcoordinates);
-}
-
-
-
-function hashCode(str) { // java String#hashCode
-    var hash = 0;
-    for (var i = 0; i < str.length; i++) {
-       hash = str.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    return hash;
-} 
-
-function intToRGB(i){
-    var c = (i & 0x00FFFFFF)
-        .toString(16)
-        .toUpperCase();
-
-    return "00000".substring(0, 6 - c.length) + c;
-}
-
-function drawRectangleFromInput(){
-	var minLat = document.getElementById('minLat').value;
-	var minLng = document.getElementById('minLong').value;
-	var maxLat = document.getElementById('maxLat').value;
-	var maxLng = document.getElementById('maxLong').value;
-
-	firstCoor = L.latLng(minLat, minLng);
-	var lastCoor = L.latLng(maxLat, maxLng);
-	polygon = L.polygon([
-					firstCoor,
-					[firstCoor.lat, lastCoor.lng],
-					lastCoor,
-					[lastCoor.lat, firstCoor.lng]
-				]);
-	polygon.addTo(map);
-	URLcoordinates = URLpart0.concat(firstCoor.lat,URLpart1.concat(lastCoor.lat,URLpart2.concat(firstCoor.lng,URLpart3)))+lastCoor.lng;
-
+	loadStatsFrom(StatsURLcoordinates);
 
 }
+
 
 function getStatistics(){
 	var URLpart0a ="http://127.0.0.1:8080/seabed?action=getStats&minLat=";
@@ -150,7 +131,11 @@ function getStatistics(){
 
 	var statsURLcoordinates = URLpart0a.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
 	loadStatsFrom(statsURLcoordinates);
+
 }
+
+// Get statistics from the URL
+
 function loadStatsFrom(url){
 	$.getJSON(url, function(json){
 
@@ -182,6 +167,26 @@ function loadStatsFrom(url){
 	} );
 }
 
+// Create a hash for the seabed habitat type based on its unique WEB_CLASS
+
+function hashCode(str) { 
+    var hash = 0;
+    for (var i = 0; i < str.length; i++) {
+       hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return hash;
+} 
+
+function intToRGB(i){
+    var c = (i & 0x00FFFFFF)
+        .toString(16)
+        .toUpperCase();
+
+    return "00000".substring(0, 6 - c.length) + c;
+}
+
+
+
 function clearData(){
 	if(loadedLayer != undefined){
 		loadedLayer.clearLayers();
@@ -208,5 +213,17 @@ function enableDrawing(){
 	draw = new L.Draw.Rectangle(map);
 	draw.enable();
 }
+
+
+
+var layer = new ol.layer.Image({
+	extent: [-36, 25, 43, 85],
+	source: new ol.source.ImageWMS({
+		url: 'http://ows.emodnet-bathymetry.eu/wms',
+		// refer to the section layer name to find the name of the layer 
+		params: {'LAYERS': 'mean_atlas_land'}			
+	})
+}); 
+
 
 
