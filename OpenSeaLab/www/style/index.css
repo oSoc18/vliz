@@ -20,7 +20,7 @@ time, mark, audio, video {
 }
 
 .collapsible {
-    background-color: #368cb7;
+    background-color: white;
     cursor: pointer;
     padding: 20px;
     width: 100%;
@@ -31,7 +31,7 @@ time, mark, audio, video {
 }
 
 .active, .collapsible:hover {
-    background-color: #555;
+    background-color: #ddd;
 }
 
 .content {
@@ -40,6 +40,7 @@ time, mark, audio, video {
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
+	font-size: 15px;
 }
 
 header {
@@ -372,4 +373,3 @@ h5 {
   margin: 5px;
   border: 1px solid rgba(0, 0, 0, .2);
 }
-

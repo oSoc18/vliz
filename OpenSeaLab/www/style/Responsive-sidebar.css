@@ -4,7 +4,7 @@
   bottom: 0px;
   right: 0px;
   position: absolute;
-  top: 51px;
+  top: 120px;
   width: 700px;
   z-index: 8;
   overflow: hidden;
@@ -66,8 +66,16 @@
   color: white;
 }
 
+.navbar-primary h3{
+	font-size : 30px;
+	color : #2f93c3;
+	text-align: center;
+}
+.navbar-primary p{
+	font-size : 18px;
+}
 .navbar-primary-menu li a .glyphicon {
-  margin-left: 6px;
+  margin-left: 2px;
 }
 
 .main-content {
