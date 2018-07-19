@@ -1,10 +1,9 @@
 
-.navbar-primary {
-  background-color: white;
+.navbar-primary {  
   bottom: 0px;
   right: 0px;
   position: absolute;
-  top: 51px;
+  top: 120px;
   width: 700px;
   z-index: 8;
   overflow: hidden;
@@ -61,13 +60,21 @@
 }
 
 .navbar-primary-menu li button:hover {
-  background-color: #000;
+  background-color: #EEEEEE ;
   text-decoration: none;
-  color: white;
+  color:#2073B0;	
 }
 
+.navbar-primary h3{
+	font-size : 30px;
+	color : #073056;
+	text-align: center;
+}
+.navbar-primary p{
+	font-size : 18px;
+}
 .navbar-primary-menu li a .glyphicon {
-  margin-left: 6px;
+  margin-left: 2px;
 }
 
 .main-content {
@@ -79,7 +86,9 @@
 .collapsed + .main-content {
   margin-right: 40px;
 }
-
+.col-lg-6{
+	width:360px;
+}
 /*
 .sidenavResponsive {
     height: 100%;

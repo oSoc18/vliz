@@ -18,8 +18,7 @@
   <!-- Custom styles for this template -->
   <link href="style/leaflet.css" rel="stylesheet">
   <link href="style/index.css" rel="stylesheet">
-  <link href="style/Responsive-sidebar.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href="style/responsive-sidebar.css" rel="stylesheet">
 
   <style type="text/css">
   </style>
@@ -28,34 +27,31 @@
 
 <body>
 	<header>
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a href="index.html"><img class="header-logo" src="images/logo.png" width="450" height="65" /></a>
-				<div class="color-container">
-					<div class="yellow"></div>
-					<div class="green"></div>
-					<div class="brown"></div>
-					<div class="blue"></div>
-					<div class="blue-green"></div>
-					<div class="gray"></div>
-					<div class="red"></div>
-				</div>
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-					<span class="sr-only">Toggle navigation</span>
-				</button>
+		<a href="index.html"><img class="header-logo" src="images/logo.png" width="450" height="65" /></a>
+			<div class="color-container">
+				<div class="yellow"></div>
+				<div class="green"></div>
+				<div class="brown"></div>
+				<div class="blue"></div>
+				<div class="blue-green"></div>
+				<div class="gray"></div>
+				<div class="red"></div>
 			</div>
-		</div>
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+		</button>
 	</header>
-
 	<main>
 		<nav class="navbar-primary">
 			<a href="#" class="btn-expand-collapse"><span class="glyphicon glyphicon-menu-left"></span></a>
 			<div class="row">
-				<div class="col-lg-6 data-source">
+				<div class="col-lg-6">
 					<h3>Data sources</h3>
+					<br>
+					<br>
 					<ul class="navbar-primary-menu">
 						<li>
-							<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)">Bathymetry</button>
+							<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)"><img src="images/bathymetry.png"></img> Bathymetry</button>
 								<div class="content">
 									<div class="dropdown-container">
 										<input type="checkbox" id="Bathymetry-opt1" />Mean depth<br>
@@ -64,7 +60,7 @@
 										<input type="checkbox" id="Bathymetry-opt4" />Source references<br>
 									</div>
 								</div>
-							<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)">Seabed Habitats</button>
+							<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)"><img src="images/human activities.png"></img> Seabed Habitats</button>
 								<div class="content">
 									<div class="dropdown-container">
 										<input type="checkbox" id="Seabed1" />Broad-Scale Predictive Habitat Map<br>
@@ -73,17 +69,19 @@
 									</div>
 								</div>
 						</li>
+
 					</ul>
 				<div id="statsOutput"> </div>
 			</div>
 
-			<div class="col-lg-6 filters">
+			<div class="col-lg-6">
 				<h3>Filters</h3>
 					<br>
 					<br>
 					<p id="AddFilter"> Select a layer to view filters</p>
 			</div>
 		</div>
+
 		</nav>
 		<nav class="main-content">
 			<div id="map" class="actual-map">
@@ -97,25 +95,25 @@
 						</form>
 						<div class="coordinates">
 							<div class="row coordinates-container">
-								<div class="container">
+								<div class="container-fluid container-coordinates">
 									<h5>Latitude: </h5>
-									<div class="col-sm-4">
+									<div class="col-sm-4 minmax">
 										Min	<input type="text" id="minLat" name="coordinates1" size= "6">
 										Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
 									</div>
 								</div>
-								<div class="container">
+								<div class="container-fluid container-coordinates">
 									<h5>Longitude: </h5>
-									<div class="col-sm-4">
+									<div class="col-sm-4 minmax">
 										Min	<input type="text" id="minLong" name="coordinates3" size= "6">
 										Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
 									</div>
 								</div>
-								<div class="buttons">
-									<button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
-									<buttontype="button" class="delete btn btn-default" onclick="clearData()" ></button>
-								</div>
 							</div>
+							<div class="buttons">
+								<button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
+								<button type="button" class="delete btn btn-default" onclick="clearData()" ></button>
+							 </div>
 						</div>
 					</div>
 				</div>

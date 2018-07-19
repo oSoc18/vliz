@@ -19,20 +19,25 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
+main, #map {
+  height: 83vh;
+}
+
 .collapsible {
-    background-color: #777;
-    color: white;
+    background-color: white;
     cursor: pointer;
-    padding: 18px;
-    width: 100%;
+    padding: 20px;
     border: none;
     text-align: left;
     outline: none;
-    font-size: 15px;
+    font-size: 20px;
+	width: 345px;
+	color: #678B9C;
+	font-style: gras;
 }
 
 .active, .collapsible:hover {
-    background-color: #555;
+    background-color: #ddd;
 }
 
 .content {
@@ -41,6 +46,7 @@ time, mark, audio, video {
     overflow: hidden;
     transition: max-height 0.2s ease-out;
     background-color: #f1f1f1;
+	font-size: 15px;
 }
 
 header {
@@ -118,7 +124,7 @@ header {
 /* .main {
   width: 100vw;
   height: 85vh;
-} 
+}
 .map {
   display: flex;
   width: 100vw;
@@ -131,15 +137,15 @@ header {
 
 .map {
   display: flex;
-  height: 85vh;
+  height: 80vh;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
 }
-
+/*
 #map {
   top: 15px;
-}
+} */
 
 .leaflet-map-pane, .leaflet-control-container {
 
@@ -155,7 +161,7 @@ header {
 
 .input-tab {
   display: flex;
-  height: 70px;
+  height: 90px;
   width: 100%;
   background-color: white;
   justify-content: space-between;
@@ -180,6 +186,7 @@ header {
   border: 1px solid #7BADD1;
   border-radius: 7px;
   width: 200px;
+  height: 2rem;
 }
 
 .search-bar button[type=submit] {
@@ -200,27 +207,37 @@ header {
 }
 
 .coordinates {
-  width: 330px;
-  height: 110%;
-  background-color: white;
+  width: 22rem;
+  height: 100%;
   margin-top: 5%;
-  border-bottom-left-radius: 100px;
-  box-shadow: 0 5px 20px -6px #678B9C;
-  margin-right: 4rem;
+}
+
+.container-coordinates {
+  width: 16rem;
+}
+
+.minmax {
+  margin-left: 2.8rem;
+  display: flex;
+  flex-direction: row;
 }
 
 .buttons {
   display: flex;
   width: 2rem;
   height: 5rem;
-  margin-left: -90px;
+  margin-left: 17rem;
+  margin-top: 1rem;
   flex-direction: column;
   justify-content: space-between;
-  position: absolute;
 }
 
 #minLat, #maxLat, #minLong, #maxLong {
-  width: 5rem;
+  min-width: 4rem;
+  border-radius: 5px;
+  border: 1px solid #97BFDB;
+  margin-right: .5rem;
+  margin-left: .3rem;
 }
 
 .map-attributes {
@@ -271,10 +288,13 @@ header {
 
 .coordinates-container {
   margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 h5 {
   display: inline-block;
+  position: absolute;
 }
 
 .col-sm-4 {
@@ -296,6 +316,7 @@ h5 {
   background-image: url('../images/rectangle.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 1.5rem;
 }
 
 .delete {
@@ -306,6 +327,11 @@ h5 {
   background-image: url('../images/delete.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 1.5rem;
+}
+
+.main-content {
+  margin-top: 0;
 }
 
 @media (max-width: 1000px) {
@@ -325,11 +351,11 @@ h5 {
     height: 100%;
     background-color: green;
   }
-
+/*
   .map {
     width: 100vw;
   }
-
+*/
   .tabs {
     width: 30vw;
   }
@@ -367,3 +393,11 @@ h5 {
   border: 1px solid rgba(0, 0, 0, .2);
 }
 
+#wrapper {
+    width: 500px;
+    overflow: hidden; /* will contain if #first is longer than #second */
+}
+
+.leaflet-container {
+    background-color:rgba(255,0,0,0.0);
+}
