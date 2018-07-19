@@ -1,7 +1,5 @@
 package seabedhabitat;
 
-import java.io.File;
-
 import seabedhabitat.feature.FeatureCollection;
 import seabedhabitat.feature.Rectangle;
 

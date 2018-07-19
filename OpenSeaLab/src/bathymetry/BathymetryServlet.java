@@ -65,7 +65,7 @@ public class BathymetryServlet extends DefaultServlet {
 		}
 	}
 
-	private void sendError(HttpServletResponse resp, String msg, int code) {
+	private static void sendError(HttpServletResponse resp, String msg, int code) {
 		try {
 			resp.sendError(code, msg);
 		} catch (IOException exc) {
