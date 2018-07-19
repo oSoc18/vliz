@@ -118,7 +118,7 @@ header {
 /* .main {
   width: 100vw;
   height: 85vh;
-} 
+}
 .map {
   display: flex;
   width: 100vw;
@@ -200,23 +200,26 @@ header {
 }
 
 .coordinates {
-  width: 330px;
-  height: 110%;
-  background-color: white;
+  width: 20rem;
+  height: 100%;
   margin-top: 5%;
-  border-bottom-left-radius: 100px;
-  box-shadow: 0 5px 20px -6px #678B9C;
-  margin-right: 4rem;
+  margin-right: 6rem;
+}
+
+.minmax {
+  width: 7rem;
+  display: flex;
+  flex-direction: row;
 }
 
 .buttons {
   display: flex;
   width: 2rem;
   height: 5rem;
-  margin-left: -90px;
+  margin-left: 21rem;
+  margin-top: 1rem;
   flex-direction: column;
   justify-content: space-between;
-  position: absolute;
 }
 
 #minLat, #maxLat, #minLong, #maxLong {
@@ -271,6 +274,8 @@ header {
 
 .coordinates-container {
   margin-left: 1rem;
+  display: flex;
+  flex-direction: row;
 }
 
 h5 {
@@ -296,6 +301,7 @@ h5 {
   background-image: url('../images/rectangle.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 1.5rem;
 }
 
 .delete {
@@ -306,6 +312,7 @@ h5 {
   background-image: url('../images/delete.svg');
   background-repeat: no-repeat;
   background-position: center;
+  background-size: 1.5rem;
 }
 
 @media (max-width: 1000px) {
