@@ -1,4 +1,4 @@
-var map = L.map('map', {zoomControl:true}).setView([50.3791104480105, -2.19580078125], 7);
+var map = L.map('map', {zoomControl:true}).setView([47.3791104480105, -2.19580078125], 4);
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
@@ -45,6 +45,10 @@ map.on({
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
+		var button = document.getElementById("selectRectangle");
+		button.textContent = "loading...";
+		button.disabled = true;
+
 		getDataFromCoords();
 
 	}
@@ -64,7 +68,7 @@ function getDataFromCoords(){
 		return;
 	}
 
-	if((maxLat - minLat) * (maxLong - minLong) > 20){
+	if((maxLat - minLat) * (maxLong - minLong) > 500){
 		alert("The selected area is too big to display. (You can load statistics though)");
 		return;
 	} 
@@ -86,9 +90,7 @@ function getDataFromCoords(){
 
 function loadDataFrom(url){
 	$.getJSON(url, function(json){ 
-		var button = document.getElementById("validateCoordinates");
-		button.textContent = "Get data";
-		button.disabled = false;
+
 		clearRect();
 
 		addSeabedLayer(json); 
@@ -127,10 +129,6 @@ function prepFeature(feature, layer){
 function loadStatsFrom(url){
 	$.getJSON(url, function(json){
 
-		var button = document.getElementById("validateStats");
-		button.textContent = "Get Stats";
-		button.disabled = false;
-
 		var div = document.getElementById('statsOutput');
 		var divInit = document.getElementById('statsInit');
 
@@ -156,6 +154,9 @@ function loadStatsFrom(url){
 			}
 			
 		});
+		var button = document.getElementById("selectRectangle");
+		button.textContent = "Select rectangle";
+		button.disabled = false;
 	} );
 }
 
