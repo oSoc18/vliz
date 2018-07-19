@@ -110,7 +110,7 @@ public class SAXHandler extends DefaultHandler {
 		if (lowerCorner) {
 			lowerCorner = false;
 			if (!isFeature) {
-				featureCollection.getBbox()[0] = getPoint(s);
+				getPoint(s);// we only parse the point, but don't save it
 			} else {
 				feature.getBbox()[0] = getPoint(s);
 			}
@@ -118,7 +118,7 @@ public class SAXHandler extends DefaultHandler {
 		}
 		if (upperCorner) {
 			if (!isFeature) {
-				featureCollection.getBbox()[1] = getPoint(s);
+				getPoint(s); // we only parse the point, but don't save it
 			} else {
 				feature.getBbox()[1] = getPoint(s);
 			}

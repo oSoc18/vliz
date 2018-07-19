@@ -3,22 +3,22 @@ package seabedhabitat;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.jetty.servlet.DefaultServlet;
 
+import com.owlike.genson.Genson;
+
 import exceptions.BizzException;
 import exceptions.FatalException;
 import main.CachingManager;
+import main.PiecedCachingManager;
 import main.Util;
 import seabedhabitat.feature.FeatureCollection;
 import seabedhabitat.feature.Rectangle;
@@ -28,12 +28,12 @@ public class SeabedHabitatServlet extends DefaultServlet {
 	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatServlet.class.getName());
 	private final UCCSeabedHabitat seabedHabitatUCC;
 
-	private final CachingManager cm;
+	private final PiecedCachingManager cm;
 	private final String defaultType;
 
-	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC, CachingManager cm, String defaultType) {
+	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC, CachingManager cm, CachingManager stats, String defaultType) {
 		this.seabedHabitatUCC = seabedHabitatUCC;
-		this.cm = cm;
+		this.cm = new PiecedCachingManager(seabedHabitatUCC, cm, stats);
 		this.defaultType = defaultType;
 
 	}
@@ -46,41 +46,20 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String action = req.getParameter("action");
-		if (action != null) {
-			switch (action) {
-			case "getGeoJSON":
-				getGeoJSON(req, resp);
-				break;
-			case "getStats":
-				getStats(req, resp);
-				break;
-			default:
-				sendError(resp, "Unknown action", HttpServletResponse.SC_NOT_FOUND);
-				break;
-			}
-		}
-	}
-
-	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			Rectangle bbox = Util.getBBox(req);
-
-			/*
-			 * By extending the bbox, rectangles will have a bigger chance of being the same
-			 * This way, caching works more reliably
-			 */
-			Rectangle extended = bbox.extendRectangle();
-
-			String type = getType(req);
-			if (cm.isInCache(extended, type)) {
-				FeatureCollection fc = cm.restore(extended, type);
-				fc = fc.clippedWith(bbox);
-				responseFromString(fc.toGeoJSON(), resp);
-			} else {
-				FeatureCollection fc = seabedHabitatUCC.getFeatures(extended, type);
-				cm.store((Serializable) fc, extended, type);
-				responseFromString(fc.clippedWith(bbox).toGeoJSON(), resp);
+			String action = req.getParameter("action");
+			if (action != null) {
+				switch (action) {
+				case "getGeoJSON":
+					getGeoJSON(req, resp);
+					break;
+				case "getStats":
+					getStats(req, resp);
+					break;
+				default:
+					sendError(resp, "Unknown action", HttpServletResponse.SC_NOT_FOUND);
+					break;
+				}
 			}
 
 		} catch (BizzException b) {
@@ -94,32 +73,27 @@ public class SeabedHabitatServlet extends DefaultServlet {
 			sendError(resp, "Something happened, we can't respond to your request.",
 					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		}
+	}
 
+	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
+		Rectangle bbox = Util.getBBox(req);
+		System.out.println("Getting stuff");
+		FeatureCollection fc = cm.retrieve(bbox, getType(req));
+		responseFromString(fc.toGeoJSON(), resp);
+	}
+	
+	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
+		Rectangle bbox = Util.getBBox(req);
+		System.out.println("Getting stuff");
+		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req)).calculatePercentages();
+		
+		responseFromString(new Genson().serialize(fc), resp);
 	}
 
 	private String getType(HttpServletRequest req) {
 		return req.getParameter("type") == null ? defaultType : req.getParameter("type");
 	}
 
-	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
-		try {
-
-			Rectangle bbox = Util.getBBox(req);
-			String type = getType(req);
-			String stats = seabedHabitatUCC.getStats(bbox, type);
-			responseFromString(stats, resp);
-
-		} catch (BizzException b) {
-			LOGGER.log(Level.FINE, b.getMessage());
-			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
-		} catch (FatalException f) {
-			LOGGER.log(Level.INFO, f.getMessage(), f);
-		} catch (Exception e) {
-			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
-			sendError(resp, "Something happened, we can't respond to your request.",
-					HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-		}
-	}
 
 	@SuppressWarnings("static-method")
 	private void sendError(HttpServletResponse resp, String msg, int code) {
