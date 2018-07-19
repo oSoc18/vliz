@@ -64,24 +64,21 @@ public class BathymetryDAO {
 		return new File(pathname);
 	}
 
-	private List<Double> fetchFrom(String url) {
-		try {
-			InputStreamReader streamReader = new InputStreamReader(Util.fetchFrom(url));
-			BufferedReader reader = new BufferedReader(streamReader);
+	@SuppressWarnings("unchecked")
+	private static List<Double> fetchFrom(String url) {
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(Util.fetchFrom(url)))) {
 			StringBuilder s = new StringBuilder();
 			String inputL = null;
 			while ((inputL = reader.readLine()) != null) {
 				s.append(inputL + '\n');
 			}
-			reader.close();
-			streamReader.close();
 			return new Genson().deserialize(s.toString(), List.class);
 		} catch (IOException io) {
 			throw new FatalException(io);
 		}
 	}
 
-	private double[] getMinMaxSumSize(List<Double> l) {
+	private static double[] getMinMaxSumSize(List<Double> l) {
 		double min = Double.MAX_VALUE;
 		double max = Double.MIN_VALUE;
 		double sum = 0;
