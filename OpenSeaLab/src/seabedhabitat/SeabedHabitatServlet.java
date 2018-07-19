@@ -3,6 +3,7 @@ package seabedhabitat;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.logging.Level;
@@ -61,36 +62,33 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		}
 	}
 
-
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			
 			Rectangle bbox = Util.getBBox(req);
-			
+
 			/*
 			 * By extending the bbox, rectangles will have a bigger chance of being the same
 			 * This way, caching works more reliably
 			 */
 			Rectangle extended = bbox.extendRectangle();
-			
-			String type=  req.getParameter("type");
-			if(cm.isInCache(extended, type)) {
+
+			String type = getType(req);
+			if (cm.isInCache(extended, type)) {
 				FeatureCollection fc = cm.restore(extended, type);
 				fc = fc.clippedWith(bbox);
 				responseFromString(fc.toGeoJSON(), resp);
-			}else {
+			} else {
 				FeatureCollection fc = seabedHabitatUCC.getFeatures(extended, type);
-				cm.store(fc.toGeoJSON(), extended);
+				cm.store((Serializable) fc, extended, type);
 				responseFromString(fc.clippedWith(bbox).toGeoJSON(), resp);
 			}
-			
-			
+
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
 			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
 		} catch (FatalException f) {
 			LOGGER.log(Level.INFO, f.getMessage(), f);
-			sendError(resp, "Something went wrong: "+f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			sendError(resp, "Something went wrong: " + f.getMessage(), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 		} catch (Exception e) {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", e);
 			sendError(resp, "Something happened, we can't respond to your request.",
@@ -99,17 +97,18 @@ public class SeabedHabitatServlet extends DefaultServlet {
 
 	}
 
+	private String getType(HttpServletRequest req) {
+		return req.getParameter("type") == null ? defaultType : req.getParameter("type");
+	}
+
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		try {
-			
+
 			Rectangle bbox = Util.getBBox(req);
-			String type = req.getParameter("type");
-			String stats = seabedHabitatUCC.getStats(bbox, type == null ? defaultType : type);
+			String type = getType(req);
+			String stats = seabedHabitatUCC.getStats(bbox, type);
 			responseFromString(stats, resp);
-			
-			
-			
-			
+
 		} catch (BizzException b) {
 			LOGGER.log(Level.FINE, b.getMessage());
 			sendError(resp, b.getMessage(), HttpServletResponse.SC_BAD_REQUEST);
@@ -130,7 +129,7 @@ public class SeabedHabitatServlet extends DefaultServlet {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
 	}
-	
+
 	private static void responseFromString(String data, HttpServletResponse resp) {
 		try (BufferedWriter sos = new BufferedWriter(new OutputStreamWriter(resp.getOutputStream()))) {
 			resp.setContentType("application/json");
@@ -141,6 +140,5 @@ public class SeabedHabitatServlet extends DefaultServlet {
 			LOGGER.log(Level.WARNING, "Unexpected behavior", exc);
 		}
 	}
-
 
 }

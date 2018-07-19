@@ -1,8 +1,5 @@
 package main;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -46,7 +43,7 @@ public class CachingManager {
 
 	public void store(Serializable ser, Rectangle bbox, String type) {
 		Path p = getPath(bbox, type);
-		try (ObjectOutputStream fileOut = new XMLObjectOutputStream(new FileOutputStream(new File(p.toString())))) {
+		try (ObjectOutputStream fileOut = new ObjectOutputStream(Files.newOutputStream(p))) {
 			fileOut.writeObject(ser);
 			fileOut.flush();
 		} catch (Exception e) {
@@ -55,8 +52,7 @@ public class CachingManager {
 	}
 
 	public FeatureCollection restore(Rectangle bbox, String type) {
-		try (ObjectInputStream in = new ObjectInputStream(
-				new FileInputStream(new File(getPath(bbox, type).toString())))) {
+		try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(getPath(bbox, type)))) {
 			return (FeatureCollection) in.readObject();
 		} catch (Exception e) {
 			System.out.println("Could not laod "+getPath(bbox, type));
