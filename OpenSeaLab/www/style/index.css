@@ -131,7 +131,7 @@ header {
 
 .map {
   display: flex;
-  height: 85vh;
+  height: 80vh;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
