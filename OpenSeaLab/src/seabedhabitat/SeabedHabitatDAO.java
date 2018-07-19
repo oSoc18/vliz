@@ -1,16 +1,6 @@
 package seabedhabitat;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,121 +14,89 @@ import org.xml.sax.SAXException;
 import com.owlike.genson.Genson;
 
 import exceptions.FatalException;
-import seabedhabitat.feature.Feature;
+import main.Util;
 import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Geometry;
 import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatDAO {
 	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatDAO.class.getName());
 	private final String url;
-	private final String cacheDir;
-	private final String dataPattern;
-	private final String statPattern;
+	private final String defaultType;
 
-	public SeabedHabitatDAO(String url, String cacheDir, String dataPattern, String statPattern) {
+	/**
+	 * Constructs a data object access that manages everything linked to pure data.
+	 * 
+	 * @param url
+	 *            webservice url
+	 * @param defaultType
+	 *            type name of the seabed habitat
+	 */
+	public SeabedHabitatDAO(String url, String defaultType) {
 		this.url = url;
-		this.cacheDir = cacheDir;
-		this.dataPattern = dataPattern;
-		this.statPattern = statPattern;
+		this.defaultType = defaultType;
 	}
 
-	public File getGeoJson(Rectangle bbox) {
-			String id = bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLon();
-			String pathname = cacheDir + "/" + dataPattern.replace("{id}", id);
-			Path p = FileSystems.getDefault().getPath(pathname);
-			if (!Files.exists(p)) {
-				Path statsPath = FileSystems.getDefault().getPath(cacheDir + "/" + statPattern.replace("{id}", id));
-				process(bbox, statsPath, p);
-			}
-			return new File(pathname);
-	}
-
-	public File getStats(Rectangle bbox) {
-		String id = bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLon();
-		String pathname = cacheDir + "/" + statPattern.replace("{id}", id);
-		Path statsPath = FileSystems.getDefault().getPath(pathname);
-		if (!Files.exists(statsPath)) {
-			Path geojsonPath = FileSystems.getDefault().getPath(cacheDir + "/" + dataPattern.replace("{id}", id));
-			process(bbox, statsPath, geojsonPath);
-
-		}
-		return new File(pathname);
-
-	}
-
-	private void process(Rectangle bbox, Path statsPath, Path geojsonPath) {
+	/**
+	 * Fetchs, saves and returns a geojson file.
+	 * 
+	 * @param bbox
+	 *            bounding box
+	 * @param type
+	 *            seabed habitat type
+	 * @return geojson file
+	 */
+	public FeatureCollection getFeatures(Rectangle bbox, String type) {
+		FeatureCollection fc;
 		try {
-			FeatureCollection fc = fetch(bbox);
+			fc = fetch(bbox, type == null ? defaultType : type);
 			fc = fc.clippedWith(bbox);
-			String stats = calculateStatistics(fc, bbox);
-			store(fc.toGeoJSON(), geojsonPath);
-			store(stats, statsPath);
-		} catch (IOException | SAXException | ParserConfigurationException e) {
-			throw new FatalException("For some reasons your request cannot be processed", e);
-		} catch (Exception e) {
-			throw e;
+			return fc;
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			throw new FatalException(e);
 		}
 	}
 
-	private FeatureCollection fetch(Rectangle bbox) throws SAXException, IOException, ParserConfigurationException {
+	/**
+	 * Fetchs, saves and returns statistics in json format.
+	 * 
+	 * @param bbox
+	 *            bounding box
+	 * @param type
+	 *            seabed habitat type
+	 * @return a file of statistics
+	 */
+	public String getStats(Rectangle bbox, String type) {
+		try {
+			FeatureCollection fc = fetch(bbox, type == null ? defaultType : type);
+			Map<String, Double> stats = fc.clippedWith(bbox).calculatePercentages();
+			return new Genson().serialize(stats);
+		} catch (SAXException | IOException | ParserConfigurationException e) {
+			throw new FatalException(e);
+		}
+	}
+
+	/**
+	 * Gets the data from the WMS
+	 * 
+	 * @param bbox
+	 * @param type
+	 * @return
+	 * @throws SAXException
+	 * @throws IOException
+	 * @throws ParserConfigurationException
+	 */
+	private FeatureCollection fetch(Rectangle bbox, String type)
+			throws SAXException, IOException, ParserConfigurationException {
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
-		System.out.println("Querying WMS server");
-		HttpURLConnection connection = (HttpURLConnection) new URL(url.replace("{bbox}", bx)).openConnection();
-		connection.setReadTimeout(20000);
-		connection.setConnectTimeout(20000);
-		connection.setRequestMethod("GET");
-		connection.setDoInput(true);
-		connection.connect();
+		LOGGER.log(Level.FINE, "Querying WMS server");
+		String URL = url.replace("{bbox}", bx).replace("{type}", type);
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		SAXParser saxParser = factory.newSAXParser();
 		SAXHandler userhandler = new SAXHandler();
-		saxParser.parse(connection.getInputStream(), userhandler);
-		LOGGER.log(Level.FINE, "Got result for bbox: "+ bx);
+		saxParser.parse(Util.fetchFrom(URL), userhandler);
+		LOGGER.log(Level.FINE, "Got result for bbox: " + bx);
 		return userhandler.getFeatures();
-	}
-
-	@SuppressWarnings("static-method")
-	private String calculateStatistics(FeatureCollection fc, Rectangle r) {
-		List<Feature> features = fc.getFeatures();
-
-		double sum = 0;
-		Map<String, Double> sums = new HashMap<>();
-		Map<String, Double> percentages = new HashMap<>();
-
-		for (Feature f : features) {
-			Geometry geo = f.getGeometry().clippedWith(r);
-			Map<String, Object> m = f.getProperties();
-			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
-			Double s = sums.get(name);
-			if (s == null) {
-				sums.put(name, geo.surfaceArea());
-			} else {
-				sums.put(name, sums.get(name) + geo.surfaceArea());
-			}
-			sum += geo.surfaceArea();
-		}
-
-		for (Map.Entry<String, Double> entries : sums.entrySet()) {
-			double d = entries.getValue() / sum * 100;
-			percentages.put(entries.getKey(), d);
-		}
-		return new Genson().serialize(percentages);
-	}
-
-	private void store(String data, Path p) throws IOException {
-		Path cache = FileSystems.getDefault().getPath(cacheDir);
-		if (!Files.exists(cache) || !Files.isDirectory(cache)) {
-			Files.createDirectory(cache);
-			LOGGER.log(Level.FINE, "Caching directory created ");
-		}
-		try (Writer writer = Files.newBufferedWriter(p, StandardCharsets.UTF_8)) {
-			writer.write(data);
-			LOGGER.log(Level.FINE, "Cache file " + p + " created");
-		} catch (IOException io) {
-			throw new FatalException("The file cannot be saved", io);
-		}
 	}
 
 }
