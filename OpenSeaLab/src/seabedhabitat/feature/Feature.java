@@ -39,6 +39,10 @@ public class Feature implements Serializable {
 		properties.put(key, value);
 	}
 
+	public void setProperties(Map<String, Object> properties) {
+		this.properties = properties;
+	}
+
 	public String toGeoJSON() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{ \"type\": \"");

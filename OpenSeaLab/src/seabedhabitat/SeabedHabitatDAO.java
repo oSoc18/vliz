@@ -68,7 +68,7 @@ public class SeabedHabitatDAO {
 	public String getStats(Rectangle bbox, String type) {
 		try {
 			FeatureCollection fc = fetch(bbox, type == null ? defaultType : type);
-			Map<String, Double> stats = fc.clippedWith(bbox).calculatePercentages();
+			Map<String, Double> stats = fc.clippedWith(bbox).calculateTotals().calculatePercentages();
 			return new Genson().serialize(stats);
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			throw new FatalException(e);
