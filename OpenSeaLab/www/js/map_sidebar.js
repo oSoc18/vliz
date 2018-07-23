@@ -190,13 +190,6 @@ function intToRGB(i){
 
 
 function clearData(){
-	document.getElementById("minLat").value = "";
-	document.getElementById("maxLat").value = "";
-	document.getElementById("minLong").value = "";
-	document.getElementById("maxLong").value = "";
-	
-	clearRect();
-	
 	if(loadedLayer != undefined){
 		loadedLayer.clearLayers();
 		map.removeLayer(loadedLayer);
