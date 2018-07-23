@@ -39,7 +39,11 @@ public class SurfaceCount implements Serializable{
 	public HashMap<String, Double> calculatePercentages() {
 		HashMap<String, Double> totals = new HashMap<>();
 		for (String k : parts.keySet()) {
-			totals.put(k, 100 * parts.get(k) / total);
+			if("points".equals(k)) {
+				totals.put(k, parts.get(k));
+			}else {
+				totals.put(k, 100 * parts.get(k) / total);
+			}
 		}
 		return totals;
 	}

@@ -65,6 +65,7 @@ public class FeatureCollection implements Serializable {
 	public SurfaceCount calculateTotals() {
 		double totalArea = 0;
 		HashMap<String, Double> parts = new HashMap<>();
+		parts.put("points", 0.0);
 		for (Feature f : features) {
 			Geometry geo = f.getGeometry();
 			Map<String, Object> m = f.getProperties();
@@ -72,6 +73,9 @@ public class FeatureCollection implements Serializable {
 			Double s = parts.getOrDefault(name, 0.0);
 			parts.put(name, s + geo.surfaceArea());
 			totalArea += geo.surfaceArea();
+			if (f.getGeometry().getType().equals("Point")) {
+				parts.put("points", parts.getOrDefault("points", 0.0) + 1.0);
+			}
 		}
 		return new SurfaceCount(totalArea, parts);
 	}
