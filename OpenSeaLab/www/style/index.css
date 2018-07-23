@@ -47,13 +47,13 @@ main, #map {
 }
 
 .collapsible {
-    background-color: white;
-    cursor: pointer;
-    padding: 10px;
-    border: none;
-    text-align: left;
-    outline: none;
-    font-size: 20px;
+  background-color: white;
+  cursor: pointer;
+  padding: 10px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
 	width: 345px;
 	color: #678B9C;
 	font-style: gras;
