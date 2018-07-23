@@ -58,9 +58,9 @@ public class CachingManager {
 		try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(getPath(bbox, type)))) {
 			return (T) in.readObject();
 		} catch (Exception e) {
-			System.out.println("Could not laod "+getPath(bbox, type));
+			System.out.println("Could not load "+getPath(bbox, type)+", purging it from cache");
 			new File(getPath(bbox, type).toString()).delete();
-			throw new FatalException(e);
+			return null;
 		}
 	}
 

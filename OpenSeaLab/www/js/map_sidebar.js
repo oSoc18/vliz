@@ -13,9 +13,9 @@ let dictionary = new Map();
 // layer source http://portal.emodnet-bathymetry.eu/services/#wms
 let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
 
-var layer = "physics"
+var layer = "seabed"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
-var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
+// var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
 //var seabedtype = "EUSM2016_simplified200"
 //var type = "emodnet:PlatformAll"
 var URLpart1="&maxLat=";
@@ -50,8 +50,31 @@ map.on({
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
 		getDataFromCoords();
-	}
+	},
+	'zoomend': loadForView,
+	'moveend': loadForView,
+	'moved': loadForView
 });
+
+
+var lastNorth;
+var lastEast;
+function loadForView(){
+		console.log(map.getZoom());
+		if(map.getZoom() < 6){
+			return;
+		}
+		var bnds = map.getBounds();
+		var n = Math.ceil(bnds.getNorth());
+		var e = Math.ceil(bnds.getEast());
+		if(lastNorth == n && lastEast == e){
+			return;
+		}
+		lastNorth = n;
+		lastEast = e;
+
+		getDataForCoords(""+bnds.getSouth(), ""+bnds.getNorth(), ""+bnds.getWest(), ""+bnds.getEast(), "True");
+}
 
 ////// Adding seabed Habitat Data to the map
 
@@ -112,21 +135,22 @@ function getDataFromCoords(){
 	var maxLat = document.getElementById("maxLat").value;
 	var minLong = document.getElementById("minLong").value;
 	var maxLong = document.getElementById("maxLong").value;
+	getDataForCoords(minLat, maxLat, minLong, maxLong, "False");
+}
 
+function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 	if(minLat == "" || maxLat == "" || minLong == "" || maxLong == ""){
 		alert("Specify an area first");
 		return;
 	}
 
-
     URLcoordinates = minLat +
 						URLpart1 + maxLat +
 						URLpart2 + minLong + 
-						URLpart3 + maxLong;
-					//	URLPart4 + type;	
-
+						URLpart3 + maxLong +
+						"&cacheOnly=" + caching;
 	loadDataFrom(URLpart0 + URLcoordinates);
-	loadStatsFrom(URLpart0Stats + URLcoordinates);
+//	loadStatsFrom(URLpart0Stats + URLcoordinates);
 
 }
 
