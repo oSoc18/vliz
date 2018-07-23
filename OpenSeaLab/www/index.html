@@ -1,27 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="../../favicon.ico">
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="icon" href="../../favicon.ico">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-  <title>sidebar template</title>
+	<title>Open Sea Lab</title>
 
-  <!-- Bootstrap core CSS -->
-  <link href="style/bootstrap.min.css" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="style/font-awesome.min.css"> -->
+	<!-- Custom styles for this template -->
+	<link href="style/leaflet.css" rel="stylesheet">
+	<link href="style/index.css" rel="stylesheet">
 
-  <!-- Custom styles for this template -->
-  <link href="style/leaflet.css" rel="stylesheet">
-  <link href="style/index.css" rel="stylesheet">
-  <link href="style/responsive-sidebar.css" rel="stylesheet">
-
-  <style type="text/css">
-  </style>
+	<style type="text/css">
+	</style>
 
 </head>
 
@@ -37,84 +33,96 @@
 				<div class="gray"></div>
 				<div class="red"></div>
 			</div>
-		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-			<span class="sr-only">Toggle navigation</span>
-		</button>
 	</header>
-	<main>
-		<nav class="navbar-primary">
-			<a href="#" class="btn-expand-collapse"><span class="glyphicon glyphicon-menu-left"></span></a>
-			<div class="row">
-				<div class="col-lg-6">
+
+  <main>
+		<section class="navbar-primary sidebar">
+
+			<div class="panels">
+				<div class="panel">
 					<h3>Data sources</h3>
-					<br>
-					<br>
 					<ul class="navbar-primary-menu">
 						<li>
-							<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)"><img src="images/bathymetry.png"></img> Bathymetry</button>
+							<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)"><img src="images/icons_bathymetry.svg" width="30"></img> Bathymetry</button>
 								<div class="content">
 									<div class="dropdown-container">
-										<input type="checkbox" id="Bathymetry-opt1" />Mean depth<br>
-										<input type="checkbox" id="Bathymetry-opt2" />Coastal Areas<br>
-										<input type="checkbox" id="Bathymetry-opt3" />Depth contours<br>
-										<input type="checkbox" id="Bathymetry-opt4" />Source references<br>
+										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt1" /><span class="checkmark"></span></div>Mean depth</label><br>
+										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt2" /><span class="checkmark"></span></div>Coastal Areas</label><br>
+										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt3" /><span class="checkmark"></span></div>Depth contours</label><br>
+										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt4" /><span class="checkmark"></span></div>Source references</label><br>
 									</div>
 								</div>
-							<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)"><img src="images/human activities.png"></img> Seabed Habitats</button>
+							<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)"><img src="images/icons_seabed habitat.svg" width="30"></img> Seabed Habitats</button>
 								<div class="content">
 									<div class="dropdown-container">
-										<input type="checkbox" id="Seabed1" />Broad-Scale Predictive Habitat Map<br>
-										<input type="checkbox" id="Seabed2" />Broad-Scale Predictive Habitat Map- Confidence<br>
-										<input type="checkbox" id="Seabed3" />Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
+										<label><div class="check-container"><input type="checkbox" id="Seabed1" /><span class="checkmark"></span></label></div>Broad-Scale Predictive Habitat Map<br>
+										<label><div class="check-container"><input type="checkbox" id="Seabed2" /><span class="checkmark"></span></label></div>Broad-Scale Predictive Habitat Map- Confidence<br>
+										<label><div class="check-container"><input type="checkbox" id="Seabed3" /><span class="checkmark"></span></label></div>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
 									</div>
 								</div>
+							<button class="collapsible" id="Biology"><img src="images/icons_biology.svg" width="30"></img> Biology</button>
+							<button class="collapsible" id="Chemistry"><img src="images/icons_chemistry.svg" width="30"></img> Chemistry</button>
+							<button class="collapsible" id="Geology"><img src="images/icons_geology.svg" width="30"></img> Geology</button>
+							<button class="collapsible" id="Human"><img src="images/icons_human activities.svg" width="30"></img> Human activities</button>
+							<button class="collapsible" id="Physics"><img src="images/icons_physics.svg" width="30"></img> Physics</button>
 						</li>
-
 					</ul>
-				<div id="statsOutput"> </div>
-			</div>
-
-			<div class="col-lg-6">
-				<h3>Filters</h3>
+				</div>
+			<div class="panel statistics">
+				<h3>Statistics</h3>
 					<br>
 					<br>
-					<p id="AddFilter"> Select a layer to view filters</p>
+					<div id="statsOutput"> </div>
+					<!-- <p id="AddFilter"> Select a layer to view filters</p> -->
+			  	<div class="download-button">
+					<input type="button" id="dwn-btn" value="Download" disabled/>
+			  	</div>
 			</div>
-		</div>
+	  	</div>
 
-		</nav>
+	  	<div class="button">
+			<a href="#" class="btn-expand-collapse">
+		  		<img src="images/sidebar.svg" alt="">
+			</a>
+	  	</div>
+
+		</section>
+
+
 		<nav class="main-content">
 			<div id="map" class="actual-map">
 			<!-- Map Space -->
 				<div class="map">
-					<div class="input-tab">
+					<!-- <div class="input-tab">
 						<form class="search-bar">
 							<input type="text" placeholder="Country, sea, coördinates,...">
 							<button type="submit">
 							</button>
 						</form>
-						<div class="coordinates">
-							<div class="row coordinates-container">
-								<div class="container-fluid container-coordinates">
-									<h5>Latitude: </h5>
-									<div class="col-sm-4 minmax">
-										Min	<input type="text" id="minLat" name="coordinates1" size= "6">
-										Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
-									</div>
-								</div>
-								<div class="container-fluid container-coordinates">
-									<h5>Longitude: </h5>
-									<div class="col-sm-4 minmax">
-										Min	<input type="text" id="minLong" name="coordinates3" size= "6">
-										Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
-									</div>
-								</div>
-							</div>
-							<div class="buttons">
-								<button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
-								<button type="button" class="delete btn btn-default" onclick="clearData()" ></button>
-							 </div>
-						</div>
+					</div> -->
+		  	<div class="coordinates">
+				<div class="row">
+			  		<div class="col-sm-2">
+						<h5>Latitude: </h5>
+			  		</div>
+			  		<div class="col-sm-4 minmax">
+						Min	<input type="text" id="minLat" name="coordinates1" size= "6">
+						Max	<input type="text" id="maxLat" name="coordinates2" size= "6">
+			  		</div>
+				</div>
+				<div class="row">
+					<div class="col-sm-2">
+						<h5>Longitude: </h5>
+					</div>
+					<div class="col-sm-4 minmax">
+						Min	<input type="text" id="minLong" name="coordinates3" size= "6">
+						Max	<input type="text" id="maxLong" name="coordinates4" size= "6">
+					</div>
+				</div>
+			</div>
+					<div class="buttons">
+						<button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
+						<button type="button" class="delete btn btn-default" onclick="clearData()" ></button>
 					</div>
 				</div>
 			</div>
@@ -122,17 +130,15 @@
 
 	</main>
 
-<!-- Bootstrap core JavaScript -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
 <script src="js/leaflet.js"></script>
 <script src="js/leaflet-providers.js"></script>
 <script src="js/map_sidebar.js"></script>
 <script src="js/leaflet.ajax.min"></script>
 <script src="js/GeometryUtil.js"></script>
 <script src="js/Responsive-sidebar.js"></script>
-<script src="js/filters.js"></script>
+<script src="js/Download.js"></script>
 
 <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 <script src="https://raw.github.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
