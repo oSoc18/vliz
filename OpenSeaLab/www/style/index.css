@@ -34,13 +34,16 @@ main, #map {
   width: 80%;
 }
 
+.statistics input[type=button][disabled] {
+  opacity: .5;
+}
+
 .download-button {
-  width: 100%;
+  width: 85%;
   display: flex;
-  align-items: center;
-  justify-content: center;
   bottom: 1rem;
   position: absolute;
+  margin-left: 10%;
 }
 
 .collapsible {
