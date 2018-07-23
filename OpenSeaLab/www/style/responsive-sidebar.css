@@ -1,5 +1,5 @@
 
-.navbar-primary {  
+.navbar-primary {
   bottom: 0px;
   right: 0px;
   position: absolute;
@@ -10,7 +10,7 @@
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
-  box-shadow: 0 5px 20px 0 #678B9C;
+  box-shadow: 0 5px 20px 0 #D9E2E6;
 }
 
 .navbar-primary.collapsed {
@@ -38,18 +38,24 @@
     text-align: center;
 }
 
-.btn-expand-collapse:hover,
+/* .btn-expand-collapse:hover,
 .btn-expand-collapse:focus {
     background-color: #222;
 }
 
 .btn-expand-collapse:active {
     background-color: #111;
+} */
+
+.navbar-primary-menu {
+  margin:0;
+  padding:0;
+  list-style: none;
 }
 
-.navbar-primary-menu,
 .navbar-primary-menu li {
-  margin:0; padding:0;
+  margin:0;
+  padding:0;
   list-style: none;
 }
 
@@ -61,16 +67,16 @@
 }
 
 .navbar-primary-menu li button:hover {
-  background-color: #EEEEEE ;
+  /* background-color: #EEEEEE ; */
   text-decoration: none;
-  color:#2073B0;	
+  color:#2073B0;
 }
 
 .navbar-primary h3{
 	font-size : 30px;
 	color : #073056;
-	text-align: center;
 	border-bottom : 1px solid #EEEEEE;
+  margin: 1rem;
 }
 .navbar-primary p{
 	font-size : 18px;
@@ -113,7 +119,7 @@
 	font-size:40px;
 	top: 400px;
 	width: 300px;
-	
+
 }
 .sidenavResponsive a {
     padding: 8px 8px 8px 32px;
