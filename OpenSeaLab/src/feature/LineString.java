@@ -28,7 +28,6 @@ public class LineString extends Geometry {
 
 	@Override
 	public double surfaceArea() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 

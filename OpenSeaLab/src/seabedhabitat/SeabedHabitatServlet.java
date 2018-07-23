@@ -26,14 +26,12 @@ import main.Util;
 public class SeabedHabitatServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatServlet.class.getName());
-	private final UCCSeabedHabitat seabedHabitatUCC;
 
 	private final PiecedCachingManager cm;
 	private final String defaultType;
 
-	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC, CachingManager cm, CachingManager stats, String defaultType) {
-		this.seabedHabitatUCC = seabedHabitatUCC;
-		this.cm = new PiecedCachingManager(seabedHabitatUCC, cm, stats);
+	public SeabedHabitatServlet(PiecedCachingManager cm, String defaultType) {
+		this.cm = cm;
 		this.defaultType = defaultType;
 
 	}
