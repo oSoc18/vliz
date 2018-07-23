@@ -21,7 +21,7 @@ time, mark, audio, video {
 }
 
 main, #map {
-  height: 80vh;
+  height: 85vh;
 }
 
 .collapsible {
@@ -133,7 +133,7 @@ header {
 
 .map {
   display: flex;
-  height: 80vh;
+  height: 85vh;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
@@ -163,6 +163,8 @@ header {
   position: relative;
   box-shadow: 0 5px 20px 0 #D9E2E6;
   top: -15px;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .search-bar, .km {
@@ -209,7 +211,9 @@ header {
   padding: 1rem;
   background-color: white;
   padding-right: 2rem;
-  margin-bottom: 1rem;
+  padding-bottom: 2rem;
+  height: 6rem;
+  box-shadow: 0 -5px 20px 0 #D9E2E6;
 }
 
 .minmax {
@@ -225,8 +229,8 @@ header {
   flex-direction: column;
   justify-content: space-between;
   position: absolute;
-  right: 2.5rem;
-  top: 5rem;
+  right: 3.2rem;
+  bottom: 9.2rem;
   z-index: 5;
 }
 
