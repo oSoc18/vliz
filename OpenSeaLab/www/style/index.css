@@ -431,13 +431,14 @@ h5 {
 .statistics {
   height: 100%;
   box-shadow: 0 5px 20px 0 #D9E2E6;
+  z-index: 99;
 }
 
 .navbar-primary {
   bottom: 0px;
   right: 0px;
   position: absolute;
-  top: 120px;
+  top: 118px;
   width: 700px;
   z-index: 8;
   overflow: hidden;
@@ -449,10 +450,6 @@ h5 {
 
 .navbar-primary.collapsed {
   width: 40px;
-}
-
-.navbar-primary.collapsed .glyphicon {
-  font-size: 22px;
 }
 
 .navbar-primary.collapsed .nav-label {
@@ -467,6 +464,8 @@ h5 {
   padding: 8px 0;
   border-top: solid 1px #666;
   display: block;
+  z-index: 999;
+  position: relative;
 }
 
 .btn-expand-collapse img {
