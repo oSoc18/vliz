@@ -34,7 +34,7 @@ public class VectorLayersDAO {
 	public VectorLayersDAO(String url) {
 		this.url = url;
 	}
-	
+
 	public VectorLayersDAO(String layerName, AppContext context) {
 		this(context.getProperty(layerName));
 	}
@@ -51,7 +51,7 @@ public class VectorLayersDAO {
 	public FeatureCollection getFeatures(Rectangle bbox, String type) {
 		FeatureCollection fc;
 		try {
-			fc = fetchXML(bbox, type == null ? defaultType : type);
+			fc = fetchXML(bbox, type);
 			fc = fc.clippedWith(bbox);
 			return fc;
 		} catch (SAXException | IOException | ParserConfigurationException e) {
@@ -70,7 +70,7 @@ public class VectorLayersDAO {
 	 */
 	public String getStats(Rectangle bbox, String type) {
 		try {
-			FeatureCollection fc = fetchXML(bbox, type == null ? defaultType : type);
+			FeatureCollection fc = fetchXML(bbox, type);
 			Map<String, Double> stats = fc.clippedWith(bbox).calculateTotals().calculatePercentages();
 			return new Genson().serialize(stats);
 		} catch (SAXException | IOException | ParserConfigurationException e) {

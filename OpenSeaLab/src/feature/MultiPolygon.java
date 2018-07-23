@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MultiPolygon extends Geometry {
+
+	private static final long serialVersionUID = 1L;
 	private final List<Polygon> polygons;
 
 	public MultiPolygon(Polygon... polygons) {

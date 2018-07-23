@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class SurfaceCount implements Serializable{
 	
+	private static final long serialVersionUID = 1L;
 	private final double total;
 	private final HashMap<String, Double>  parts;
 	

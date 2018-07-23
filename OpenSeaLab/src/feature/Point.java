@@ -2,6 +2,7 @@ package feature;
 
 public class Point extends Geometry {
 
+	private static final long serialVersionUID = 1L;
 	private final double lat, lon;
 	public Point(double lat, double lon) {
 		super("Point");

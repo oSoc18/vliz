@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class FeatureCollection implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private final List<Feature> features;
 
 	public FeatureCollection(List<Feature> features) {

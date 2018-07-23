@@ -2,6 +2,7 @@ package feature;
 
 public class Rectangle extends Geometry {
 
+	private static final long serialVersionUID = 1L;
 	private final double minLat, minLon, maxLat, maxLon;
 
 	public Rectangle(double minLat, double minLong, double maxLat, double maxLong) {
