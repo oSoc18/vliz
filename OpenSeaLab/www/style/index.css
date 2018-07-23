@@ -464,16 +464,12 @@ h5 {
 }
 
 .btn-expand-collapse {
-    position: absolute;
-    display: block;
-    right: 0px;
-    bottom:0;
-    width: 100%;
-    padding: 8px 0;
-    border-top:solid 1px #666;
-    color: grey;
-    font-size: 20px;
-    text-align: center;
+  line-height: 44px;
+  background: #fff;
+  color: grey;
+  font-size: 20px;
+  padding: 8px 0;
+  border-top:solid 1px #666;
 }
 
 /* .btn-expand-collapse:hover,
