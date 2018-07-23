@@ -79,6 +79,9 @@ input[type=checkbox] {
   border-radius: 7px;
   margin-right: .5rem;
   background-color: white;
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
 }
 
 header {
