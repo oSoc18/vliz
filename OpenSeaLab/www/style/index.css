@@ -221,7 +221,7 @@ header {
 .input-tab {
   display: flex;
   height: 70px;
-  /* width: 100%; */
+  width: 17rem;
   padding-right: 1rem;
   background-color: white;
   justify-content: space-between;
@@ -253,12 +253,13 @@ header {
 
 .search-bar button[type=submit] {
   background-image: url('../images/search.png');
-  width: 20px;
-  height: 20px;
+  background-color: white;
+  width: 1.8rem;
+  height: 1.8rem;
   background-size: contain;
   background-repeat: no-repeat;
   border: none;
-  margin-top: 8px;
+  margin-top: 3px;
 }
 
 .zoom {
@@ -394,7 +395,7 @@ h5 {
 }
 
 .main-content {
-  margin-top: 0;
+  margin-top: 2px;
 }
 
 .sidebar {
