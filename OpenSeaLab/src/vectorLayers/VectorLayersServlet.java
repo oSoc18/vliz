@@ -82,8 +82,7 @@ public class VectorLayersServlet extends DefaultServlet {
 		Rectangle bbox = Util.getBBox(req);
 		System.out.println("Getting stuff");
 		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req)).calculatePercentages();
-
-		responseFromString(new Genson().serialize(fc), resp);
+			responseFromString(new Genson().serialize(fc), resp);
 	}
 
 	private String getType(HttpServletRequest req) {

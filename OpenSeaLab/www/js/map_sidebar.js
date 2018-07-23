@@ -13,7 +13,7 @@ let dictionary = new Map();
 // layer source http://portal.emodnet-bathymetry.eu/services/#wms
 let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
 
-var layer = "seabed"
+var layer = "physics"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
 //var seabedtype = "EUSM2016_simplified200"
@@ -60,7 +60,7 @@ function getStyle(feature){
    var clr;
 	if(dictionary.has(feature.properties.WEB_CLASS)){
 		clr = dictionary.get(feature.properties.WEB_CLASS);
-	} else {
+	} else if (feature.properties.WEB_CLASS) {
 		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
 	}
@@ -76,9 +76,22 @@ function prepFeature(feature, layer){
 
 function addSeabedLayer(json){
 	clearData();
+
+	var geojsonMarkerOptions = {
+		 radius: 8,
+		 fillColor: "#ff7800",
+		 color: "#000",
+		 weight: 1,
+		 opacity: 1,
+		 fillOpacity: 0.8
+	};
+
+
     loadedLayer = L.geoJson(json,
 	   { style: getStyle
       , onEachFeature : prepFeature
+		, pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);}
 		})
     loadedLayer.addTo(map); 	
 }
