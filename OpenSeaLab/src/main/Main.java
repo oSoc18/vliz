@@ -48,6 +48,7 @@ public class Main {
 
 		initVectorLayerServlet("seabed", appContext, context);
 		initVectorLayerServlet("physics", appContext, context);
+		initVectorLayerServlet("geology", appContext, context);
 
 		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 		context.addServlet(new ServletHolder(bathymetryServlet), "/bathymetry");
@@ -59,8 +60,8 @@ public class Main {
 
 	private static void initVectorLayerServlet(String layerName, AppContext appContext, WebAppContext context) throws IOException {
 		String defaultType = appContext.getProperty(layerName+"-default-type");
-		VectorLayersDAO vectorLayersDAO = new VectorLayersDAO(appContext.getProperty(layerName),defaultType);
 
+		VectorLayersDAO vectorLayersDAO = new VectorLayersDAO(layerName,appContext.getProperty(layerName),defaultType);
 		UCCVectorLayers uccVectorLayers = new UCCVectorLayers(vectorLayersDAO);
 
 		CachingManager dataCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
@@ -68,7 +69,7 @@ public class Main {
 		CachingManager statsCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
 				"stats-{id}.SurfaceCount");
 
-		PiecedCachingManager pcm = new PiecedCachingManager(uccVectorLayers, dataCache, statsCache);
+		PiecedCachingManager pcm = new PiecedCachingManager(layerName,uccVectorLayers, dataCache, statsCache);
 
 		HttpServlet seabedServlet = new VectorLayersServlet(pcm, defaultType);
 
