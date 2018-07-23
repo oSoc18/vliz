@@ -10,11 +10,13 @@ public class PiecedCachingManager {
 	private final UCCVectorLayers nonCacheProvider;
 	private final CachingManager caching;
 	private final CachingManager statisticsCaching;
+	private final String layerName;
 
-	public PiecedCachingManager(UCCVectorLayers nonCacheProvider, CachingManager caching, CachingManager stats) {
+	public PiecedCachingManager(String layerName, UCCVectorLayers nonCacheProvider, CachingManager caching, CachingManager stats) {
 		this.nonCacheProvider = nonCacheProvider;
 		this.caching = caching;
 		this.statisticsCaching = stats;
+		this.layerName = layerName;
 	}
 
 	/**
@@ -28,6 +30,11 @@ public class PiecedCachingManager {
 	 * @return
 	 */
 	public FeatureCollection retrieve(Rectangle bbox, String type, boolean onlyUseCache) {
+		
+		// TODO work out something decently for this case
+		if(layerName.equals("geology")) return nonCacheProvider.getFeatures(bbox, type);
+		
+		
 		Rectangle extended = bbox.extendRectangle();
 		FeatureCollection total = new FeatureCollection();
 		for (int lat = (int) extended.getMinLat(); lat < extended.getMaxLat(); lat++) {

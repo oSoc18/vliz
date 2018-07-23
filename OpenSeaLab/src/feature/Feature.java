@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.owlike.genson.Genson;
+
 public class Feature implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private final String type = "Feature";
@@ -55,16 +57,8 @@ public class Feature implements Serializable {
 		sb.append("\n");
 		sb.append(geometry.toGeoJSON());
 		sb.append("\n");
-		sb.append(", \"properties\": { ");
-		for (Map.Entry<String, Object> entries : properties.entrySet()) {
-			if (entries.getValue() instanceof String) {
-				sb.append("\"" + entries.getKey() + "\": \"" + entries.getValue() + "\", ");
-			} else {
-				// TODO if needed
-			}
-		}
-		sb.delete(sb.length() - 2, sb.length());
-		sb.append(" }}");
+		sb.append(", \"properties\": ");
+		sb.append(new Genson().serialize(properties)+"}");
 		return sb.toString();
 	}
 

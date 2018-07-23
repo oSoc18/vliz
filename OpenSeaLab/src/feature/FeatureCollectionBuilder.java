@@ -16,8 +16,6 @@ public class FeatureCollectionBuilder {
 	public FeatureCollection create() {
 		FeatureCollection fc = new FeatureCollection();
 		Map<String, Object> map = deserialise();
-		Integer totalFeatures = (Integer) map.get("totalFeatures");
-		if(totalFeatures != null && totalFeatures == 0) return fc;
 		ArrayList<Map<String,Object>> features = (ArrayList<Map<String, Object>>) map.get("features");
 		for(Map<String, Object> feature : features) {
 			fc.addFeature(createFeature(feature));
@@ -65,6 +63,7 @@ public class FeatureCollectionBuilder {
 	}
 	
 	private static Point[] createBBox(List<Double> bbox) {
+		if(bbox == null) return new Point[2];
 		return new Point[] {new Point(bbox.get(1), bbox.get(0)), new Point(bbox.get(3), bbox.get(2))};
 	}
 }
