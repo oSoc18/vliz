@@ -31,7 +31,7 @@ public class FeatureCollectionBuilder {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Feature createFeature(Map<String, Object> feature) {
+	private static Feature createFeature(Map<String, Object> feature) {
 		Feature f = new Feature();
 		f.setProperties((Map<String, Object>) feature.get("properties"));
 		f.setGeometry(createGeometry((Map<String, Object>) feature.get("geometry")));
@@ -40,7 +40,7 @@ public class FeatureCollectionBuilder {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Geometry createGeometry(Map<String, Object> geometry) {
+	private static Geometry createGeometry(Map<String, Object> geometry) {
 		String type = (String) geometry.get("type");
 		String key = "coordinates";
 		switch(type) {
@@ -64,7 +64,7 @@ public class FeatureCollectionBuilder {
 		}
 	}
 	
-	private Point[] createBBox(List<Double> bbox) {
+	private static Point[] createBBox(List<Double> bbox) {
 		return new Point[] {new Point(bbox.get(1), bbox.get(0)), new Point(bbox.get(3), bbox.get(2))};
 	}
 }

@@ -109,8 +109,8 @@ function getDataFromCoords(){
     URLcoordinates = minLat +
 						URLpart1 + maxLat +
 						URLpart2 + minLong + 
-						URLpart3 + maxLong + 
-						URLPart4 + type;	
+						URLpart3 + maxLong;
+					//	URLPart4 + type;	
 
 	loadDataFrom(URLpart0 + URLcoordinates);
 	loadStatsFrom(URLpart0Stats + URLcoordinates);
