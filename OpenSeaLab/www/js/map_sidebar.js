@@ -26,6 +26,12 @@ var URLpart3="&maxLong=";
 }).addTo(map);*/
 
 
+$('.btn-expand-collapse').click(function(e) {
+	$('.navbar-primary').toggleClass('collapsed');
+	map.invalidateSize();
+});
+
+
 // Draw the rectangle on the map
 map.on({
 
