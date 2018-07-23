@@ -46,9 +46,12 @@ public class Feature implements Serializable {
 	public String toGeoJSON() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("{ \"type\": \"");
-		sb.append(type);
-		sb.append("\", \"bbox\": [");
-		sb.append(bbox[0].getLat() + "," + bbox[0].getLon() + "," + bbox[1].getLat() + "," + bbox[1].getLon() + "],");
+		sb.append(type + "\", ");
+		if (bbox[0] != null) {
+			sb.append("\"bbox\": [");
+			sb.append(
+					bbox[0].getLat() + "," + bbox[0].getLon() + "," + bbox[1].getLat() + "," + bbox[1].getLon() + "],");
+		}
 		sb.append("\n");
 		sb.append(geometry.toGeoJSON());
 		sb.append("\n");

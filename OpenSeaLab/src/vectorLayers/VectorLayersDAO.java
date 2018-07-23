@@ -22,6 +22,7 @@ import main.Util;
 public class VectorLayersDAO {
 	private static final Logger LOGGER = Logger.getLogger(VectorLayersDAO.class.getName());
 	private final String url;
+	private final String defaultType;
 
 	/**
 	 * Constructs a data object access to retrieve data from the remote server.
@@ -31,12 +32,13 @@ public class VectorLayersDAO {
 	 * @param defaultType
 	 *            type name of the seabed habitat
 	 */
-	public VectorLayersDAO(String url) {
+	public VectorLayersDAO(String url, String defaultType) {
 		this.url = url;
+		this.defaultType = defaultType;
 	}
 
 	public VectorLayersDAO(String layerName, AppContext context) {
-		this(context.getProperty(layerName));
+		this(context.getProperty(layerName), context.getProperty(layerName+"-default-type"));
 	}
 
 	/**
@@ -51,8 +53,8 @@ public class VectorLayersDAO {
 	public FeatureCollection getFeatures(Rectangle bbox, String type) {
 		FeatureCollection fc;
 		try {
-			fc = fetchXML(bbox, type);
-			fc = fc.clippedWith(bbox);
+			fc = fetchXML(bbox, type == null ? defaultType : type);
+		//	fc = fc.clippedWith(bbox);
 			return fc;
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			throw new FatalException(e);
@@ -70,7 +72,7 @@ public class VectorLayersDAO {
 	 */
 	public String getStats(Rectangle bbox, String type) {
 		try {
-			FeatureCollection fc = fetchXML(bbox, type);
+			FeatureCollection fc = fetchXML(bbox, type == null ? defaultType : type);
 			Map<String, Double> stats = fc.clippedWith(bbox).calculateTotals().calculatePercentages();
 			return new Genson().serialize(stats);
 		} catch (SAXException | IOException | ParserConfigurationException e) {
