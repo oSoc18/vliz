@@ -321,11 +321,11 @@ h5 {
   margin-top: 0;
 }
 
-.filter-row {
+.statistics-row {
   height: 10%;
 }
 
-.filters {
+.statistics {
   height: 100%;
   box-shadow: 0 5px 20px 0 #D9E2E6;
 }
