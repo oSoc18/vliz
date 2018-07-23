@@ -8,14 +8,16 @@ public class GeometryFactory {
 		if (point == null || point.size() == 0) {
 			return null;
 		}
+		// Geojson specs : lon lat
 		return new Point(point.get(1), point.get(0));
 	}
-	
+
 	public static Geometry newPoint(String s) {
-		if(s == null) {
+		if (s == null) {
 			return null;
 		}
 		String[] splitedS = s.split(" ");
+		// XML spec : lat long
 		return new Point(Double.parseDouble(splitedS[0]), Double.parseDouble(splitedS[1]));
 	}
 
@@ -31,9 +33,9 @@ public class GeometryFactory {
 		}
 		return new Polygon(l);
 	}
-	
+
 	public static Geometry newPolygon(String s) {
-		if(s == null) {
+		if (s == null) {
 			return null;
 		}
 		return new Polygon(createPoints(s));
@@ -58,12 +60,12 @@ public class GeometryFactory {
 	}
 
 	public static Geometry newLineString(String s) {
-		if(s == null) {
+		if (s == null) {
 			return null;
 		}
 		return new LineString(createPoints(s));
 	}
-	
+
 	public static Geometry newMultiLineString(List<List<List<Double>>> lines) {
 		if (lines == null || lines.size() == 0) {
 			return null;
@@ -89,8 +91,8 @@ public class GeometryFactory {
 		}
 		return list;
 	}
-	
-	private static List<Point> createPoints(String s){
+
+	private static List<Point> createPoints(String s) {
 		List<Point> l = new ArrayList<>();
 		String[] sSplited = s.split(" ");
 		for (int i = 0; i < sSplited.length; i += 2) {

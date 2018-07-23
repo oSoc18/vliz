@@ -102,7 +102,8 @@ public class SAXHandler extends DefaultHandler {
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		if (new String(ch, start, length).trim().length() == 0)
 			return;
-		String s = new String(ch, start, length);
+		String s = new String(ch, start, length).replace("\t", " ");
+		
 		if (element.equals("lowerCorner")) {
 			Point p = (Point) GeometryFactory.newPoint(s);
 			if (isFeature) {
@@ -122,7 +123,11 @@ public class SAXHandler extends DefaultHandler {
 			return;
 		}
 		if (point) {
-			sb.append(s.replace(",", " "));
+			if(s.contains(",")) {
+				String[] splited = s.split(",");
+				s = splited[1]+" "+splited[0];
+			}
+			sb.append(s);
 			return;
 		}
 		if(lineString) {

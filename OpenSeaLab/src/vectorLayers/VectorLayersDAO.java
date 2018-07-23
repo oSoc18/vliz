@@ -54,7 +54,7 @@ public class VectorLayersDAO {
 		FeatureCollection fc;
 		try {
 			fc = fetchXML(bbox, type == null ? defaultType : type);
-		//	fc = fc.clippedWith(bbox);
+			fc = fc.clippedWith(bbox);
 			return fc;
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			throw new FatalException(e);

@@ -86,7 +86,6 @@ public class PiecedCachingManager {
 
 		} else {
 			found = nonCacheProvider.getFeatures(searched, type);
-			System.out.println(found.toGeoJSON());
 			caching.store(found, searched, type);
 			SurfaceCount stats = found.calculateTotals();
 			statisticsCaching.store(stats, searched, type);
