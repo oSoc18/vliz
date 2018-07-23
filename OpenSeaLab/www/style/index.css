@@ -31,7 +31,7 @@ main, #map {
   border: none;
   color: white;
   padding: .3rem;
-  width: 80%;
+  width: 100%;
 }
 
 .statistics input[type=button][disabled] {
@@ -228,7 +228,7 @@ header {
   align-items: center;
   z-index: 1;
   position: relative;
-  box-shadow: 0 5px 20px 0 #D9E2E6;
+  box-shadow: 0 5px 20px 0 #A8B2BE;
   top: -15px;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -280,7 +280,7 @@ header {
   padding-right: 2rem;
   padding-bottom: 2rem;
   height: 6rem;
-  box-shadow: 0 -5px 20px 0 #D9E2E6;
+  box-shadow: 0 -5px 20px 0 #A8B2BE;
 }
 
 .minmax {
@@ -397,9 +397,26 @@ h5 {
   margin-top: 0;
 }
 
-.statistics-row {
-  height: 100%;
+.sidebar {
   display: flex;
+  flex-flow: column wrap;
+}
+
+.panels {
+  flex: 1;
+  display: flex;
+  height: 100%;
+}
+
+.panel {
+  flex: 1;
+  overflow: auto;
+  height: 100%;
+  position: relative;
+}
+
+.button {
+  height: 44px;
 }
 
 .col-flex {
@@ -422,7 +439,7 @@ h5 {
   -webkit-transition: all 0.1s ease-in-out;
   -moz-transition: all 0.1s ease-in-out;
   transition: all 0.1s ease-in-out;
-  box-shadow: 0 5px 20px 0 #D9E2E6;
+  box-shadow: 0 5px 20px 0 #A8B2BE;
 }
 
 .navbar-primary.collapsed {
