@@ -133,6 +133,10 @@ header {
   background-size: cover;
 }
 
+header a {
+  display:  block;
+}
+
 .leaflet-top {
   top: auto;
   left: auto;
