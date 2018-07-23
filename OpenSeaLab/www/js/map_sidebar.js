@@ -14,16 +14,17 @@ let dictionary = new Map();
 let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
 
 
-//var layer = "seabed"
-//var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
+var layer = "seabed"
+var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 
-// var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
+var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
 //var seabedtype = "EUSM2016_simplified200"
 
-var hostLocal = "127.0.0.1";
+// DOESN4T WORK at the moment, works when commented out and using the other method
+/*var hostLocal = "127.0.0.1";
 var host = "172.21.190.147:8080"
-var URLpart0 ="http://"+host+":8080/seabed?action=getGeoJSON&minLat=";
-var URLpart0Stats ="http://"+host+"/seabed?action=getStats&minLat=";
+var URLpart0 ="http://"+host+"/seabed?action=getGeoJSON&minLat=";
+var URLpart0Stats ="http://"+host+"/seabed?action=getStats&minLat=";*/
 
 var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
@@ -123,18 +124,21 @@ function addSeabedLayer(json){
 	};
 
 
+	console.log("adding seabed");
+
     loadedLayer = L.geoJson(json,
 	   { style: getStyle
       , onEachFeature : prepFeature
 		, pointToLayer: function (feature, latlng) {
         return L.circleMarker(latlng, geojsonMarkerOptions);}
-		})
+		});
     loadedLayer.addTo(map);
 }
 
 
 function loadDataFrom(url){
 	console.log("about to add seabed");
+	console.log(url);
 	$.getJSON(url, function(json){
 		clearRect();
 
@@ -164,7 +168,7 @@ function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 						URLpart3 + maxLong +
 						"&cacheOnly=" + caching;
 	loadDataFrom(URLpart0 + URLcoordinates);
-//	loadStatsFrom(URLpart0Stats + URLcoordinates);
+	loadStatsFrom(URLpart0Stats + URLcoordinates);
 
 }
 
@@ -181,7 +185,7 @@ function loadStatsFrom(url){
 		div.innerHTML = "";
 		console.log(json);
 		JSON.parse(JSON.stringify(json), function (key, value) {
-			if(isInt(value)){
+			if(isInt(value) && value != 0.0){
 
 				var y = document.createElement("div");
 				y.id = "wrapper";
@@ -196,7 +200,7 @@ function loadStatsFrom(url){
 			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
 
 			    y.appendChild(x1);
-			   	div.insertBefore(y,divInit);
+			   	div.insertBefore(y,null);
 			}
 
 		});
