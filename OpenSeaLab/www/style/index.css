@@ -400,10 +400,6 @@ h5 {
   background-size: 1.5rem;
 }
 
-.main-content {
-  margin-top: 2px;
-}
-
 .sidebar {
   display: flex;
   flex-flow: column wrap;
