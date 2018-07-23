@@ -19,22 +19,17 @@ import exceptions.BizzException;
 import exceptions.FatalException;
 import feature.FeatureCollection;
 import feature.Rectangle;
-import main.CachingManager;
 import main.PiecedCachingManager;
 import main.Util;
 
 public class VectorLayersServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(VectorLayersServlet.class.getName());
-	private final UCCVectorLayers seabedHabitatUCC;
-
 	private final PiecedCachingManager cm;
 	private final String defaultType;
 
-	public VectorLayersServlet(UCCVectorLayers seabedHabitatUCC, CachingManager cm, CachingManager stats,
-			String defaultType) {
-		this.seabedHabitatUCC = seabedHabitatUCC;
-		this.cm = new PiecedCachingManager(seabedHabitatUCC, cm, stats);
+	public VectorLayersServlet(PiecedCachingManager cm, String defaultType) {
+		this.cm = cm;
 		this.defaultType = defaultType;
 
 	}

@@ -1,5 +1,6 @@
 package main;
 
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,44 +28,54 @@ public class Main {
 			AppContext appContext = new AppContext();
 			AppContext.configLogger("log.properties");
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
-			VectorLayersDAO vectorLayersDAO = new VectorLayersDAO(appContext,appContext.getProperty("seabedURL"),
-					appContext.getProperty("default-type"));
 			BathymetryDAO bathymetryDAO = new BathymetryDAO(appContext.getProperty("bathymetryURL"),
 					appContext.getProperty("cache-dir"), appContext.getProperty("bathymetry-stat"));
-			UCCVectorLayers uccVectorLayers = new UCCVectorLayers(vectorLayersDAO);
 			UCCBathymetry uccBathymetry = new UCCBathymetry(bathymetryDAO);
 
-			CachingManager cm = new CachingManager(appContext.getProperty("cache-dir"),
-					appContext.getProperty("seabed-data"));
-			CachingManager statsCache = new CachingManager(appContext.getProperty("cache-dir"),
-					appContext.getProperty("seabed-stat"));
-
-			startServer(Integer.parseInt(appContext.getProperty("port")), uccVectorLayers, uccBathymetry, cm,
-					statsCache, appContext.getProperty("default-type"));
+			startServer(appContext, uccBathymetry);
 		} catch (Exception exc) {
 			LOGGER.log(Level.SEVERE, "App configuration failed !", exc);
 		}
 	}
 
-	private static void startServer(int port, UCCVectorLayers uccVectorLayers, UCCBathymetry uccBathymetry,
-			CachingManager cm, CachingManager statsCache, String defaultType) throws Exception {
+	private static void startServer(AppContext appContext, UCCBathymetry uccBathymetry) throws Exception {
 		LOGGER.info("Starting the server...");
-		Server server = new Server(port);
+		Server server = new Server(Integer.parseInt(appContext.getProperty(("port"))));
 		WebAppContext context = new WebAppContext();
 
 		context.setResourceBase("www");
-
-		HttpServlet seabedServlet = new VectorLayersServlet(uccVectorLayers, cm, statsCache, defaultType);
-		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
-
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");
-		context.addServlet(new ServletHolder(seabedServlet), "/vectorLayer");
-		context.addServlet(new ServletHolder(seabedServlet), "/vectorlayer");
+
+		
+		initVectorLayerServlet("seabed", appContext, context);
+		initVectorLayerServlet("physics", appContext, context);
+		
+
+		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 		context.addServlet(new ServletHolder(bathymetryServlet), "/bathymetry");
 
 		server.setHandler(context);
 		server.start();
 		LOGGER.info("The server is listening...");
+	}
+
+
+	private static void initVectorLayerServlet(String layerName, AppContext appContext, WebAppContext context) throws IOException {
+		VectorLayersDAO seabedHabitatDAO = new VectorLayersDAO(appContext.getProperty(layerName));
+
+		UCCVectorLayers uccSeabedHabitat = new UCCVectorLayers(seabedHabitatDAO);
+
+		CachingManager seabedCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
+				"data-{id}.FeatureCollection");
+		CachingManager seabedStatsCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
+				"stats-{id}.SurfaceCount");
+		String seabedDefaultType = appContext.getProperty("default-type");
+
+		PiecedCachingManager pcm = new PiecedCachingManager(uccSeabedHabitat, seabedCache, seabedStatsCache);
+
+		HttpServlet seabedServlet = new VectorLayersServlet(pcm, seabedDefaultType);
+
+		context.addServlet(new ServletHolder(seabedServlet), "/"+layerName);
 	}
 
 }

@@ -20,10 +20,12 @@ public class CachingManager {
 	private static final Logger LOGGER = Logger.getLogger(Util.class.getName());
 	private final String cache;
 	private final String pattern;
+	private final String layerName;
 
-	public CachingManager(String cache, String pattern) throws IOException {
+	public CachingManager(String layerName, String cache, String pattern) throws IOException {
 		this.cache = cache;
 		this.pattern = pattern;
+		this.layerName = layerName;
 		Path cacheDir = FileSystems.getDefault().getPath(cache);
 		if (!Files.exists(cacheDir) || !Files.isDirectory(cacheDir)) {
 			Files.createDirectory(cacheDir);
@@ -70,13 +72,13 @@ public class CachingManager {
 		return FileSystems.getDefault().getPath(cache + "/" + pattern.replace("{id}", getId(bbox, type)));
 	}
 
-	private static String getId(Rectangle bbox, String type) {
+	private String getId(Rectangle bbox, String type) {
 		if (type == null) {
 			type = "";
 		} else {
-			type += "-";
+			type += "_";
 		}
-		return type + bbox.getMinLat() + "-" + bbox.getMinLon() + "-" + bbox.getMaxLat() + "-" + bbox.getMaxLon();
+		return  layerName + "_" + type + bbox.getMinLat() + "_" + bbox.getMinLon() + "_" + bbox.getMaxLat() + "_" + bbox.getMaxLon();
 	}
 
 	public boolean isInCache(Rectangle bbox, String type) {

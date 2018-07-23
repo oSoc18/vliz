@@ -22,8 +22,6 @@ import main.Util;
 public class VectorLayersDAO {
 	private static final Logger LOGGER = Logger.getLogger(VectorLayersDAO.class.getName());
 	private final String url;
-	private final String defaultType;
-	private final AppContext appContext;
 
 	/**
 	 * Constructs a data object access to retrieve data from the remote server.
@@ -33,10 +31,12 @@ public class VectorLayersDAO {
 	 * @param defaultType
 	 *            type name of the seabed habitat
 	 */
-	public VectorLayersDAO(AppContext appContext, String url, String defaultType) {
+	public VectorLayersDAO(String url) {
 		this.url = url;
-		this.defaultType = defaultType;
-		this.appContext = appContext;
+	}
+	
+	public VectorLayersDAO(String layerName, AppContext context) {
+		this(context.getProperty(layerName));
 	}
 
 	/**
