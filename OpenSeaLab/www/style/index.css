@@ -24,6 +24,25 @@ main, #map {
   height: 85vh;
 }
 
+.statistics input[type=button] {
+  background-color: #1F72AF;
+  border-radius: 7px;
+  box-shadow: 0 5px 20px 0 #D9E2E6;
+  border: none;
+  color: white;
+  padding: .3rem;
+  width: 80%;
+}
+
+.download-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  bottom: 1rem;
+  position: absolute;
+}
+
 .collapsible {
     background-color: white;
     cursor: pointer;
@@ -331,7 +350,7 @@ h5 {
 }
 
 .statistics-row {
-  height: 10%;
+  height: 93%;
 }
 
 .statistics {
