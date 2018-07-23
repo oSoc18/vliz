@@ -74,14 +74,56 @@ main, #map {
 	width: 345px;
 }
 
+.check-container {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  margin-right: .5rem;
+  display: inline-block;
+}
+
 input[type=checkbox] {
   border: 1px solid #7BADD1;
   border-radius: 7px;
-  margin-right: .5rem;
   background-color: white;
   -webkit-appearance: none;
   width: 1rem;
   height: 1rem;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.checkmark {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.check-container input:checked ~ .checkmark {
+  background-color: #2196F3;
+}
+
+.check-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.check-container .checkmark:after {
+  left: 6px;
+  top: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid #2072AF;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
 
 header {
