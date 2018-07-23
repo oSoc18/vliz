@@ -28,7 +28,7 @@ public class Main {
 			AppContext appContext = new AppContext();
 			AppContext.configLogger("log.properties");
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
-			BathymetryDAO bathymetryDAO = new BathymetryDAO(appContext.getProperty("bathymetryURL"),
+			BathymetryDAO bathymetryDAO = new BathymetryDAO(appContext.getProperty("bathymetry"),
 					appContext.getProperty("cache-dir"), appContext.getProperty("bathymetry-stat"));
 			UCCBathymetry uccBathymetry = new UCCBathymetry(bathymetryDAO);
 
@@ -46,10 +46,8 @@ public class Main {
 		context.setResourceBase("www");
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");
 
-		
 		initVectorLayerServlet("seabed", appContext, context);
 		initVectorLayerServlet("physics", appContext, context);
-		
 
 		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 		context.addServlet(new ServletHolder(bathymetryServlet), "/bathymetry");
@@ -59,21 +57,20 @@ public class Main {
 		LOGGER.info("The server is listening...");
 	}
 
-
 	private static void initVectorLayerServlet(String layerName, AppContext appContext, WebAppContext context) throws IOException {
-		VectorLayersDAO seabedHabitatDAO = new VectorLayersDAO(appContext.getProperty(layerName));
+		String defaultType = appContext.getProperty(layerName+"-default-type");
+		VectorLayersDAO vectorLayersDAO = new VectorLayersDAO(appContext.getProperty(layerName),defaultType);
 
-		UCCVectorLayers uccSeabedHabitat = new UCCVectorLayers(seabedHabitatDAO);
+		UCCVectorLayers uccVectorLayers = new UCCVectorLayers(vectorLayersDAO);
 
-		CachingManager seabedCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
+		CachingManager dataCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
 				"data-{id}.FeatureCollection");
-		CachingManager seabedStatsCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
+		CachingManager statsCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
 				"stats-{id}.SurfaceCount");
-		String seabedDefaultType = appContext.getProperty("default-type");
 
-		PiecedCachingManager pcm = new PiecedCachingManager(uccSeabedHabitat, seabedCache, seabedStatsCache);
+		PiecedCachingManager pcm = new PiecedCachingManager(uccVectorLayers, dataCache, statsCache);
 
-		HttpServlet seabedServlet = new VectorLayersServlet(pcm, seabedDefaultType);
+		HttpServlet seabedServlet = new VectorLayersServlet(pcm, defaultType);
 
 		context.addServlet(new ServletHolder(seabedServlet), "/"+layerName);
 	}
