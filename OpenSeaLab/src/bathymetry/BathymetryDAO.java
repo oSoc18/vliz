@@ -15,8 +15,8 @@ import java.util.TreeSet;
 import com.owlike.genson.Genson;
 
 import exceptions.FatalException;
+import feature.Rectangle;
 import main.Util;
-import seabedhabitat.feature.Rectangle;
 
 public class BathymetryDAO {
 	private final String baseURL;

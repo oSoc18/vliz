@@ -1,4 +1,4 @@
-package seabedhabitat.feature;
+package feature;
 
 import java.io.Serializable;
 

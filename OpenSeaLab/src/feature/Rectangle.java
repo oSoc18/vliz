@@ -1,4 +1,4 @@
-package seabedhabitat.feature;
+package feature;
 
 public class Rectangle extends Geometry {
 

@@ -1,4 +1,4 @@
-package seabedhabitat.feature;
+package feature;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,20 +46,19 @@ public class FeatureCollectionBuilder {
 		switch(type) {
 		case "Point":
 			List<Double> point = (List<Double>) geometry.get(key); 
-			return GeometryFactory.getPoint(point);
+			return GeometryFactory.newPoint(point);
 		case "Polygon":
 			List<List<List<Double>>> polygon = (List<List<List<Double>>>) geometry.get(key);
-			return GeometryFactory.getPolygon(polygon);
+			return GeometryFactory.newPolygon(polygon);
 		case "MultiPolygon":
 			List<List<List<List<Double>>>> multiPolygon = (List<List<List<List<Double>>>>) geometry.get(key);
-			return GeometryFactory.getMultiPolygon(multiPolygon);
-		// TODO add other geometry type
+			return GeometryFactory.newMultiPolygon(multiPolygon);
 		case "MultiPoint":
-			return null;
+			return GeometryFactory.newMultiPoint((List<List<Double>>) geometry.get(key));
 		case "MultiLineString":
-			return null;
+			return GeometryFactory.newMultiLineString((List<List<List<Double>>>) geometry.get(key));
 		case "LineString":
-			return null;
+			return GeometryFactory.newLineString((List<List<Double>>) geometry.get(key));
 		default:
 			return null;
 		}

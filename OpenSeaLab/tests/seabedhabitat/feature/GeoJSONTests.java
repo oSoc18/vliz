@@ -2,6 +2,11 @@ package seabedhabitat.feature;
 
 import org.junit.Test;
 
+import feature.Feature;
+import feature.FeatureCollection;
+import feature.Point;
+import feature.Polygon;
+
 public class GeoJSONTests {
 
 	@SuppressWarnings("static-method")

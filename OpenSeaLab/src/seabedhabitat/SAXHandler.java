@@ -1,180 +1,141 @@
 package seabedhabitat;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import seabedhabitat.feature.Feature;
-import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Geometry;
-import seabedhabitat.feature.MultiPolygon;
-import seabedhabitat.feature.Point;
-import seabedhabitat.feature.Polygon;
+import feature.Feature;
+import feature.FeatureCollection;
+import feature.Geometry;
+import feature.GeometryFactory;
+import feature.MultiPolygon;
+import feature.Point;
+import feature.Polygon;
 
 public class SAXHandler extends DefaultHandler {
 	private final FeatureCollection featureCollection = new FeatureCollection();
 	private Feature feature;
-	private boolean isFeature = false;
-	private boolean lowerCorner;
-	private boolean upperCorner;
-	private boolean multiSurface;
-	private boolean posList;
-	private boolean objectID;
-	private boolean allcomb;
-	private boolean allcomD;
-	private boolean webDesc;
-	private boolean webClass;
 
+	private boolean isFeature;
+	private boolean multi;
+	private boolean polygon;
+	private boolean point;
+	private boolean lineString;
+	
+	private String element;
 	private StringBuilder sb;
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-		if (qName.equals("gml:featureMember")) {
+		if (qName.equals("gml:featureMember") || qName.equals("wfs:member")) {
 			feature = new Feature();
+			featureCollection.addFeature(feature);
+			multi = false;
 			isFeature = true;
-			posList = false;
-			multiSurface = false;
-			return;
-		}
-		if (qName.equals("gml:lowerCorner")) {
-			lowerCorner = true;
-			return;
-		}
-		if (qName.equals("gml:upperCorner")) {
-			upperCorner = true;
-			return;
-		}
-		if (qName.equals("gml:MultiSurface")) {
-			multiSurface = true;
-			return;
-		}
-		if (qName.equals("gml:posList")) {
-			posList = true;
 			sb = new StringBuilder();
 			return;
 		}
-		if (qName.equals("ms:OBJECTID")) {
-			objectID = true;
+		element = qName.split(":")[1];
+		if (element.equals("MultiSurface")) {
+			multi = true;
 			return;
 		}
-		if (qName.equals("ms:Allcomb")) {
-			allcomb = true;
+		if(element.equals("Polygon")) {
+			polygon = true;
 			return;
 		}
-		if (qName.equals("ms:AllcombD")) {
-			allcomD = true;
+		if(element.equals("Point")) {
+			point = true;
 			return;
 		}
-		if (qName.equals("ms:WEB_DESC")) {
-			webDesc = true;
-			return;
-		}
-		if (qName.equals("ms:WEB_CLASS")) {
-			webClass = true;
+		if(element.equals("LineString")) {
+			lineString = true;
 			return;
 		}
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
-		if (posList) {
-			String s = sb.toString();
-			if (multiSurface) {
+		String endElement = qName.split(":")[1];
+		if(endElement == null) return;
+		if (endElement.equals("Polygon")) {
+			if (multi) {
 				Geometry geo = feature.getGeometry();
 				if (geo == null) {
 					geo = new MultiPolygon();
 					feature.setGeometry(geo);
 				}
-
-				((MultiPolygon) geo).addPolygon(getPolygon(s));
+				((MultiPolygon) geo).addPolygon((Polygon) GeometryFactory.newPolygon(sb.toString()));
 			} else {
-				feature.setGeometry(getPolygon(s));
-				featureCollection.addFeature(feature);
+				feature.setGeometry(GeometryFactory.newPolygon(sb.toString()));
 			}
-
-			posList = false;
+			polygon = false;
+			sb = new StringBuilder();
 			return;
 		}
-		if (qName.equals("gml:MultiSurface")) {
-			featureCollection.addFeature(feature);
+		if (endElement.equals("Point")) {
+			if (multi) {
+				
+			} else {
+				feature.setGeometry(GeometryFactory.newPoint(sb.toString()));
+			}
+			sb = new StringBuilder();
+			point = false;
+			return;
 		}
+		
+		if(endElement.equals("LineString")) {
+			if(multi) {
+				
+			} else {
+				feature.setGeometry(GeometryFactory.newLineString(sb.toString()));
+			}
+			lineString = false;
+			sb = new StringBuilder();
+			return;
+		}
+
+		element = "";
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		if(new String(ch, start, length).trim().length() == 0) return;
+		if (new String(ch, start, length).trim().length() == 0)
+			return;
 		String s = new String(ch, start, length);
-		if (lowerCorner) {
-			lowerCorner = false;
-			if (!isFeature) {
-				getPoint(s);// we only parse the point, but don't save it
-			} else {
-				feature.getBbox()[0] = getPoint(s);
+		if (element.equals("lowerCorner")) {
+			Point p = (Point) GeometryFactory.newPoint(s);
+			if (isFeature) {
+				feature.getBbox()[0] = p;
 			}
 			return;
 		}
-		if (upperCorner) {
-			if (!isFeature) {
-				getPoint(s); // we only parse the point, but don't save it
-			} else {
-				feature.getBbox()[1] = getPoint(s);
+		if (element.equals("upperCorner")) {
+			Point p = (Point) GeometryFactory.newPoint(s);
+			if (isFeature) {
+				feature.getBbox()[1] = p;
 			}
-			upperCorner = false;
 			return;
 		}
-		if (posList) {
+		if (polygon) {
 			sb.append(s);
 			return;
 		}
-	
-		if(objectID) {
-			objectID = false;
-			feature.addProperty("OBJECTID", s);
+		if (point) {
+			sb.append(s.replace(",", " "));
 			return;
 		}
-		if(allcomb) {
-			allcomb = false;
-			feature.addProperty("Allcomb", s);
+		if(lineString) {
+			sb.append(s);
 			return;
 		}
-		if(allcomD) {
-			allcomD = false;
-			feature.addProperty("AllcombD", s);
-			return;
+		if (isFeature) {
+			feature.addProperty(element, s);
 		}
-		if(webClass) {
-			webClass = false;
-			feature.addProperty("WEB_CLASS", s);
-			return;
-		}
-		if(webDesc) {
-			webDesc = false;
-			feature.addProperty("WEB_DESC",s);
-			return;
-		}
-
 	}
 
 	public FeatureCollection getFeatures() {
 		return featureCollection;
 	}
 
-	@SuppressWarnings("static-method")
-	private Point getPoint(String s) {
-		String[] splitedS = s.split(" ");
-		Point p = new Point(Double.parseDouble(splitedS[0]), Double.parseDouble(splitedS[1]));
-		return p;
-	}
-
-	private Polygon getPolygon(String s) {
-		List<Point> l = new ArrayList<>();
-		String[] sSplited = s.split(" ");
-		for (int i = 0; i < sSplited.length; i += 2) {
-			l.add(getPoint(sSplited[i] + " " + sSplited[i + 1]));
-		}
-		return new Polygon(l);
-	}
 }

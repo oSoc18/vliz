@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 
 import exceptions.FatalException;
-import seabedhabitat.feature.Rectangle;
+import feature.Rectangle;
 
 public class Util {
 	private static final Logger LOGGER = Logger.getLogger(Util.class.getName());

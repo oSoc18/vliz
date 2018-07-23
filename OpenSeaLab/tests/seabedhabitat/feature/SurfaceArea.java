@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.junit.Test;
 
+import feature.Point;
+import feature.Polygon;
+
 
 public class SurfaceArea {
 

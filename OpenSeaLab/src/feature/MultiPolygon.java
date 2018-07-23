@@ -1,4 +1,4 @@
-package seabedhabitat.feature;
+package feature;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package seabedhabitat;
 
-import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Rectangle;
+import feature.FeatureCollection;
+import feature.Rectangle;
 
 public class UCCSeabedHabitat {
 	private SeabedHabitatDAO seabedHabitatDAO;

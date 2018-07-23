@@ -2,6 +2,10 @@ package seabedhabitat.feature;
 
 import org.junit.Test;
 
+import feature.Point;
+import feature.Polygon;
+import feature.Rectangle;
+
 public class ClippingPolygonArea {
 
 	@SuppressWarnings("static-method")

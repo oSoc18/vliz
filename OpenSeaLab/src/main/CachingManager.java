@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import exceptions.FatalException;
-import seabedhabitat.feature.Rectangle;
+import feature.Rectangle;
 
 public class CachingManager {
 	private static final Logger LOGGER = Logger.getLogger(Util.class.getName());

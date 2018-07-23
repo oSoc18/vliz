@@ -17,11 +17,11 @@ import com.owlike.genson.Genson;
 
 import exceptions.BizzException;
 import exceptions.FatalException;
+import feature.FeatureCollection;
+import feature.Rectangle;
 import main.CachingManager;
 import main.PiecedCachingManager;
 import main.Util;
-import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;

@@ -2,7 +2,7 @@ package bathymetry;
 
 import java.io.File;
 
-import seabedhabitat.feature.Rectangle;
+import feature.Rectangle;
 
 public class UCCBathymetry {
 	private BathymetryDAO bathymetryDAO;

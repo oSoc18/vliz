@@ -1,9 +1,9 @@
 package main;
 
+import feature.FeatureCollection;
+import feature.Rectangle;
+import feature.SurfaceCount;
 import seabedhabitat.UCCSeabedHabitat;
-import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Rectangle;
-import seabedhabitat.feature.SurfaceCount;
 
 public class PiecedCachingManager {
 

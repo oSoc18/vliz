@@ -14,9 +14,9 @@ import org.xml.sax.SAXException;
 import com.owlike.genson.Genson;
 
 import exceptions.FatalException;
+import feature.FeatureCollection;
+import feature.Rectangle;
 import main.Util;
-import seabedhabitat.feature.FeatureCollection;
-import seabedhabitat.feature.Rectangle;
 
 public class SeabedHabitatDAO {
 	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatDAO.class.getName());
