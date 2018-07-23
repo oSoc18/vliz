@@ -20,6 +20,10 @@ time, mark, audio, video {
   font-family: 'Open Sans', sans-serif, Helvetica;
 }
 
+main, #map {
+  height: 85vh;
+}
+
 .statistics input[type=button] {
   background-color: #1F72AF;
   border-radius: 7px;
@@ -123,13 +127,10 @@ input[type=checkbox] {
 }
 
 header {
-  width: 100%;
-  background: url('../images/header_background.png') 100% 100%;
+  width: 100vw;
+  height: 15vh;
+  background: url('../images/header_background.png');
   background-size: cover;
-}
-
-header a {
-  display:  block;
 }
 
 .leaflet-top {
