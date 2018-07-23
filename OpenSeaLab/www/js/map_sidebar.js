@@ -13,11 +13,11 @@ let dictionary = new Map();
 // layer source http://portal.emodnet-bathymetry.eu/services/#wms
 let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
 
-var layer = "physics"
+var layer = "seabed"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
-var seabedtype = "EUSM2016_simplified200"
-var type = "emodnet:PlatformAll"
+//var seabedtype = "EUSM2016_simplified200"
+//var type = "emodnet:PlatformAll"
 var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
@@ -117,17 +117,7 @@ function getDataFromCoords(){
 
 }
 
-/*
-function getStatistics(){
-	var minLat = document.getElementById('minLat').value;
-	var minLng = document.getElementById('minLong').value;
-	var maxLat = document.getElementById('maxLat').value;
-	var maxLng = document.getElementById('maxLong').value;
 
-	var statsURLcoordinates = URLpart0Stats.concat(minLat,URLpart1.concat(maxLat,URLpart2.concat(minLng,URLpart3)))+maxLng;
-	loadStatsFrom(statsURLcoordinates);
-
-}*/
 
 // Get statistics from the URL
 
