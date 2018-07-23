@@ -321,6 +321,9 @@ header {
   visibility: hidden;
 }
 
+/* main {
+  display: flex;
+} */
 
 .tabs {
   display: flex;
@@ -467,6 +470,15 @@ h5 {
     text-align: center;
 }
 
+/* .btn-expand-collapse:hover,
+.btn-expand-collapse:focus {
+    background-color: #222;
+}
+
+.btn-expand-collapse:active {
+    background-color: #111;
+} */
+
 .navbar-primary-menu {
   margin:0;
   padding:0;
@@ -531,13 +543,22 @@ h5 {
     height: 100%;
     background-color: green;
   }
-
+/*
+  .map {
+    width: 100vw;
+  }
+*/
   .tabs {
     width: 30vw;
   }
 }
 
 @media (max-width: 750px) {
+
+  /* main {
+    flex-direction: column;
+    height: auto;
+  } */
 
   .map {
     order: 2;
