@@ -47,22 +47,26 @@ main, #map {
 }
 
 .collapsible {
-  background-color: white;
+  background: #fff;
   cursor: pointer;
-  padding: 10px;
-  border: none;
-  text-align: left;
-  outline: none;
+  padding: 4px 8px;
+  border: 0;
   font-size: 20px;
-	width: 345px;
+	display: block;
 	color: #678B9C;
-	font-style: gras;
+  -webkit-appearance:  none;
+  line-height: 32px;
+  margin-bottom:  10px;
+}
+
+.collapsible img {
+  float: left;
+  margin-right: 8px;
 }
 
 .active, .collapsible:hover {
   color: #2073B0;
-  font-weight: bolder;
-  background-color: white;
+  font-weight: 600;
 }
 
 .content {
