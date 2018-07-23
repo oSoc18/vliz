@@ -20,10 +20,6 @@ time, mark, audio, video {
   font-family: 'Open Sans', sans-serif, Helvetica;
 }
 
-main, #map {
-  height: 85vh;
-}
-
 .statistics input[type=button] {
   background-color: #1F72AF;
   border-radius: 7px;
@@ -134,10 +130,13 @@ input[type=checkbox] {
 }
 
 header {
-  width: 100vw;
-  height: 15vh;
-  background: url('../images/header_background.png');
+  width: 100%;
+  background: url('../images/header_background.png') 100% 100%;
   background-size: cover;
+}
+
+header a {
+  display:  block;
 }
 
 .leaflet-top {
@@ -465,16 +464,12 @@ h5 {
 }
 
 .btn-expand-collapse {
-    position: absolute;
-    display: block;
-    right: 0px;
-    bottom:0;
-    width: 100%;
-    padding: 8px 0;
-    border-top:solid 1px #666;
-    color: grey;
-    font-size: 20px;
-    text-align: center;
+  line-height: 44px;
+  background: #fff;
+  color: grey;
+  font-size: 20px;
+  padding: 8px 0;
+  border-top:solid 1px #666;
 }
 
 /* .btn-expand-collapse:hover,
