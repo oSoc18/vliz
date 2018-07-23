@@ -17,6 +17,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit; /* stylelint-disable-line */
   vertical-align: baseline;
+  font-family: 'Open Sans', sans-serif, Helvetica;
 }
 
 main, #map {
@@ -37,17 +38,25 @@ main, #map {
 }
 
 .active, .collapsible:hover {
-    background-color: #ddd;
+  color: #2073B0;
+  font-weight: bolder;
+  background-color: white;
 }
 
 .content {
-    padding: 0 18px;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    background-color: #f1f1f1;
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
 	font-size: 15px;
 	width: 345px;
+}
+
+input[type=checkbox] {
+  border: 1px solid #7BADD1;
+  border-radius: 7px;
+  margin-right: .5rem;
+  background-color: white;
 }
 
 header {
@@ -151,7 +160,7 @@ header {
   align-items: center;
   z-index: 1;
   position: relative;
-  box-shadow: 0 5px 20px 0 #678B9C;
+  box-shadow: 0 5px 20px 0 #D9E2E6;
   top: -15px;
 }
 
@@ -195,7 +204,7 @@ header {
   margin-top: 4%;
   margin-left: 1rem;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
 }
 
 .minmax {
@@ -310,6 +319,15 @@ h5 {
 
 .main-content {
   margin-top: 0;
+}
+
+.filter-row {
+  height: 10%;
+}
+
+.filters {
+  height: 100%;
+  box-shadow: 0 5px 20px 0 #D9E2E6;
 }
 
 @media (max-width: 1000px) {

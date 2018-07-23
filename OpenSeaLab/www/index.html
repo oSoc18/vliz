@@ -8,8 +8,9 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link rel="icon" href="../../favicon.ico">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
 
-  <title>sidebar template</title>
+  <title>Open Sea Lab</title>
 
   <!-- Bootstrap core CSS -->
   <link href="style/bootstrap.min.css" rel="stylesheet">
@@ -44,11 +45,9 @@
 	<main>
 		<nav class="navbar-primary">
 			<a href="#" class="btn-expand-collapse"><span class="glyphicon glyphicon-menu-left"></span></a>
-			<div class="row">
+			<div class="row filter-row">
 				<div class="col-lg-6">
 					<h3>Data sources</h3>
-					<br>
-					<br>
 					<ul class="navbar-primary-menu">
 						<li>
 							<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)"><img src="images/bathymetry.png"></img> Bathymetry</button>
@@ -85,7 +84,6 @@
 					<div id="statsOutput"> </div>
 					<!-- <p id="AddFilter"> Select a layer to view filters</p> -->
 			</div>
-		</div>
 
 		</nav>
 		<nav class="main-content">
@@ -122,7 +120,7 @@
 					<div class="buttons">
 						<button type="button" class="rectangle btn btn-default" onclick="enableDrawing()" ></button>
 						<button type="button" class="delete btn btn-default" onclick="clearData()" ></button>
-					</div>					
+					</div>
 				</div>
 			</div>
 		</nav>
