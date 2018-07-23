@@ -460,22 +460,19 @@ h5 {
 }
 
 .btn-expand-collapse {
-  line-height: 44px;
+  height: 44px;
   background: #fff;
   color: grey;
   font-size: 20px;
   padding: 8px 0;
-  border-top:solid 1px #666;
+  border-top: solid 1px #666;
+  display: block;
 }
 
-/* .btn-expand-collapse:hover,
-.btn-expand-collapse:focus {
-    background-color: #222;
+.btn-expand-collapse img {
+  margin: auto;
+  display: block;
 }
-
-.btn-expand-collapse:active {
-    background-color: #111;
-} */
 
 .navbar-primary-menu {
   margin:0;
