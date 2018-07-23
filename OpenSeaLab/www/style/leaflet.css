@@ -219,6 +219,7 @@
 	text-align: center;
 	text-decoration: none;
 	color: black;
+
 	}
 .leaflet-bar a,
 .leaflet-control-layers-toggle {
@@ -228,6 +229,7 @@
 	}
 .leaflet-bar a:hover {
 	background-color: #f4f4f4;
+	opacity: .5;
 	}
 .leaflet-bar a:first-child {
 	border-top-left-radius: 4px;

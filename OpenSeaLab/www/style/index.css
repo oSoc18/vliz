@@ -392,6 +392,10 @@ h5 {
   background-position: center;
   background-size: 1.5rem;
 }
+.rectangle:hover {
+  background-color: white;
+  opacity: .5;
+}
 
 .delete {
   border-radius: 5px;
@@ -403,6 +407,11 @@ h5 {
   background-repeat: no-repeat;
   background-position: center;
   background-size: 1.5rem;
+}
+
+.delete:hover {
+  background-color: white;
+  opacity: .5;
 }
 
 .sidebar {
