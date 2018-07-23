@@ -1,4 +1,4 @@
-package seabedhabitat;
+package vectorLayers;
 
 import java.io.IOException;
 import java.util.Map;
@@ -16,28 +16,31 @@ import com.owlike.genson.Genson;
 import exceptions.FatalException;
 import feature.FeatureCollection;
 import feature.Rectangle;
+import main.AppContext;
 import main.Util;
 
-public class SeabedHabitatDAO {
-	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatDAO.class.getName());
+public class VectorLayersDAO {
+	private static final Logger LOGGER = Logger.getLogger(VectorLayersDAO.class.getName());
 	private final String url;
 	private final String defaultType;
+	private final AppContext appContext;
 
 	/**
-	 * Constructs a data object access that manages everything linked to pure data.
+	 * Constructs a data object access to retrieve data from the remote server.
 	 * 
 	 * @param url
 	 *            webservice url
 	 * @param defaultType
 	 *            type name of the seabed habitat
 	 */
-	public SeabedHabitatDAO(String url, String defaultType) {
+	public VectorLayersDAO(AppContext appContext, String url, String defaultType) {
 		this.url = url;
 		this.defaultType = defaultType;
+		this.appContext = appContext;
 	}
 
 	/**
-	 * Fetchs, saves and returns a geojson file.
+	 * Fetches, saves and returns a geojson file.
 	 * 
 	 * @param bbox
 	 *            bounding box
@@ -48,7 +51,7 @@ public class SeabedHabitatDAO {
 	public FeatureCollection getFeatures(Rectangle bbox, String type) {
 		FeatureCollection fc;
 		try {
-			fc = fetch(bbox, type == null ? defaultType : type);
+			fc = fetchXML(bbox, type == null ? defaultType : type);
 			fc = fc.clippedWith(bbox);
 			return fc;
 		} catch (SAXException | IOException | ParserConfigurationException e) {
@@ -57,7 +60,7 @@ public class SeabedHabitatDAO {
 	}
 
 	/**
-	 * Fetchs, saves and returns statistics in json format.
+	 * Fetches, saves and returns statistics in json format.
 	 * 
 	 * @param bbox
 	 *            bounding box
@@ -67,7 +70,7 @@ public class SeabedHabitatDAO {
 	 */
 	public String getStats(Rectangle bbox, String type) {
 		try {
-			FeatureCollection fc = fetch(bbox, type == null ? defaultType : type);
+			FeatureCollection fc = fetchXML(bbox, type == null ? defaultType : type);
 			Map<String, Double> stats = fc.clippedWith(bbox).calculateTotals().calculatePercentages();
 			return new Genson().serialize(stats);
 		} catch (SAXException | IOException | ParserConfigurationException e) {
@@ -85,7 +88,7 @@ public class SeabedHabitatDAO {
 	 * @throws IOException
 	 * @throws ParserConfigurationException
 	 */
-	private FeatureCollection fetch(Rectangle bbox, String type)
+	private FeatureCollection fetchXML(Rectangle bbox, String type)
 			throws SAXException, IOException, ParserConfigurationException {
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
 		LOGGER.log(Level.FINE, "Querying WMS server");

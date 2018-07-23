@@ -3,15 +3,15 @@ package main;
 import feature.FeatureCollection;
 import feature.Rectangle;
 import feature.SurfaceCount;
-import seabedhabitat.UCCSeabedHabitat;
+import vectorLayers.UCCVectorLayers;
 
 public class PiecedCachingManager {
 
-	private final UCCSeabedHabitat nonCacheProvider;
+	private final UCCVectorLayers nonCacheProvider;
 	private final CachingManager caching;
 	private final CachingManager statisticsCaching;
 
-	public PiecedCachingManager(UCCSeabedHabitat nonCacheProvider, CachingManager caching, CachingManager stats) {
+	public PiecedCachingManager(UCCVectorLayers nonCacheProvider, CachingManager caching, CachingManager stats) {
 		this.nonCacheProvider = nonCacheProvider;
 		this.caching = caching;
 		this.statisticsCaching = stats;

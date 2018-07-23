@@ -1,4 +1,4 @@
-package seabedhabitat;
+package vectorLayers;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

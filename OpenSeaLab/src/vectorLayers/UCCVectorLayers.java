@@ -1,12 +1,12 @@
-package seabedhabitat;
+package vectorLayers;
 
 import feature.FeatureCollection;
 import feature.Rectangle;
 
-public class UCCSeabedHabitat {
-	private SeabedHabitatDAO seabedHabitatDAO;
+public class UCCVectorLayers {
+	private VectorLayersDAO seabedHabitatDAO;
 
-	public UCCSeabedHabitat(SeabedHabitatDAO seabedHabitatDAO) {
+	public UCCVectorLayers(VectorLayersDAO seabedHabitatDAO) {
 		this.seabedHabitatDAO = seabedHabitatDAO;
 	}
 

@@ -1,4 +1,4 @@
-package seabedhabitat;
+package vectorLayers;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -23,15 +23,16 @@ import main.CachingManager;
 import main.PiecedCachingManager;
 import main.Util;
 
-public class SeabedHabitatServlet extends DefaultServlet {
+public class VectorLayersServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger LOGGER = Logger.getLogger(SeabedHabitatServlet.class.getName());
-	private final UCCSeabedHabitat seabedHabitatUCC;
+	private static final Logger LOGGER = Logger.getLogger(VectorLayersServlet.class.getName());
+	private final UCCVectorLayers seabedHabitatUCC;
 
 	private final PiecedCachingManager cm;
 	private final String defaultType;
 
-	public SeabedHabitatServlet(UCCSeabedHabitat seabedHabitatUCC, CachingManager cm, CachingManager stats, String defaultType) {
+	public VectorLayersServlet(UCCVectorLayers seabedHabitatUCC, CachingManager cm, CachingManager stats,
+			String defaultType) {
 		this.seabedHabitatUCC = seabedHabitatUCC;
 		this.cm = new PiecedCachingManager(seabedHabitatUCC, cm, stats);
 		this.defaultType = defaultType;
@@ -81,19 +82,18 @@ public class SeabedHabitatServlet extends DefaultServlet {
 		FeatureCollection fc = cm.retrieve(bbox, getType(req));
 		responseFromString(fc.toGeoJSON(), resp);
 	}
-	
+
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
 		System.out.println("Getting stuff");
 		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req)).calculatePercentages();
-		
+
 		responseFromString(new Genson().serialize(fc), resp);
 	}
 
 	private String getType(HttpServletRequest req) {
 		return req.getParameter("type") == null ? defaultType : req.getParameter("type");
 	}
-
 
 	@SuppressWarnings("static-method")
 	private void sendError(HttpServletResponse resp, String msg, int code) {
