@@ -170,7 +170,7 @@ function addSeabedLayer(json){
 function loadDataFrom(url){
 	console.log("about to add seabed");
 	console.log(url);
-	clearData();
+	//clearData();
 	$.getJSON(url, function(json){
 		clearRect();
 
@@ -275,6 +275,7 @@ function clearData(){
 }
 
 function clearRect(){
+	
 	if(rectangle != null){
 		map.removeLayer(rectangle);
 		rectangle = null;
