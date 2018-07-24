@@ -1,0 +1,195 @@
+/* MAP CONTAINER */
+
+.main-content {
+	margin-right: 700px; /* MARGIN FOR THE TABS THAT ARE OPEN */
+	padding: 0px;
+}
+
+.collapsed + .main-content {
+	margin-right: 40px; /* IF THE TABS ARE COLLAPSED THE MARGIN IS ONLY 40PX */
+}
+
+.map {
+	display: flex;
+	height: 85vh;
+	justify-content: space-between;
+	flex-direction: column;
+	align-items: center;
+	position: relative;
+}
+
+.coordinates {
+	border-bottom-right-radius: 5px;
+	width: 18rem;
+	display: flex;
+	flex-direction: column;
+	z-index: 2;
+	padding: 1rem;
+	background-color: white;
+	padding-right: 2rem;
+	padding-bottom: 1rem;
+	height: 4rem;
+	box-shadow: 0 5px 20px 0 #A8B2BE;
+	position: absolute;
+	left: 0;
+	color: #0A3154;
+}
+
+.coordinates h5 {
+	font-weight: bold;
+}
+
+.maxmin {
+	display: inline-block;
+	position: absolute;
+	left: 6rem;
+	margin-top: .5rem;
+	margin-bottom: .5rem;
+}
+
+h5 {
+	margin-top: .5rem;
+	margin-bottom: .5rem;
+	display: inline-block;
+	font-size: 12px;
+}
+
+#minLat, #maxLat, #minLong, #maxLong {
+	min-width: 4rem;
+	border-radius: 5px;
+	border: 1px solid #97BFDB;
+	margin-right: .5rem;
+	margin-left: .3rem;
+}
+
+/* POPUP NEXT TO RECTANGLE */
+
+.rectangle-popup { /* THIS IS THE POPUP THAT APPEARS AT THE BEGINNING AND POINTS TO THE RECTANGLE TOOL */
+	position: absolute;
+	background: #ffffff;
+	z-index: 8;
+	width: 13rem;
+	height: 15rem;
+	right: 6rem;
+	top: 1rem;
+	border-radius: 5px;
+}
+
+.rectangle-popup:after { /* THIS CREATES THE LITTLE ARROW AT THE POPUP */
+	left: 100%;
+	top: 50%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #ffffff;
+	border-width: 10px;
+	margin-top: -7rem;
+
+}
+
+.popup-text {
+	font-size: .8rem;
+	text-align: center;
+	margin-top: 1rem;
+	font-weight: bold;
+	color: #0A3154;
+}
+
+.select-rectangle-anim { /* THE ANIMATION TO SELECT A RECTANGLE */
+	width: 12rem;
+	height: 12rem;
+	margin-left: 1rem;
+	margin-top: 1rem;
+}
+
+
+/* THE BUTTONS TO SELECT AND DELETE DATA, AND ZOOM BUTTONS */
+
+
+
+.buttons {
+	display: flex;
+	width: 2rem;
+	height: 5rem;
+	flex-direction: column;
+	justify-content: space-between;
+	position: absolute;
+	right: 3.2rem;
+	top: 1rem;
+	z-index: 5;
+}
+
+.rectangle {
+	border-radius: 5px;
+	border: none;
+	background-color: #2073B0;
+	width: 2rem;
+	height: 2rem;
+	background-image: url('../images/rectangle.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 1.5rem;
+}
+
+.delete {
+	border-radius: 5px;
+	border: none;
+	background-color: #2073B0;
+	width: 2rem;
+	height: 2rem;
+	background-image: url('../images/delete.svg');
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 1.5rem;
+}
+
+.rectangle:hover, .delete:hover {
+	opacity: .5; /* WHEN YOU HOVER THE BUTTONS THE OPACITY BECOMES 0.5 */
+}
+
+/* LEAFLET MAP, COMES FROM LEAFLET FILE */
+
+.leaflet-top {
+	top: auto;
+	left: auto;
+	bottom: 3rem;
+	right: 3rem;
+}
+
+.leaflet-bar a {
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	background-color: #2073B0;
+	color: white;
+	border: none;
+	margin: .2rem;
+}
+
+.leaflet-bar {
+	box-shadow: none;
+}
+
+.leaflet-touch .leaflet-bar {
+	border: none;
+}
+
+.leaflet-top {
+	z-index: 1;
+}
+
+/* LOADING */
+
+#loadingSVG{
+	z-index: 0; /* 0 disappears, 4 appears*/
+  background: rgba(255, 255, 255, 0.8);
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding-top: 15rem;
+}

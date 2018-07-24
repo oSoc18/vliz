@@ -1,0 +1,267 @@
+/* THE TABS AT THE RIGHT + ANIMATION OF TAB */
+
+.tabs {
+	display: flex;
+	width: 50vw;
+	height: 85vh;
+	flex-direction: column;
+}
+
+.tabs-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+}
+
+.sidebar {
+	display: flex;
+	flex-flow: column wrap;
+}
+
+.navbar-primary h3{
+	font-size : 30px;
+	color : #073056;
+	border-bottom : 1px solid #EEEEEE;
+	margin: 1rem;
+}
+
+.navbar-primary p{
+	font-size : 18px;
+}
+
+.navbar-primary-menu li a .glyphicon {
+	margin-left: 2px;
+}
+
+.panels {
+	flex: 1;
+	display: flex;
+	height: 100%;
+	width: 100%;
+}
+
+.panel {
+	flex: 1;
+	overflow: auto;
+	height: 100%;
+	position: relative;
+	min-width:  320px;
+}
+
+.col-flex {
+	flex: 1;
+}
+
+/* THE DIFFERENT LAYERS */
+
+.collapsible { /* THE LAYER BUTTON ITSELF */
+	background: #fff;
+	cursor: pointer;
+	padding: 4px 8px;
+	border: 0;
+	font-size: 20px;
+	display: block;
+	color: #678B9C;
+	-webkit-appearance:  none;
+	line-height: 32px;
+	margin-bottom:  10px;
+	display: block;
+	width: 100%;
+	text-align: left;
+}
+
+.collapsible img { /* THE ICON */
+	float: left;
+	margin-right: 8px;
+}
+
+.active, .collapsible:hover { /* THE COLOR CHANGES WHEN THE BUTTON IS ACTIVE OR HOVERED ON */
+	color: #2073B0;
+	font-weight: 600;
+	background-color: #FEEF87;
+}
+
+
+
+/* INSIDE THE LAYERS */
+
+.content {
+	padding: 0 18px;
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+	font-size: 15px;
+	width: 345px;
+}
+
+label {
+	position: relative;
+	display: block;
+	padding-bottom: .3rem;
+}
+
+.check-container { /* THE CHECKBOX-CONTAINER */
+	margin-right: .5rem;
+	display: inline-block;
+	padding-left: 1.5rem;
+}
+
+input[type=checkbox] { /* THE CHECKBOX ITSELF */
+	border: 1px solid #7BADD1;
+	border-radius: 7px;
+	-webkit-appearance: none;
+	width: 1rem;
+	height: 1rem;
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 5;
+	margin-right: 1rem;
+}
+
+.checkmark { /* THE CHECKMARK */
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+
+.checkmark:after {
+	content: "";
+	position: absolute;
+	display: none;
+}
+
+.check-container input:checked ~ .checkmark {
+	background-color: #2196F3;
+}
+
+.check-container input:checked ~ .checkmark:after {
+	display: block;
+}
+
+.check-container .checkmark:after { /* THIS CREATED THE CHEKMARK ITSELF */
+	left: 8px;
+	top: 3px;
+	width: 5px;
+	height: 10px;
+	border: solid #2072AF;
+	border-width: 0 3px 3px 0;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+/* STATS */
+
+.statistics {
+	height: 100%;
+	box-shadow: 0 5px 20px 0 #D9E2E6;
+	display: flex;
+	flex-direction: column;
+	overflow-x: hidden;
+}
+
+.statistics h3 {
+	margin-bottom: 0;
+}
+
+.statistics-output {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 1rem;
+}
+
+.statistics-output p {
+	color: #0A3154;
+}
+
+.navbar-primary { /* THE WHOLE TAB */
+	bottom: 0px;
+	right: 0px;
+	position: absolute;
+	top: 114px;
+	width: 700px;
+	z-index: 8;
+	overflow: hidden;
+	-webkit-transition: all 0.1s ease-in-out;
+	-moz-transition: all 0.1s ease-in-out;
+	transition: all 0.1s ease-in-out;
+	box-shadow: 0 5px 20px 0 #A8B2BE;
+}
+
+.navbar-primary.collapsed { /* WHEN THE TABS ARE COLLAPSED IT'S ONLY 40px WIDE */
+	width: 40px;
+}
+
+.navbar-primary.collapsed .nav-label {
+	display: none;
+}
+
+.seaBedColorSquare { /* THE SQUARE NEXT TO THE OUTPUT */
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin: 5px;
+	border: 1px solid rgba(0, 0, 0, .2);
+}
+
+/* DOWNLOAD BUTTON AT STATISTICS */
+
+.statistics input[type=button] {
+	background-color: #1F72AF;
+	border-radius: 7px;
+	box-shadow: 0 5px 20px 0 #D9E2E6;
+	border: none;
+	color: white;
+	padding: .3rem;
+	width: 100%;
+	height: 2.3rem;
+	font-size: 1.3rem;
+}
+
+.statistics input[type=button][disabled] { /* WHEN THE BUTTON IS DISABLED THE OPACITY IS 0.5 */
+	opacity: .5;
+}
+
+.download-button {
+	height: 2.3rem;
+	display: flex;
+	border-top: 1px solid #EEEEEE;
+	padding: 1rem;
+}
+
+
+
+/* EXPAND BUTTON */
+
+.button {
+	height: 44px;
+	background-color: white;
+	z-index: 15;
+}
+
+.btn-expand-collapse { /* THE BUTTON AT THE BOTTOM, TO COLLAPS THE TABS */
+	height: 44px;
+	background: #fff;
+	color: grey;
+	font-size: 20px;
+	padding: 8px 0;
+	display: block;
+	z-index: 999;
+	position: relative;
+	box-shadow: 0 0 20px 0 #D9E2E6;
+}
+
+.btn-expand-collapse img {
+	margin: auto;
+	display: block;
+	transition: all .5s ease;
+}
+
+.navbar-primary.collapsed .btn-expand-collapse img {
+	transform: rotate(180deg);
+	transition: all .5s ease;
+}

@@ -41,6 +41,7 @@ document.getElementById("maxLong").value = "";
 var baseMaps = {};
 
 function BathymetryCheck(layerNum){
+	document.getElementById('loadingSVG').style.zIndex = "4";
 	var layerName = "Bathymetry-opt" + (layerNum).toString();
 	console.log("curr "+ layerName + layerNum);
 	if(document.getElementById(layerName).checked == true){
@@ -59,7 +60,8 @@ function BathymetryCheck(layerNum){
 			console.log("removing "  + i);
 			map.removeLayer(baseMaps.layerName);
 		}	
-	}	
+	}
+	document.getElementById('loadingSVG').style.zIndex = "0";	
 
 }
 
@@ -89,6 +91,8 @@ map.on({
 		document.getElementById("maxLat").value = String(Math.max.apply(null, lats));
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
+
+		document.getElementById('loadingSVG').style.zIndex = "4";
 
 		getDataFromCoords();
 	}/*,
@@ -132,7 +136,7 @@ function getStyle(feature){
 		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
 	}
-	return {color : clr, weight : 0.0};
+	return {color : clr, weight : 0.0, fillOpacity : .75};
 }
 
 function prepFeature(feature, layer){
@@ -163,6 +167,7 @@ function addSeabedLayer(json){
 		, pointToLayer: function (feature, latlng) {
         return L.circleMarker(latlng, geojsonMarkerOptions);}
 		});
+    document.getElementById('loadingSVG').style.zIndex = "0";
     loadedLayer.addTo(map);
 }
 
@@ -271,6 +276,15 @@ function clearData(){
 		loadedLayer = undefined;
 	}
   disableBtn();
+}
+
+function deleteButton(){
+	document.getElementById("minLat").value = "";
+	document.getElementById("maxLat").value = "";
+	document.getElementById("minLong").value = "";
+	document.getElementById("maxLong").value = "";
+	clearData();
+	clearRect();
 }
 
 function clearRect(){

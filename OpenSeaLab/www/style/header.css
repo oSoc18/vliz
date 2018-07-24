@@ -1,0 +1,57 @@
+/* THE HEADER */
+
+header {
+	width: 100%;
+	height: 7.25rem;
+	background: url('../images/header_background.png') 100% 100%;
+	background-size: cover;
+}
+
+header a { /* LOGO */
+	display: block;
+}
+
+.header-logo {
+	margin: 1.2rem;
+}
+
+/* color bar */
+
+.color-container { /* THE COLORS BELOW AT THE HEADER */
+	display: flex;
+	width: 100%;
+	height: 8px;
+}
+
+.yellow, .green, .brown, .blue, .blue-green, .gray, .red {
+	width: 14.3%;
+	height: 100%;
+}
+
+.yellow {
+	background-color: #FEDF32;
+}
+
+.green {
+	background-color: #9DC553;
+}
+
+.brown {
+	background-color: #B68B27;
+}
+
+.blue {
+	background-color: #1C9CBC;
+}
+
+.blue-green {
+	background-color: #66AC95;
+}
+
+.gray {
+	background-color: #8BA1B5;
+}
+
+.red {
+	background-color: #B54448;
+}
