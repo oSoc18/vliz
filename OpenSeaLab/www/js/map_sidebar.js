@@ -3,6 +3,7 @@ var map = L.map('map', {zoomControl:true}).setView([47.3791104480105, -2.1958007
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
 var autoShowCached = false;
+var autoShowCachedMinZoom = 8;
 
 var draw;
 var rectangle;
@@ -67,8 +68,6 @@ map.on({
 
 		getDataFromCoords();
 	},
-	'zoomend': loadForView,
-	'moveend': loadForView,
 	'moved': loadForView
 });
 
@@ -81,7 +80,7 @@ function loadForView(){
 		}
 
 
-		if(map.getZoom() < 6){
+		if(map.getZoom() <= autoShowCachedMinZoom){
 			return;
 		}
 		var bnds = map.getBounds();
