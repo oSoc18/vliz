@@ -8,6 +8,7 @@ public class Polygon extends Geometry {
 
 	private static final long serialVersionUID = 1L;
 	private final List<Point> points;
+
 	public Polygon(Point... points) {
 
 		this(Arrays.asList(points));
@@ -40,7 +41,7 @@ public class Polygon extends Geometry {
 		}
 
 		int pointsCount = points.size() - diff;
-		Double	area = 0.0;
+		Double area = 0.0;
 		Double d2r = Math.PI / 180;
 		Point p1, p2;
 
@@ -49,8 +50,8 @@ public class Polygon extends Geometry {
 				p1 = points.get(i);
 				p2 = points.get((i + 1) % pointsCount);
 
-				area += ((p2.getLon() - p1.getLon()) * d2r) *
-					(2 + Math.sin(p1.getLat() * d2r) + Math.sin(p2.getLat() * d2r));
+				area += ((p2.getLon() - p1.getLon()) * d2r)
+						* (2 + Math.sin(p1.getLat() * d2r) + Math.sin(p2.getLat() * d2r));
 			}
 			area = area * 6378137.0 * 6378137.0 / 2.0;
 		}
@@ -76,20 +77,20 @@ public class Polygon extends Geometry {
 
 				Point P = input.get((j + curLen - 1) % curLen);
 				Point Q = input.get(j);
-				if (!isInside(A, B, Q)) {  // is Q inside of points A and B
-					if (isInside(A, B, P)) { // is P outside of A and B 
+				if (!isInside(A, B, Q)) { // is Q inside of points A and B
+					if (isInside(A, B, P)) { // is P outside of A and B
 						newPolygon.add(intersection(A, B, P, Q));
 					}
 					newPolygon.add(Q);
-				} else if (!isInside(A, B, P)) // is P inside of A and B and Q outside of 
+				} else if (!isInside(A, B, P)) // is P inside of A and B and Q outside of
 					newPolygon.add(intersection(A, B, P, Q));
 			}
 		}
-		
-		if(newPolygon.isEmpty()) {
+
+		if (newPolygon.isEmpty()) {
 			return null;
 		}
-		
+
 		return new Polygon(newPolygon);
 	}
 

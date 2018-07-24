@@ -27,7 +27,12 @@ public class VectorLayersServlet extends DefaultServlet {
 	private static final Logger LOGGER = Logger.getLogger(VectorLayersServlet.class.getName());
 	private final PiecedCachingManager cm;
 	private final String defaultType;
-
+	
+	/**
+	 * 
+	 * @param cm {@link PiecedCachingManager}
+	 * @param defaultType the default typeName of a layer
+	 */
 	public VectorLayersServlet(PiecedCachingManager cm, String defaultType) {
 		this.cm = cm;
 		this.defaultType = defaultType;
@@ -71,12 +76,24 @@ public class VectorLayersServlet extends DefaultServlet {
 		}
 	}
 
+	/**
+	 * Process the getGeoJSON request.
+	 * 
+	 * @param req
+	 * @param resp
+	 */
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
 		FeatureCollection fc = cm.retrieve(bbox, getType(req), getCacheOnly(req));
 		responseFromString(fc.toGeoJSON(), resp);
 	}
 
+	/**
+	 * Process the getStats request.
+	 * 
+	 * @param req
+	 * @param resp
+	 */
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
 		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req)).calculatePercentages();
@@ -92,6 +109,15 @@ public class VectorLayersServlet extends DefaultServlet {
 		return req.getParameter("cacheOnly") == null ? false : Boolean.parseBoolean(req.getParameter("cacheOnly"));
 	}
 
+	/**
+	 * Sends an error.
+	 * 
+	 * @param resp
+	 *            {@link HttpServletResponse}
+	 * @param msg
+	 * @param code
+	 *            error code.
+	 */
 	@SuppressWarnings("static-method")
 	private void sendError(HttpServletResponse resp, String msg, int code) {
 		try {
@@ -101,6 +127,13 @@ public class VectorLayersServlet extends DefaultServlet {
 		}
 	}
 
+	/**
+	 * Sends response to the calling process.
+	 * 
+	 * @param data
+	 * @param resp
+	 *            {@link HttpServletResponse}
+	 */
 	private static void responseFromString(String data, HttpServletResponse resp) {
 		try (BufferedWriter sos = new BufferedWriter(new OutputStreamWriter(resp.getOutputStream()))) {
 			resp.setContentType("application/json");

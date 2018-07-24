@@ -57,7 +57,8 @@ public class Main {
 		initVectorLayerServlet("seabed", appContext, context);
 		initVectorLayerServlet("physics", appContext, context);
 		initVectorLayerServlet("geology", appContext, context);
-
+		// here you can add more layers as done previously 
+		
 		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 		context.addServlet(new ServletHolder(bathymetryServlet), "/bathymetry");
 

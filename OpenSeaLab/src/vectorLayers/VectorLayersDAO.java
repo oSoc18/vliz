@@ -44,13 +44,13 @@ public class VectorLayersDAO {
 	}
 
 	/**
-	 * Fetches, saves and returns a geojson file.
+	 * Fetches data from remote server and returns a {@link FeatureCollection}.
 	 * 
 	 * @param bbox
 	 *            bounding box
 	 * @param type
-	 *            seabed habitat type
-	 * @return geojson file
+	 *            the layer type
+	 * @return {@link FeatureCollection}
 	 */
 	public FeatureCollection getFeatures(Rectangle bbox, String type) {
 		type = type == null ? defaultType : type;
@@ -69,7 +69,9 @@ public class VectorLayersDAO {
 	 * Gets the data from the WFS service and process it as XML.
 	 * 
 	 * @param bbox
+	 *            bounding box
 	 * @param type
+	 *            layer typeName
 	 * @return {@link FeatureCollection}
 	 * @throws SAXException
 	 * @throws IOException
@@ -91,7 +93,9 @@ public class VectorLayersDAO {
 	 * Gets data from WFS service and process it as json.
 	 * 
 	 * @param bbox
+	 *            bounding box
 	 * @param type
+	 *            layer typeName
 	 * @return {@link FeatureCollection}
 	 * @throws IOException
 	 */
