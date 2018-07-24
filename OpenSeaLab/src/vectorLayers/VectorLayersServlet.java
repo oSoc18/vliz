@@ -84,7 +84,7 @@ public class VectorLayersServlet extends DefaultServlet {
 	 */
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
-		FeatureCollection fc = cm.retrieve(bbox, getType(req));
+		FeatureCollection fc = cm.retrieve(bbox, getType(req), getCacheOnly(req));
 		responseFromString(fc.toGeoJSON(), resp);
 	}
 
@@ -103,6 +103,10 @@ public class VectorLayersServlet extends DefaultServlet {
 
 	private String getType(HttpServletRequest req) {
 		return req.getParameter("type") == null ? defaultType : req.getParameter("type");
+	}
+	
+	private static boolean getCacheOnly(HttpServletRequest req) {
+		return req.getParameter("cacheOnly") == null ? false : Boolean.parseBoolean(req.getParameter("cacheOnly"));
 	}
 
 	/**

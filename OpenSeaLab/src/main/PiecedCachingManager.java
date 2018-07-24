@@ -29,14 +29,18 @@ public class PiecedCachingManager {
 	 * @param type
 	 * @return
 	 */
-	public FeatureCollection retrieve(Rectangle bbox, String type) {
+	public FeatureCollection retrieve(Rectangle bbox, String type, boolean onlyUseCache) {
+		
+		// TODO work out something decently for this case
 		if(layerName.equals("geology")) return nonCacheProvider.getFeatures(bbox, type);
+		
+		
 		Rectangle extended = bbox.extendRectangle();
 		FeatureCollection total = new FeatureCollection();
 		for (int lat = (int) extended.getMinLat(); lat < extended.getMaxLat(); lat++) {
 			for (int lon = (int) extended.getMinLon(); lon < extended.getMaxLon(); lon++) {
-				FeatureCollection found = loadAndCachePart(lat, lon, type);
-				if (bbox.edgePoint(lat, lon)) {
+				FeatureCollection found = loadAndCachePart(lat, lon, type, onlyUseCache);
+				if (bbox.edgePoint(lat, lon) && found != null) {
 					found = found.clippedWith(bbox);
 				}
 				total = total.joinWith(found);
@@ -44,6 +48,11 @@ public class PiecedCachingManager {
 		}
 		return total;
 	}
+	
+	public FeatureCollection retrieve(Rectangle bbox, String type) {
+		return retrieve(bbox, type, false);
+	}
+		
 
 	public SurfaceCount retrieveStats(Rectangle bbox, String type) {
 		Rectangle extended = bbox.extendRectangle();
@@ -57,7 +66,7 @@ public class PiecedCachingManager {
 
 				if (bbox.edgePoint(lat, lon)) {
 					// we can't load the statistic of cache as this is an edgepoint
-					FeatureCollection found = loadAndCachePart(lat, lon, type);
+					FeatureCollection found = loadAndCachePart(lat, lon, type, false);
 					sc = sc.merge(found.clippedWith(bbox).calculateTotals());
 					continue;
 				}
@@ -71,7 +80,7 @@ public class PiecedCachingManager {
 
 				{
 					// statistics are not in the cache yet
-					FeatureCollection found = loadAndCachePart(lat, lon, type);
+					FeatureCollection found = loadAndCachePart(lat, lon, type, false);
 					sc = sc.merge(found.calculateTotals());
 				}
 
@@ -80,13 +89,15 @@ public class PiecedCachingManager {
 		return sc;
 	}
 
-	private FeatureCollection loadAndCachePart(int lat, int lon, String type) {
+	private FeatureCollection loadAndCachePart(int lat, int lon, String type, boolean onlyUseCache) {
 		Rectangle searched = new Rectangle(lat, lon, lat + 1, lon + 1);
-		FeatureCollection found;
+		FeatureCollection found = null;
 		if (caching.isInCache(searched, type)) {
 			found = caching.restore(searched, type);
-
-		} else {
+		} 
+		
+		if(found == null && !onlyUseCache){
+			// caching file might have gotten corrupted and might have returned null
 			found = nonCacheProvider.getFeatures(searched, type);
 			caching.store(found, searched, type);
 			SurfaceCount stats = found.calculateTotals();

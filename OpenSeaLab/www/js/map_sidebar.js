@@ -2,6 +2,9 @@ var map = L.map('map', {zoomControl:true}).setView([47.3791104480105, -2.1958007
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
+var autoShowCached = false;
+var autoShowCachedMinZoom = 8;
+
 var draw;
 var rectangle;
 
@@ -13,25 +16,39 @@ let dictionary = new Map();
 // layer source http://portal.emodnet-bathymetry.eu/services/#wms
 let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
 
-var layer = "physics"
+
+var layer = "seabed"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
+
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
 //var seabedtype = "EUSM2016_simplified200"
-//var type = "emodnet:PlatformAll"
+
+// DOESN4T WORK at the moment, works when commented out and using the other method
+/*var hostLocal = "127.0.0.1";
+var host = "172.21.190.147:8080"
+var URLpart0 ="http://"+host+"/seabed?action=getGeoJSON&minLat=";
+var URLpart0Stats ="http://"+host+"/seabed?action=getStats&minLat=";*/
+
 var URLpart1="&maxLat=";
 var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 var URLPart4="&type=";
 
-L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
-    layers: 'contours', transparent: true,
+/*L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+    layers: 'mean_rainbowcolour', transparent: true,
     format: 'image/png'
-}).addTo(map);
+}).addTo(map);*/
+
+
+$('.btn-expand-collapse').click(function(e) {
+	$('.navbar-primary').toggleClass('collapsed');
+	map.invalidateSize();
+});
 
 
 // Draw the rectangle on the map
 map.on({
-	
+
 	'draw:created': function (event) {
 		console.log("Drawing started");
 		rectangle = event.layer;
@@ -50,8 +67,33 @@ map.on({
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
 		getDataFromCoords();
-	}
+	},
+	'moved': loadForView
 });
+
+
+var lastNorth;
+var lastEast;
+function loadForView(){
+		if(!autoLoadCached){
+			return;
+		}
+
+
+		if(map.getZoom() <= autoShowCachedMinZoom){
+			return;
+		}
+		var bnds = map.getBounds();
+		var n = Math.ceil(bnds.getNorth());
+		var e = Math.ceil(bnds.getEast());
+		if(lastNorth == n && lastEast == e){
+			return;
+		}
+		lastNorth = n;
+		lastEast = e;
+
+		getDataForCoords(""+bnds.getSouth(), ""+bnds.getNorth(), ""+bnds.getWest(), ""+bnds.getEast(), "True");
+}
 
 ////// Adding seabed Habitat Data to the map
 
@@ -70,8 +112,8 @@ function getStyle(feature){
 function prepFeature(feature, layer){
 	var list = feature.properties.Allcomb ;
 	popupOptions = {maxWidth: 200};
-                
-	layer.bindPopup( /*list.toString(), popupOptions*/ "hey" );  
+
+	layer.bindPopup( /*list.toString(), popupOptions*/ "hey" );
 }
 
 function addSeabedLayer(json){
@@ -87,21 +129,25 @@ function addSeabedLayer(json){
 	};
 
 
+	console.log("adding seabed");
+
     loadedLayer = L.geoJson(json,
 	   { style: getStyle
       , onEachFeature : prepFeature
 		, pointToLayer: function (feature, latlng) {
         return L.circleMarker(latlng, geojsonMarkerOptions);}
-		})
-    loadedLayer.addTo(map); 	
+		});
+    loadedLayer.addTo(map);
 }
 
 
 function loadDataFrom(url){
-	$.getJSON(url, function(json){ 
+	console.log("about to add seabed");
+	console.log(url);
+	$.getJSON(url, function(json){
 		clearRect();
 
-		addSeabedLayer(json); 
+		addSeabedLayer(json);
 	});
 }
 
@@ -112,19 +158,20 @@ function getDataFromCoords(){
 	var maxLat = document.getElementById("maxLat").value;
 	var minLong = document.getElementById("minLong").value;
 	var maxLong = document.getElementById("maxLong").value;
+	getDataForCoords(minLat, maxLat, minLong, maxLong, "False");
+}
 
+function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 	if(minLat == "" || maxLat == "" || minLong == "" || maxLong == ""){
 		alert("Specify an area first");
 		return;
 	}
 
-
     URLcoordinates = minLat +
 						URLpart1 + maxLat +
 						URLpart2 + minLong + 
-						URLpart3 + maxLong;
-					//	URLPart4 + type;	
-
+						URLpart3 + maxLong +
+						"&cacheOnly=" + caching;
 	loadDataFrom(URLpart0 + URLcoordinates);
 	loadStatsFrom(URLpart0Stats + URLcoordinates);
 
@@ -143,7 +190,7 @@ function loadStatsFrom(url){
 		div.innerHTML = "";
 		console.log(json);
 		JSON.parse(JSON.stringify(json), function (key, value) {
-			if(isInt(value)){
+			if(isInt(value) && value != 0.0){
 
 				var y = document.createElement("div");
 				y.id = "wrapper";
@@ -151,29 +198,29 @@ function loadStatsFrom(url){
 				var x = document.createElement("div");
 			    x.className = "seaBedColorSquare";
 				x.style.backgroundColor = "#"+ intToRGB(hashCode(key));
-				
+
 				y.appendChild(x);
-				
+
 				var x1 = document.createElement("div");
 			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
-			    
+
 			    y.appendChild(x1);
-			   	div.insertBefore(y,divInit);
+			   	div.insertBefore(y,null);
 			}
-			
+
 		});
 	} );
 }
 
 // Create a hash for the seabed habitat type based on its unique WEB_CLASS
 
-function hashCode(str) { 
+function hashCode(str) {
     var hash = 0;
     for (var i = 0; i < str.length; i++) {
        hash = str.charCodeAt(i) + ((hash << 5) - hash);
     }
     return hash;
-} 
+}
 
 function intToRGB(i){
     var c = (i & 0x00FFFFFF)
@@ -186,6 +233,13 @@ function intToRGB(i){
 
 
 function clearData(){
+	document.getElementById("minLat").value = "";
+	document.getElementById("maxLat").value = "";
+	document.getElementById("minLong").value = "";
+	document.getElementById("maxLong").value = "";
+	
+	clearRect();
+	
 	if(loadedLayer != undefined){
 		loadedLayer.clearLayers();
 		map.removeLayer(loadedLayer);
@@ -218,10 +272,7 @@ var layer = new ol.layer.Image({
 	extent: [-36, 25, 43, 85],
 	source: new ol.source.ImageWMS({
 		url: 'http://ows.emodnet-bathymetry.eu/wms',
-		// refer to the section layer name to find the name of the layer 
-		params: {'LAYERS': 'mean_atlas_land'}			
+		// refer to the section layer name to find the name of the layer
+		params: {'LAYERS': 'mean_atlas_land'}
 	})
-}); 
-
-
-
+});
