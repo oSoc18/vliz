@@ -123,9 +123,9 @@ header a { /* LOGO */
 	width: 85%;
 	height: 2.3rem;
 	display: flex;
-	bottom: 1rem;
-	position: absolute;
+	margin-top: 1rem;
 	margin-left: 10%;
+	margin-bottom: 2rem;
 }
 
 /* THE DIFFERENT LAYERS */
@@ -448,6 +448,10 @@ h5 {
 	height: 100%;
 	box-shadow: 0 5px 20px 0 #D9E2E6;
 	z-index: 99;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+	overflow-x: hidden;
 }
 
 .navbar-primary { /* THE WHOLE TAB */
