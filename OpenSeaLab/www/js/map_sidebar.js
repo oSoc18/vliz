@@ -235,6 +235,7 @@ function loadStatsFrom(url){
 
 		});
 	} );
+  undisableBtn();
 }
 
 // Create a hash for the seabed habitat type based on its unique WEB_CLASS
@@ -269,6 +270,7 @@ function clearData(){
 		map.removeLayer(loadedLayer);
 		loadedLayer = undefined;
 	}
+  disableBtn();
 }
 
 function clearRect(){
@@ -312,4 +314,17 @@ var layer = new ol.layer.Image({
   */
 function rectAnnimation(){
   document.getElementById("rect-pop").style.display = "none";
+}
+
+/**
+  * UnDisable download button when have statictics summary
+  */
+function undisableBtn() {
+  document.getElementById("dwn-btn").disabled = false;
+}
+/**
+  * Disable download button when don't have statictics summary
+  */
+function disableBtn() {
+    document.getElementById("dwn-btn").disabled = true;
 }
