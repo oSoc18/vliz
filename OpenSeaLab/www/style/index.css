@@ -101,6 +101,12 @@ header a { /* LOGO */
 	width: 50%;
 }
 
+#loadingSVG{
+	z-index: 0; /* 0 disappears, 4 appears*/
+	margin-top: 40%;
+
+}
+
 /* DOWNLOAD BUTTON AT STATISTICS */
 
 .statistics input[type=button] {
