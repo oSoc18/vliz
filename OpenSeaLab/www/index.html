@@ -43,17 +43,21 @@
 				<div class="panel">
 					<h3>Data sources</h3>
 					<ul class="navbar-primary-menu">
-						<li>
-							<button class="collapsible" id="Bathymetry" onclick="boxCheck(Bathymetry)"><img src="images/icons_bathymetry.svg" width="30"></img> Bathymetry</button>
+						<li>							<!-- onclick="boxCheck(Bathymetry)" -->
+							<button class="collapsible" id="Bathymetry" ><img src="images/icons_bathymetry.svg" width="30"></img> Bathymetry</button>
 								<div class="content">
 									<div class="dropdown-container">
-										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt1" /><span class="checkmark"></span></div>Mean depth</label><br>
-										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt2" /><span class="checkmark"></span></div>Coastal Areas</label><br>
-										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt3" /><span class="checkmark"></span></div>Depth contours</label><br>
-										<label><div class="check-container"><input type="checkbox" id="Bathymetry-opt4" /><span class="checkmark"></span></div>Source references</label><br>
+										<label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(0)" id="Bathymetry-opt0" /><span class="checkmark"></span></div>Mean depth</label><br>
+										<label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(1)" id="Bathymetry-opt1" /><span class="checkmark"></span></div>Mean depth rainbow</label><br>
+										<label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(2)" id="Bathymetry-opt2" /><span class="checkmark"></span></div>Mean depth multicolor</label><br>
+										<label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(3)" id="Bathymetry-opt3" /><span class="checkmark"></span></div>Mean atlas land</label><br>
+										<label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(4)" id="Bathymetry-opt4" /><span class="checkmark"></span></div>Source references</label><br>
+										<label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(5)" id="Bathymetry-opt5" /><span class="checkmark"></span></div>Depth contours</label><br>
+										<label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(6)" id="Bathymetry-opt6" /><span class="checkmark"></span></div>Products</label><br>
 									</div>
 								</div>
-							<button class="collapsible" id="Seabed" onclick="boxCheck(Seabed)"><img src="images/icons_seabed habitat.svg" width="30"></img> Seabed Habitats</button>
+																<!-- onclick="boxCheck(Seabed)" -->
+							<button class="collapsible" id="Seabed" ><img src="images/icons_seabed habitat.svg" width="30"></img> Seabed Habitats</button>
 								<div class="content">
 									<div class="dropdown-container">
 										<label><div class="check-container"><input type="checkbox" id="Seabed1" /><span class="checkmark"></span></label></div>Broad-Scale Predictive Habitat Map<br>

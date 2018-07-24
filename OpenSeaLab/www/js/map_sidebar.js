@@ -2,6 +2,8 @@ var map = L.map('map', {zoomControl:true}).setView([47.3791104480105, -2.1958007
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
+var autoShowCached = false;
+
 var draw;
 var rectangle;
 
@@ -11,7 +13,7 @@ var loadedLayer = undefined;
 let dictionary = new Map();
 
 // layer source http://portal.emodnet-bathymetry.eu/services/#wms
-let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
+let bathymetryOWSMaps = ["mean","mean_rainbowcolour","mean_multicolour","mean_atlas_land","source_references","contours","products"];
 
 
 var layer = "seabed"
@@ -35,6 +37,31 @@ var URLPart4="&type=";
     layers: 'mean_rainbowcolour', transparent: true,
     format: 'image/png'
 }).addTo(map);*/
+
+var baseMaps = {};
+
+function BathymetryCheck(layerNum){
+	var layerName = "Bathymetry-opt" + (layerNum).toString();
+	console.log("curr "+ layerName + layerNum);
+	if(document.getElementById(layerName).checked == true){
+	   	console.log("checked "  + layerNum);
+	   	var layerTemp = L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+		    layers: bathymetryOWSMaps[layerNum], transparent: true,
+		    format: 'image/png'
+		});
+		baseMaps.layerName = layerTemp;
+		layerTemp.addTo(map);
+	}else{
+		console.log((layerName in baseMaps).toString() + layerNum);
+		console.log(layerName);
+		console.log(baseMaps.layerName);
+		if(baseMaps.layerName != undefined && map.hasLayer(baseMaps.layerName)){
+			console.log("removing "  + i);
+			map.removeLayer(baseMaps.layerName);
+		}	
+	}	
+
+}
 
 
 $('.btn-expand-collapse').click(function(e) {
@@ -64,17 +91,21 @@ map.on({
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
 		getDataFromCoords();
-	},
+	}/*,
 	'zoomend': loadForView,
 	'moveend': loadForView,
-	'moved': loadForView
+	'moved': loadForView*/
 });
 
 
 var lastNorth;
 var lastEast;
 function loadForView(){
-		console.log(map.getZoom());
+		if(!autoLoadCached){
+			return;
+		}
+
+
 		if(map.getZoom() < 6){
 			return;
 		}
@@ -112,7 +143,7 @@ function prepFeature(feature, layer){
 }
 
 function addSeabedLayer(json){
-	clearData();
+	
 
 	var geojsonMarkerOptions = {
 		 radius: 8,
@@ -139,6 +170,7 @@ function addSeabedLayer(json){
 function loadDataFrom(url){
 	console.log("about to add seabed");
 	console.log(url);
+	clearData();
 	$.getJSON(url, function(json){
 		clearRect();
 
@@ -180,9 +212,7 @@ function loadStatsFrom(url){
 	$.getJSON(url, function(json){
 
 		var div = document.getElementById('statsOutput');
-		var divInit = document.getElementById('statsInit');
 
-		div.innerHTML = "";
 		console.log(json);
 		JSON.parse(JSON.stringify(json), function (key, value) {
 			if(isInt(value) && value != 0.0){
@@ -232,7 +262,9 @@ function clearData(){
 	document.getElementById("maxLat").value = "";
 	document.getElementById("minLong").value = "";
 	document.getElementById("maxLong").value = "";
-	
+	var divDel = document.getElementById('statsOutput');
+	divDel.innerHTML = "";
+
 	clearRect();
 	
 	if(loadedLayer != undefined){

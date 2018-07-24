@@ -321,19 +321,32 @@ input[type=checkbox] { /* THE CHECKBOX ITSELF */
 }
 
 .coordinates {
+<<<<<<< HEAD
 	border-bottom-right-radius: 5px;
 	width: 18rem;
+=======
+	border-radius: 5px;
+	/*margin-top: 87%;*/
+	margin-left: 1rem;
+>>>>>>> origin/java-design
 	display: flex;
 	flex-direction: column;
 	z-index: 2;
 	padding: 1rem;
 	background-color: white;
 	padding-right: 2rem;
+<<<<<<< HEAD
 	padding-bottom: 1rem;
 	height: 4rem;
 	box-shadow: 0 5px 20px 0 #A8B2BE;
 	position: absolute;
 	left: 0;
+=======
+	padding-bottom: 2rem;
+	height: 4rem;
+	box-shadow: 0 -5px 20px 0 #A8B2BE;
+
+>>>>>>> origin/java-design
 }
 
 .maxmin {
