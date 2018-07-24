@@ -33,10 +33,10 @@ var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 var URLPart4="&type=";
 
-/*L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
-    layers: 'mean_rainbowcolour', transparent: true,
-    format: 'image/png'
-}).addTo(map);*/
+document.getElementById("minLat").value = "";
+document.getElementById("maxLat").value = "";
+document.getElementById("minLong").value = "";
+document.getElementById("maxLong").value = "";
 
 var baseMaps = {};
 
@@ -258,10 +258,7 @@ function intToRGB(i){
 
 
 function clearData(){
-	document.getElementById("minLat").value = "";
-	document.getElementById("maxLat").value = "";
-	document.getElementById("minLong").value = "";
-	document.getElementById("maxLong").value = "";
+	
 	var divDel = document.getElementById('statsOutput');
 	divDel.innerHTML = "";
 
@@ -275,6 +272,7 @@ function clearData(){
 }
 
 function clearRect(){
+	
 	if(rectangle != null){
 		map.removeLayer(rectangle);
 		rectangle = null;
