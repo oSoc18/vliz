@@ -94,13 +94,6 @@ header a { /* LOGO */
 	color: #0A3154;
 }
 
-#statsOutput { /* THE WHOLE CONTAINER OF STATS */
-	margin-top: -13%;
-
-	margin-left: 5%;
-	width: 50%;
-}
-
 /* DOWNLOAD BUTTON AT STATISTICS */
 
 .statistics input[type=button] {
@@ -120,12 +113,10 @@ header a { /* LOGO */
 }
 
 .download-button {
-	width: 85%;
 	height: 2.3rem;
 	display: flex;
-	margin-top: 1rem;
-	margin-left: 10%;
-	margin-bottom: 2rem;
+	border-top: 1px solid #EEEEEE;
+	padding: 1rem;
 }
 
 /* THE DIFFERENT LAYERS */
@@ -141,6 +132,9 @@ header a { /* LOGO */
 	-webkit-appearance:  none;
 	line-height: 32px;
 	margin-bottom:  10px;
+	display: block;
+	width: 100%;
+	text-align: left;
 }
 
 .collapsible img { /* THE ICON */
@@ -151,6 +145,7 @@ header a { /* LOGO */
 .active, .collapsible:hover { /* THE COLOR CHANGES WHEN THE BUTTON IS ACTIVE OR HOVERED ON */
 	color: #2073B0;
 	font-weight: 600;
+	background-color: #FEEF87;
 }
 
 /* INSIDE THE LAYERS */
@@ -166,6 +161,8 @@ header a { /* LOGO */
 
 label {
 	position: relative;
+	display: block;
+	padding-bottom: .3rem;
 }
 
 .check-container { /* THE CHECKBOX-CONTAINER */
@@ -208,8 +205,8 @@ input[type=checkbox] { /* THE CHECKBOX ITSELF */
 }
 
 .check-container .checkmark:after { /* THIS CREATED THE CHEKMARK ITSELF */
-	left: 6px;
-	top: 5px;
+	left: 8px;
+	top: 3px;
 	width: 5px;
 	height: 10px;
 	border: solid #2072AF;
@@ -334,6 +331,11 @@ input[type=checkbox] { /* THE CHECKBOX ITSELF */
 	box-shadow: 0 5px 20px 0 #A8B2BE;
 	position: absolute;
 	left: 0;
+	color: #0A3154;
+}
+
+.coordinates h5 {
+	font-weight: bold;
 }
 
 .maxmin {
@@ -421,6 +423,21 @@ h5 {
 	flex-flow: column wrap;
 }
 
+.navbar-primary h3{
+	font-size : 30px;
+	color : #073056;
+	border-bottom : 1px solid #EEEEEE;
+	margin: 1rem;
+}
+
+.navbar-primary p{
+	font-size : 18px;
+}
+
+.navbar-primary-menu li a .glyphicon {
+	margin-left: 2px;
+}
+
 .panels {
 	flex: 1;
 	display: flex;
@@ -438,6 +455,8 @@ h5 {
 
 .button {
 	height: 44px;
+	background-color: white;
+	z-index: 15;
 }
 
 .col-flex {
@@ -447,11 +466,26 @@ h5 {
 .statistics {
 	height: 100%;
 	box-shadow: 0 5px 20px 0 #D9E2E6;
-	z-index: 99;
 	display: flex;
-	justify-content: space-between;
 	flex-direction: column;
 	overflow-x: hidden;
+}
+
+.statistics h3 {
+	margin-bottom: 0;
+}
+
+.statistics-output {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 1rem;
+}
+
+.statistics-output p {
+	color: #0A3154;
 }
 
 .navbar-primary { /* THE WHOLE TAB */
@@ -491,21 +525,12 @@ h5 {
 .btn-expand-collapse img {
 	margin: auto;
 	display: block;
+	transition: all .5s ease;
 }
 
-.navbar-primary h3{
-	font-size : 30px;
-	color : #073056;
-	border-bottom : 1px solid #EEEEEE;
-	margin: 1rem;
-}
-
-.navbar-primary p{
-	font-size : 18px;
-}
-
-.navbar-primary-menu li a .glyphicon {
-	margin-left: 2px;
+.navbar-primary.collapsed .btn-expand-collapse img {
+	transform: rotate(180deg);
+	transition: all .5s ease;
 }
 
 @media (max-width: 1350px) {
