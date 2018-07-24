@@ -256,9 +256,14 @@ function isInt(value) {
 }
 
 function enableDrawing(){
+  //delete a rectangle annimation on the map
+  rectAnnimation();
+  
+  //drawing rectangle
 	clearRect();
 	draw = new L.Draw.Rectangle(map);
 	draw.enable();
+
 }
 
 
@@ -271,3 +276,10 @@ var layer = new ol.layer.Image({
 		params: {'LAYERS': 'mean_atlas_land'}
 	})
 });
+
+/**
+  * Delete a rectangle annimation on the map
+  */
+function rectAnnimation(){
+  document.getElementById("rect-pop").style.display = "none";
+}
