@@ -2,6 +2,8 @@ var map = L.map('map', {zoomControl:true}).setView([47.3791104480105, -2.1958007
 
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
+var autoShowCached = false;
+
 var draw;
 var rectangle;
 
@@ -74,7 +76,11 @@ map.on({
 var lastNorth;
 var lastEast;
 function loadForView(){
-		console.log(map.getZoom());
+		if(!autoLoadCached){
+			return;
+		}
+
+
 		if(map.getZoom() < 6){
 			return;
 		}
