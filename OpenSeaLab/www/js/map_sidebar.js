@@ -132,7 +132,7 @@ function getStyle(feature){
 		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
 	}
-	return {color : clr, weight : 0.0};
+	return {color : clr, weight : 0.0, fillOpacity : .75};
 }
 
 function prepFeature(feature, layer){
