@@ -3,13 +3,31 @@ package feature;
 import java.util.ArrayList;
 import java.util.List;
 
+import exceptions.FatalException;
+
 public class GeometryFactory {
-	public static Geometry newPoint(List<Double> point) {
+	public static Geometry newPoint(List<?> point) {
 		if (point == null || point.size() == 0) {
 			return null;
 		}
 		// Geojson specs : lon lat
-		return new Point(point.get(1), point.get(0));
+		double lat = getDouble(point.get(1));
+		double lon = getDouble(point.get(0));
+		if(lat > 90 || lon > 180)
+		{
+			throw new FatalException("Wrong coordinate system. Latitude is above 90 degrees or longitude above 180");
+		}
+		
+		
+		
+		return new Point(lat, lon);
+	}
+
+	private static double getDouble(Object val) {
+		if (val instanceof Long) {
+			return ((Long) val).doubleValue();
+		}
+		return (double) val;
 	}
 
 	public static Geometry newPoint(String s) {

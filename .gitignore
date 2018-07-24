@@ -8,3 +8,4 @@ OpenSeaLab/cache/*
 OpenSeaLab/www/.DS_Store
 **.DS_Store
 OpenSeaLab/www/map.html
+OpenSeaLab/geology.json

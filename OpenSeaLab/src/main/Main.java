@@ -14,34 +14,42 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import bathymetry.BathymetryDAO;
 import bathymetry.BathymetryServlet;
 import bathymetry.UCCBathymetry;
+import feature.Rectangle;
 import vectorLayers.VectorLayersDAO;
 import vectorLayers.VectorLayersServlet;
-import vectorLayers.UCCVectorLayers;
 
 public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("VLIZ Server 0.1");
+		System.out.println("VLIZ Server 0.2");
 		try {
 			LOGGER.info("Loading app configuration...");
 			AppContext appContext = new AppContext();
 			AppContext.configLogger("log.properties");
+			
+			
+			if(args.length != 0 && args[0].equals("--populate-cache")) {
+				appContext.loadProperties("prod.properties");
+				populateCache(appContext, "geology");
+				return;
+			}
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
-			BathymetryDAO bathymetryDAO = new BathymetryDAO(appContext.getProperty("bathymetry"),
-					appContext.getProperty("cache-dir"), appContext.getProperty("bathymetry-stat"));
-			UCCBathymetry uccBathymetry = new UCCBathymetry(bathymetryDAO);
 
-			startServer(appContext, uccBathymetry);
+			startServer(appContext);
 		} catch (Exception exc) {
 			LOGGER.log(Level.SEVERE, "App configuration failed !", exc);
 		}
 	}
 
-	private static void startServer(AppContext appContext, UCCBathymetry uccBathymetry) throws Exception {
+	private static void startServer(AppContext appContext) throws Exception {
 		LOGGER.info("Starting the server...");
 		Server server = new Server(Integer.parseInt(appContext.getProperty(("port"))));
 		WebAppContext context = new WebAppContext();
+
+		BathymetryDAO bathymetryDAO = new BathymetryDAO(appContext.getProperty("bathymetry"),
+				appContext.getProperty("cache-dir"), appContext.getProperty("bathymetry-stat"));
+		UCCBathymetry uccBathymetry = new UCCBathymetry(bathymetryDAO);
 
 		context.setResourceBase("www");
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");
@@ -58,22 +66,40 @@ public class Main {
 		LOGGER.info("The server is listening...");
 	}
 
-	private static void initVectorLayerServlet(String layerName, AppContext appContext, WebAppContext context) throws IOException {
-		String defaultType = appContext.getProperty(layerName+"-default-type");
+	private static void populateCache(AppContext appContext, String layerName) throws IOException {
+		populateCache(appContext, "geology", new Rectangle(appContext, "geology"),
+				appContext.getProperty(layerName + "-default-type"));
 
-		VectorLayersDAO vectorLayersDAO = new VectorLayersDAO(layerName,appContext.getProperty(layerName),defaultType);
-		UCCVectorLayers uccVectorLayers = new UCCVectorLayers(vectorLayersDAO);
+	}
 
+	private static void populateCache(AppContext appContext, String layerName, Rectangle bbox, String type)
+			throws IOException {
+		PiecedCachingManager pcm = createPCM(layerName, appContext);
+		pcm.loadAndCacheAll(bbox, type);
+	}
+
+	private static void initVectorLayerServlet(String layerName, AppContext appContext, WebAppContext context)
+			throws IOException {
+		String defaultType = appContext.getProperty(layerName + "-default-type");
+
+		PiecedCachingManager pcm = createPCM(layerName, appContext);
+		HttpServlet seabedServlet = new VectorLayersServlet(pcm, defaultType);
+
+		context.addServlet(new ServletHolder(seabedServlet), "/" + layerName);
+	}
+
+	private static PiecedCachingManager createPCM(String layerName, AppContext appContext) throws IOException {
+		String defaultType = appContext.getProperty(layerName + "-default-type");
+
+		VectorLayersDAO vectorLayersDAO = new VectorLayersDAO(layerName, appContext.getProperty(layerName),
+				defaultType);
 		CachingManager dataCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
 				"data-{id}.FeatureCollection");
 		CachingManager statsCache = new CachingManager(layerName, appContext.getProperty("cache-dir"),
 				"stats-{id}.SurfaceCount");
 
-		PiecedCachingManager pcm = new PiecedCachingManager(layerName,uccVectorLayers, dataCache, statsCache);
-
-		HttpServlet seabedServlet = new VectorLayersServlet(pcm, defaultType);
-
-		context.addServlet(new ServletHolder(seabedServlet), "/"+layerName);
+		PiecedCachingManager pcm = new PiecedCachingManager(vectorLayersDAO, dataCache, statsCache);
+		return pcm;
 	}
 
 }
