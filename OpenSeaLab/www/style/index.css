@@ -378,7 +378,7 @@ header a {
 
 h5 {
 	display: inline-block;
-	position: absolute;
+  font-size: 12px;
 }
 
 .col-sm-4 {
