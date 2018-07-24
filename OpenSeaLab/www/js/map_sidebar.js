@@ -64,8 +64,6 @@ function BathymetryCheck(layerNum){
 }
 
 
-
-
 $('.btn-expand-collapse').click(function(e) {
 	$('.navbar-primary').toggleClass('collapsed');
 	map.invalidateSize();
@@ -93,10 +91,10 @@ map.on({
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
 		getDataFromCoords();
-	},
+	}/*,
 	'zoomend': loadForView,
 	'moveend': loadForView,
-	'moved': loadForView
+	'moved': loadForView*/
 });
 
 
@@ -145,7 +143,7 @@ function prepFeature(feature, layer){
 }
 
 function addSeabedLayer(json){
-	clearData();
+	
 
 	var geojsonMarkerOptions = {
 		 radius: 8,
@@ -172,6 +170,7 @@ function addSeabedLayer(json){
 function loadDataFrom(url){
 	console.log("about to add seabed");
 	console.log(url);
+	clearData();
 	$.getJSON(url, function(json){
 		clearRect();
 
@@ -213,9 +212,7 @@ function loadStatsFrom(url){
 	$.getJSON(url, function(json){
 
 		var div = document.getElementById('statsOutput');
-		var divInit = document.getElementById('statsInit');
 
-		div.innerHTML = "";
 		console.log(json);
 		JSON.parse(JSON.stringify(json), function (key, value) {
 			if(isInt(value) && value != 0.0){
@@ -265,7 +262,9 @@ function clearData(){
 	document.getElementById("maxLat").value = "";
 	document.getElementById("minLong").value = "";
 	document.getElementById("maxLong").value = "";
-	
+	var divDel = document.getElementById('statsOutput');
+	divDel.innerHTML = "";
+
 	clearRect();
 	
 	if(loadedLayer != undefined){
