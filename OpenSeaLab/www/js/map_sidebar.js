@@ -11,7 +11,7 @@ var loadedLayer = undefined;
 let dictionary = new Map();
 
 // layer source http://portal.emodnet-bathymetry.eu/services/#wms
-let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
+let bathymetryOWSMaps = ["mean","mean_rainbowcolour","mean_multicolour","mean_atlas_land","source_references","contours","products"];
 
 
 var layer = "seabed"
@@ -35,6 +35,33 @@ var URLPart4="&type=";
     layers: 'mean_rainbowcolour', transparent: true,
     format: 'image/png'
 }).addTo(map);*/
+
+var baseMaps = {};
+
+function BathymetryCheck(layerNum){
+	var layerName = "Bathymetry-opt" + (layerNum).toString();
+	console.log("curr "+ layerName + layerNum);
+	if(document.getElementById(layerName).checked == true){
+	   	console.log("checked "  + layerNum);
+	   	var layerTemp = L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+		    layers: bathymetryOWSMaps[layerNum], transparent: true,
+		    format: 'image/png'
+		});
+		baseMaps.layerName = layerTemp;
+		layerTemp.addTo(map);
+	}else{
+		console.log((layerName in baseMaps).toString() + layerNum);
+		console.log(layerName);
+		console.log(baseMaps.layerName);
+		if(baseMaps.layerName != undefined && map.hasLayer(baseMaps.layerName)){
+			console.log("removing "  + i);
+			map.removeLayer(baseMaps.layerName);
+		}	
+	}	
+
+}
+
+
 
 
 $('.btn-expand-collapse').click(function(e) {
