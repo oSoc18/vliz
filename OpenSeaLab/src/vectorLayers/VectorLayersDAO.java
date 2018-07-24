@@ -13,7 +13,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-import com.owlike.genson.Genson;
 
 import exceptions.FatalException;
 import feature.FeatureCollection;
@@ -36,24 +35,24 @@ public class VectorLayersDAO {
 	 * @param defaultType
 	 *            type name of the seabed habitat
 	 */
-	public VectorLayersDAO(String layerName,String url, String defaultType) {
+	public VectorLayersDAO(String layerName, String url, String defaultType) {
 		this.url = url;
 		this.defaultType = defaultType;
 		this.layerName = layerName;
 	}
 
 	public VectorLayersDAO(String layerName, AppContext context) {
-		this(layerName,context.getProperty(layerName), context.getProperty(layerName + "-default-type"));
+		this(layerName, context.getProperty(layerName), context.getProperty(layerName + "-default-type"));
 	}
 
 	/**
-	 * Fetches, saves and returns a geojson file.
+	 * Fetches data from remote server and returns a {@link FeatureCollection}.
 	 * 
 	 * @param bbox
 	 *            bounding box
 	 * @param type
-	 *            seabed habitat type
-	 * @return geojson file
+	 *            the layer type
+	 * @return {@link FeatureCollection}
 	 */
 	public FeatureCollection getFeatures(Rectangle bbox, String type) {
 		FeatureCollection fc;
@@ -72,35 +71,12 @@ public class VectorLayersDAO {
 	}
 
 	/**
-	 * Fetches, saves and returns statistics in json format.
+	 * Gets the data from the WFS service and process it as XML.
 	 * 
 	 * @param bbox
 	 *            bounding box
 	 * @param type
-	 *            seabed habitat type
-	 * @return a file of statistics
-	 */
-	public String getStats(Rectangle bbox, String type) {
-		type = type == null ? defaultType : type;
-		try {
-			FeatureCollection fc;
-			if (url.contains("outputFormat=application/json")) {
-				fc = fetchJSON(bbox, type);
-			} else {
-				fc = fetchXML(bbox, type);
-			}
-			Map<String, Double> stats = fc.clippedWith(bbox).calculateTotals().calculatePercentages();
-			return new Genson().serialize(stats);
-		} catch (SAXException | IOException | ParserConfigurationException e) {
-			throw new FatalException(e);
-		}
-	}
-
-	/**
-	 * Gets the data from the WFS service and process it as XML.
-	 * 
-	 * @param bbox
-	 * @param type
+	 *            layer typeName
 	 * @return {@link FeatureCollection}
 	 * @throws SAXException
 	 * @throws IOException
@@ -122,7 +98,9 @@ public class VectorLayersDAO {
 	 * Gets data from WFS service and process it as json.
 	 * 
 	 * @param bbox
+	 *            bounding box
 	 * @param type
+	 *            layer typeName
 	 * @return {@link FeatureCollection}
 	 * @throws IOException
 	 */
@@ -142,7 +120,8 @@ public class VectorLayersDAO {
 	}
 
 	private String getFormattedURL(Rectangle bbox, String type) {
-		if(layerName.equals("geology")) return url.replace("{type}", type);
+		if (layerName.equals("geology"))
+			return url.replace("{type}", type);
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
 		String URL = url.replace("{bbox}", bx).replace("{type}", type);
 		return URL;

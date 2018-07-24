@@ -16,10 +16,16 @@ public class AppContext {
 	public AppContext() {
 		props = new Properties();
 	}
-	
+
+	/**
+	 * Configures the logger.
+	 * 
+	 * @param path
+	 *            pathname of the config file
+	 */
 	public static void configLogger(String path) {
-		
-		try(FileInputStream f = new FileInputStream(path)){
+
+		try (FileInputStream f = new FileInputStream(path)) {
 			Path logDir = FileSystems.getDefault().getPath("log");
 			if (!Files.exists(logDir) || !Files.isDirectory(logDir)) {
 				Files.createDirectory(logDir);
@@ -40,7 +46,7 @@ public class AppContext {
 
 	public void loadProperties(String properties) {
 		try (FileInputStream file = new FileInputStream(properties)) {
-			props.load(file);			
+			props.load(file);
 		} catch (IOException exc) {
 			throw new FatalException(exc);
 		}
