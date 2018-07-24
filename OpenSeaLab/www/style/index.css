@@ -26,19 +26,23 @@ time, mark, audio, video {
 
 header {
 	width: 100%;
-	height: 7.2rem;
+	height: 15vh;
 	background: url('../images/header_background.png') 100% 100%;
 	background-size: cover;
 }
 
-header a {
-	display:  block;
+header a { /* LOGO */
+	display: block;
 }
 
-.color-container {
+.header-logo {
+	margin: 1.2rem;
+}
+
+.color-container { /* THE COLORS BELOW AT THE HEADER */
 	display: flex;
 	width: 100%;
-	height: 7px;
+	height: 8px;
 }
 
 .yellow, .green, .brown, .blue, .blue-green, .gray, .red {
@@ -74,8 +78,27 @@ header a {
 	background-color: #B54448;
 }
 
-.header-logo {
-	margin: 1.2rem;
+/* STATISTICS */
+
+.seaBedColorSquare { /* THE SQUARE NEXT TO THE OUTPUT */
+	float: left;
+	width: 20px;
+	height: 20px;
+	margin: 5px;
+	border: 1px solid rgba(0, 0, 0, .2);
+}
+
+#wrapper { /* ONE ITEM OF OUTPUT */
+	width: 500px;
+	overflow: hidden; /* will contain if #first is longer than #second */
+	color: #0A3154;
+}
+
+#statsOutput { /* THE WHOLE CONTAINER OF STATS */
+	margin-top: -13%;
+
+	margin-left: 5%;
+	width: 50%;
 }
 
 /* DOWNLOAD BUTTON AT STATISTICS */
@@ -92,7 +115,7 @@ header a {
 	font-size: 1.3rem;
 }
 
-.statistics input[type=button][disabled] {
+.statistics input[type=button][disabled] { /* WHEN THE BUTTON IS DISABLED THE OPACITY IS 0.5 */
 	opacity: .5;
 }
 
@@ -105,18 +128,9 @@ header a {
 	margin-left: 10%;
 }
 
-/* STATS OUTPUT */
-
-#statsOutput {
-	margin-top: -13%;
-
-	margin-left: 5%;
-	width: 50%;
-}
-
 /* THE DIFFERENT LAYERS */
 
-.collapsible {
+.collapsible { /* THE LAYER BUTTON ITSELF */
 	background: #fff;
 	cursor: pointer;
 	padding: 4px 8px;
@@ -129,12 +143,12 @@ header a {
 	margin-bottom:  10px;
 }
 
-.collapsible img {
+.collapsible img { /* THE ICON */
 	float: left;
 	margin-right: 8px;
 }
 
-.active, .collapsible:hover {
+.active, .collapsible:hover { /* THE COLOR CHANGES WHEN THE BUTTON IS ACTIVE OR HOVERED ON */
 	color: #2073B0;
 	font-weight: 600;
 }
@@ -154,13 +168,13 @@ label {
 	position: relative;
 }
 
-.check-container {
+.check-container { /* THE CHECKBOX-CONTAINER */
 	margin-right: .5rem;
 	display: inline-block;
 	padding-left: 1.5rem;
 }
 
-input[type=checkbox] {
+input[type=checkbox] { /* THE CHECKBOX ITSELF */
 	border: 1px solid #7BADD1;
 	border-radius: 7px;
 	-webkit-appearance: none;
@@ -173,7 +187,7 @@ input[type=checkbox] {
 	margin-right: 1rem;
 }
 
-.checkmark {
+.checkmark { /* THE CHECKMARK */
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -193,7 +207,7 @@ input[type=checkbox] {
 	display: block;
 }
 
-.check-container .checkmark:after {
+.check-container .checkmark:after { /* THIS CREATED THE CHEKMARK ITSELF */
 	left: 6px;
 	top: 5px;
 	width: 5px;
@@ -205,7 +219,7 @@ input[type=checkbox] {
 	transform: rotate(45deg);
 }
 
-/* LEAFLET MAP */
+/* LEAFLET MAP, COMES FROM LEAFLET FILE */
 
 .leaflet-top {
 	top: auto;
@@ -240,12 +254,12 @@ input[type=checkbox] {
 /* MAP CONTAINER */
 
 .main-content {
-	margin-right: 700px;
+	margin-right: 700px; /* MARGIN FOR THE TABS THAT ARE OPEN */
 	padding: 0px;
 }
 
 .collapsed + .main-content {
-	margin-right: 40px;
+	margin-right: 40px; /* IF THE TABS ARE COLLAPSED THE MARGIN IS ONLY 40PX */
 }
 
 .map {
@@ -257,7 +271,7 @@ input[type=checkbox] {
 	position: relative;
 }
 
-.rectangle-popup {
+.rectangle-popup { /* THIS IS THE POPUP THAT APPEARS AT THE BEGINNING AND POINTS TO THE RECTANGLE TOOL */
 	position: absolute;
 	background: #ffffff;
 	z-index: 8;
@@ -268,7 +282,7 @@ input[type=checkbox] {
 	border-radius: 5px;
 }
 
-.rectangle-popup:after {
+.rectangle-popup:after { /* THIS CREATES THE LITTLE ARROW AT THE POPUP */
 	left: 100%;
 	top: 50%;
 	border: solid transparent;
@@ -292,7 +306,7 @@ input[type=checkbox] {
 	color: #0A3154;
 }
 
-.select-rectangle-anim {
+.select-rectangle-anim { /* THE ANIMATION TO SELECT A RECTANGLE */
 	width: 12rem;
 	height: 12rem;
 	margin-left: 1rem;
@@ -370,9 +384,6 @@ h5 {
 	background-position: center;
 	background-size: 1.5rem;
 }
-.rectangle:hover {
-	opacity: .5;
-}
 
 .delete {
 	border-radius: 5px;
@@ -386,8 +397,8 @@ h5 {
 	background-size: 1.5rem;
 }
 
-.delete:hover {
-	opacity: .5;
+.rectangle:hover, .delete:hover {
+	opacity: .5; /* WHEN YOU HOVER THE BUTTONS THE OPACITY BECOMES 0.5 */
 }
 
 /* THE TABS AT THE RIGHT + ANIMATION OF TAB */
@@ -403,12 +414,6 @@ h5 {
 	width: 100%;
 	height: 100%;
 	display: flex;
-}
-
-.data-sources {
-	width: 50%;
-	height: 100%;
-	background-color: red;
 }
 
 .sidebar {
@@ -445,7 +450,7 @@ h5 {
 	z-index: 99;
 }
 
-.navbar-primary {
+.navbar-primary { /* THE WHOLE TAB */
 	bottom: 0px;
 	right: 0px;
 	position: absolute;
@@ -459,7 +464,7 @@ h5 {
 	box-shadow: 0 5px 20px 0 #A8B2BE;
 }
 
-.navbar-primary.collapsed {
+.navbar-primary.collapsed { /* WHEN THE TABS ARE COLLAPSED IT'S ONLY 40px WIDE */
 	width: 40px;
 }
 
@@ -467,7 +472,7 @@ h5 {
 	display: none;
 }
 
-.btn-expand-collapse {
+.btn-expand-collapse { /* THE BUTTON AT THE BOTTOM, TO COLLAPS THE TABS */
 	height: 44px;
 	background: #fff;
 	color: grey;
@@ -482,30 +487,6 @@ h5 {
 .btn-expand-collapse img {
 	margin: auto;
 	display: block;
-}
-
-.navbar-primary-menu {
-	margin:0;
-	padding:0;
-	list-style: none;
-}
-
-.navbar-primary-menu li {
-	margin:0;
-	padding:0;
-	list-style: none;
-}
-
-.navbar-primary-menu li a {
-	display: block;
-	padding: 10px 18px;
-	text-align: left;
-	border-bottom:solid 1px #444;
-}
-
-.navbar-primary-menu li button:hover {
-	text-decoration: none;
-	color:#2073B0;
 }
 
 .navbar-primary h3{
@@ -526,7 +507,7 @@ h5 {
 @media (max-width: 1350px) {
 
  .buttons, .rectangle-popup {
-	 top: 8rem;
+	 top: 8rem; /* WHEN THE WINDOW SCALES, THE BUTTONS GO DOWN A BIT */
  }
 }
 
@@ -540,7 +521,7 @@ h5 {
 }
 
 .main-content {
-	margin-right: 0;
+	margin-right: 0; /* THE MARGIN RIGHT DISSAPEARS BECAUSE THERE ISN'T A TAB ANYMORE */
 }
 
 .buttons, .rectangle-popup {
@@ -560,6 +541,6 @@ h5 {
   }
 
 	.panels {
-		flex-direction: column;
+		flex-direction: column; /* PANELS IN TAB GO UNDERNEATH EACH OTHER */
 	}
 }
