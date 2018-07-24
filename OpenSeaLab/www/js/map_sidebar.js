@@ -271,6 +271,15 @@ function clearData(){
 	}
 }
 
+function deleteButton(){
+	document.getElementById("minLat").value = "";
+	document.getElementById("maxLat").value = "";
+	document.getElementById("minLong").value = "";
+	document.getElementById("maxLong").value = "";
+	clearData();
+	clearRect();
+}
+
 function clearRect(){
 	
 	if(rectangle != null){
