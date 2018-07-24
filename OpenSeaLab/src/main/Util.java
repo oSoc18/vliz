@@ -9,6 +9,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -37,6 +38,16 @@ public class Util {
 	}
 
 	public static InputStream fetchFrom(String url) {
+
+		if (url.startsWith("file://")) {
+			Path p = Paths.get(url.substring("file://".length()));
+			try {
+				return Files.newInputStream(p);
+			} catch (IOException e) {
+				throw new FatalException(e);
+			}
+		}
+
 		try {
 			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 			connection.setReadTimeout(20000);
@@ -50,7 +61,7 @@ public class Util {
 		}
 
 	}
-	
+
 	public static Rectangle getBBox(HttpServletRequest req) {
 		return new Rectangle(req.getParameter("minLat"), req.getParameter("minLong"), req.getParameter("maxLat"),
 				req.getParameter("maxLong"));

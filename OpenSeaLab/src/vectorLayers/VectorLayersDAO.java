@@ -12,7 +12,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.SAXException;
 
-
 import exceptions.FatalException;
 import feature.FeatureCollection;
 import feature.FeatureCollectionBuilder;
@@ -54,16 +53,13 @@ public class VectorLayersDAO {
 	 * @return {@link FeatureCollection}
 	 */
 	public FeatureCollection getFeatures(Rectangle bbox, String type) {
-		FeatureCollection fc;
 		type = type == null ? defaultType : type;
 		try {
-			if (url.contains("outputFormat=application/json")) {
-				fc = fetchJSON(bbox, type);
+			if (url.contains("outputFormat=application/json") || url.endsWith("json")) {
+				return fetchJSON(bbox, type);
 			} else {
-				fc = fetchXML(bbox, type);
-				fc = fc.clippedWith(bbox);
+				return fetchXML(bbox, type);
 			}
-			return fc;
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			throw new FatalException(e);
 		}
@@ -103,18 +99,20 @@ public class VectorLayersDAO {
 	 * @return {@link FeatureCollection}
 	 * @throws IOException
 	 */
-	private FeatureCollection fetchJSON(Rectangle bbox, String type) throws IOException {
+	private FeatureCollection fetchJSON(Rectangle bbox, String type) {
 		String URL = getFormattedURL(bbox, type);
-		InputStream in = Util.fetchFrom(URL);
-		ByteArrayOutputStream result = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = in.read(buffer)) != -1) {
-			result.write(buffer, 0, length);
+		try (InputStream in = Util.fetchFrom(URL)) {
+			ByteArrayOutputStream result = new ByteArrayOutputStream();
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = in.read(buffer)) != -1) {
+				result.write(buffer, 0, length);
+			}
+			// StandardCharsets.UTF_8.name() > JDK 7
+			return new FeatureCollectionBuilder(result.toString("UTF-8")).create();
+		} catch (Exception e) {
+			throw new FatalException(e);
 		}
-		// StandardCharsets.UTF_8.name() > JDK 7
-		FeatureCollection fc = new FeatureCollectionBuilder(result.toString("UTF-8")).create();
-		return fc;
 
 	}
 
