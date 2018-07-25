@@ -50,7 +50,13 @@ public class GeometryFactory {
 		}
 		String[] splitedS = s.split(" ");
 		// XML spec : lat long
-		return new Point(Double.parseDouble(splitedS[0]), Double.parseDouble(splitedS[1]));
+		try {
+			return new Point(Double.parseDouble(splitedS[0]), Double.parseDouble(splitedS[1]));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			System.out.println(s);
+			throw new FatalException(e);
+		}
 	}
 
 	/**
@@ -195,8 +201,14 @@ public class GeometryFactory {
 	private static List<Point> createPoints(String s) {
 		List<Point> l = new ArrayList<>();
 		String[] sSplited = s.split(" ");
-		for (int i = 0; i < sSplited.length; i += 2) {
-			l.add((Point) newPoint(sSplited[i] + " " + sSplited[i + 1]));
+		try {
+
+			for (int i = 0; i < sSplited.length; i += 2) {
+				l.add((Point) newPoint(sSplited[i] + " " + sSplited[i + 1]));
+			}
+		} catch (Exception e) {
+			System.out.println(s);
+			throw e;
 		}
 		return l;
 	}

@@ -86,7 +86,9 @@ public class VectorLayersDAO {
 		SAXHandler userhandler = new SAXHandler();
 		saxParser.parse(Util.fetchFrom(URL), userhandler);
 		LOGGER.log(Level.FINE, "Got result from" + URL);
-		return userhandler.getFeatures();
+		FeatureCollection fc = userhandler.getFeatures();
+		fc.deduplicate();
+		return fc;
 	}
 
 	/**

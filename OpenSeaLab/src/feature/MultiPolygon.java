@@ -8,7 +8,7 @@ public class MultiPolygon extends Geometry {
 
 	private static final long serialVersionUID = 1L;
 	private final List<Polygon> polygons;
-	private final List<Polygon> exteriorRings = new ArrayList<>();
+	private final List<Polygon> exteriorRings;
 
 	public MultiPolygon(Polygon... polygons) {
 		this(Arrays.asList(polygons));
@@ -19,12 +19,21 @@ public class MultiPolygon extends Geometry {
 	}
 
 	public MultiPolygon(List<Polygon> polygons) {
+		this(polygons, new ArrayList<>());
+	}
+
+	public MultiPolygon(List<Polygon> polygons, List<Polygon> exteriorRings) {
 		super("MultiPolygon");
 		this.polygons = polygons;
+		this.exteriorRings = exteriorRings;
 	}
 
 	public void addExteriorPolygon(Polygon polygon) {
 		this.exteriorRings.add(polygon);
+	}
+
+	public void addInteriorPolygon(Polygon polygon) {
+		this.polygons.add(polygon);
 	}
 
 	@Override
@@ -42,7 +51,7 @@ public class MultiPolygon extends Geometry {
 			sb.append("], ");
 		}
 
-		if (exteriorRings.size() > 0) {
+		if (exteriorRings != null && exteriorRings.size() > 0) {
 			// Extra exterior rings
 			for (Polygon polygon : exteriorRings) {
 				sb.append("\n[");
@@ -50,8 +59,9 @@ public class MultiPolygon extends Geometry {
 				sb.append("], ");
 			}
 		}
+		sb = sb.delete(sb.length() - 2, sb.length());
 
-		return sb.delete(sb.length() - 2, sb.length()).toString();
+		return sb.toString();
 	}
 
 	@Override
@@ -72,11 +82,22 @@ public class MultiPolygon extends Geometry {
 				newPolyes.add(n);
 			}
 		}
-		if (newPolyes.isEmpty()) {
+		List<Polygon> newExteriors = new ArrayList<>();
+		for (Polygon polygon : exteriorRings) {
+			Polygon n = polygon.clippedWith(r);
+			if (n != null) {
+				newExteriors.add(n);
+			}
+		}
+
+		if (newPolyes.isEmpty() && newExteriors.isEmpty()) {
 			return null;
 		}
-		MultiPolygon mp = new MultiPolygon(newPolyes);
-		return mp;
+		return new MultiPolygon(newPolyes, exteriorRings);
+	}
+
+	public List<Polygon> getExteriorRings() {
+		return exteriorRings;
 	}
 
 }

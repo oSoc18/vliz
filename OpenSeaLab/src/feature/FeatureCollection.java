@@ -3,6 +3,7 @@ package feature;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -88,6 +89,31 @@ public class FeatureCollection implements Serializable {
 		feats.addAll(this.features);
 		feats.addAll(fc.features);
 		return new FeatureCollection(feats);
+	}
+	
+	public void deduplicate() {
+		List<Feature> deduped = new ArrayList<>();
+		List<Feature> toRemove = new ArrayList<>();
+		for (Iterator<Feature> iterator = features.iterator(); iterator.hasNext();) {
+			Feature feature = iterator.next();
+			
+			if(!feature.getGeometry().getType().equals("MultiPolygon")) {
+				continue;
+			}
+			
+			MultiPolygon mp = (MultiPolygon) feature.getGeometry();
+			if(mp.getExteriorRings().size() > 0) {
+				List<Polygon> polygons = mp.getExteriorRings();
+				for (Polygon p : polygons) {
+					Feature f = feature.copy();
+					f.setGeometry(p);
+					deduped.add(f);
+				}
+				toRemove.add(feature);
+			}
+		}
+		features.removeAll(toRemove);
+		features.addAll(deduped);
 	}
 
 	public void remove(Feature feature) {

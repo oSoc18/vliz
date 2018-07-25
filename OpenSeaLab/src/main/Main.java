@@ -74,11 +74,13 @@ public class Main {
 		context.setResourceBase("www");
 		context.addServlet(new ServletHolder(new DefaultServlet()), "/");
 
-		initVectorLayerServlet("seabed", appContext, context);
-		initVectorLayerServlet("physics", appContext, context);
-		initVectorLayerServlet("geology", appContext, context);
+		List<String> knownLayers = 
+				Arrays.asList(appContext.getProperty("known-layers").split(";"));
+	
+		for (String layer : knownLayers) {
+			initVectorLayerServlet(layer, appContext, context);
+		}
 		//initVectorLayerFromFile("test.json", context);
-		// here you can add more layers as done previously 
 		
 		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
 		context.addServlet(new ServletHolder(bathymetryServlet), "/bathymetry");
