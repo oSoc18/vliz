@@ -5,6 +5,13 @@
 	padding: 0px;
 }
 
+@media (max-width: 1050px) {
+
+  .main-content {
+  	margin-right: 0; /* THE MARGIN RIGHT DISSAPEARS BECAUSE THERE ISN'T A TAB ANYMORE */
+  }
+}
+
 .collapsed + .main-content {
 	margin-right: 40px; /* IF THE TABS ARE COLLAPSED THE MARGIN IS ONLY 40PX */
 }
@@ -75,6 +82,26 @@ h5 {
 	border-radius: 5px;
 }
 
+@media (max-width: 1350px) {
+
+ .rectangle-popup {
+	 top: 8rem; /* WHEN THE WINDOW SCALES, THE BUTTONS GO DOWN A BIT */
+ }
+}
+
+@media (max-width: 1050px) {
+  .rectangle-popup {
+  	top: 1rem;
+  }
+}
+
+@media (max-width: 660px) {
+
+	.rectangle-popup {
+ 	 top: 8rem;
+  }
+}
+
 .rectangle-popup:after { /* THIS CREATES THE LITTLE ARROW AT THE POPUP */
 	left: 100%;
 	top: 50%;
@@ -123,6 +150,19 @@ h5 {
 	z-index: 5;
 }
 
+@media (max-width: 1050px) {
+  .buttons {
+  	top: 1rem;
+  }
+}
+
+@media (max-width: 660px) {
+
+	.buttons {
+ 	 top: 8rem;
+  }
+}
+
 .rectangle {
 	border-radius: 5px;
 	border: none;
@@ -133,6 +173,13 @@ h5 {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 1.5rem;
+}
+
+@media (max-width: 1350px) {
+
+ .buttons {
+	 top: 8rem; /* WHEN THE WINDOW SCALES, THE BUTTONS GO DOWN A BIT */
+ }
 }
 
 .delete {

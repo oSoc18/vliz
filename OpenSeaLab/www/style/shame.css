@@ -1,5 +1,0 @@
-#wrapper { /* ONE ITEM OF OUTPUT */
-	width: 500px;
-	overflow: hidden; /* will contain if #first is longer than #second */
-	color: #0A3154;
-}

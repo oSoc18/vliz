@@ -15,6 +15,14 @@ header a { /* LOGO */
 	margin: 1.2rem;
 }
 
+@media (max-width: 660px) {
+
+	.header-logo {
+		width: 20rem;
+		height: 3rem;
+	}
+}
+
 /* color bar */
 
 .color-container { /* THE COLORS BELOW AT THE HEADER */

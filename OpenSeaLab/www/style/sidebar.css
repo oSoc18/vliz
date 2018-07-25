@@ -40,6 +40,13 @@
 	width: 100%;
 }
 
+@media (max-width: 660px) {
+
+	.panels {
+		flex-direction: column; /* PANELS IN TAB GO UNDERNEATH EACH OTHER */
+	}
+}
+
 .panel {
 	flex: 1;
 	overflow: auto;
@@ -192,6 +199,16 @@ input[type=checkbox] { /* THE CHECKBOX ITSELF */
 	box-shadow: 0 5px 20px 0 #A8B2BE;
 }
 
+@media (max-width: 1050px) {
+
+  .navbar-primary {
+  	width: 100%;
+  	position: relative;
+  	height: 100vh;
+  	margin-top: -7rem;
+  }
+}
+
 .navbar-primary.collapsed { /* WHEN THE TABS ARE COLLAPSED IT'S ONLY 40px WIDE */
 	width: 40px;
 }
@@ -206,6 +223,12 @@ input[type=checkbox] { /* THE CHECKBOX ITSELF */
 	height: 20px;
 	margin: 5px;
 	border: 1px solid rgba(0, 0, 0, .2);
+}
+
+#wrapper { /* ONE ITEM OF OUTPUT */
+	width: 500px;
+	overflow: hidden; /* will contain if #first is longer than #second */
+	color: #0A3154;
 }
 
 /* DOWNLOAD BUTTON AT STATISTICS */
