@@ -69,6 +69,7 @@ public class FeatureCollection implements Serializable {
 		parts.put("points", 0.0);
 		for (Feature f : features) {
 			Geometry geo = f.getGeometry();
+			if(geo == null) continue;
 			Map<String, Object> m = f.getProperties();
 			String name = (String) m.get(dividingProperty); // used "AllcombD" previously
 			Double s = parts.getOrDefault(name, 0.0);

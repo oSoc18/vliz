@@ -54,6 +54,7 @@ public class FeatureCollectionBuilder {
 	 */
 	@SuppressWarnings("unchecked")
 	private static Feature createFeature(Map<String, Object> feature) {
+		if(feature == null) return null;
 		Feature f = new Feature();
 		f.setProperties((Map<String, Object>) feature.get("properties"));
 		f.setGeometry(createGeometry((Map<String, Object>) feature.get("geometry")));
@@ -70,6 +71,7 @@ public class FeatureCollectionBuilder {
 	 */
 	@SuppressWarnings("unchecked")
 	private static Geometry createGeometry(Map<String, Object> geometry) {
+		if(geometry == null) return null;
 		String type = (String) geometry.get("type");
 		String key = "coordinates";
 		switch (type) {

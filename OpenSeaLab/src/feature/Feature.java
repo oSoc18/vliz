@@ -55,8 +55,12 @@ public class Feature implements Serializable {
 					bbox[0].getLat() + "," + bbox[0].getLon() + "," + bbox[1].getLat() + "," + bbox[1].getLon() + "],");
 		}
 		sb.append("\n");
-		sb.append(geometry.toGeoJSON());
-		sb.append("\n");
+		if (geometry != null) {
+			sb.append(geometry.toGeoJSON());
+			sb.append("\n");
+		} else {
+			sb.append("\"geometry\": null");
+		}
 		sb.append(", \"properties\": ");
 		sb.append(new Genson().serialize(properties) + "}");
 		return sb.toString();
@@ -70,7 +74,9 @@ public class Feature implements Serializable {
 	public Feature clippedWith(Rectangle r) {
 		Feature f = new Feature();
 		f.bbox = r.asBBox();
-		f.geometry = this.geometry.clippedWith(r);
+		if (f.geometry != null) {
+			f.geometry = this.geometry.clippedWith(r);
+		}
 		if (f.geometry == null) {
 			return null;
 		}
