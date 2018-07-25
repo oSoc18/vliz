@@ -14,7 +14,7 @@ var loadedLayer = undefined;
 let dictionary = new Map();
 
 // layer source http://portal.emodnet-bathymetry.eu/services/#wms
-let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
+let bathymetryOWSMaps = ["mean","mean_rainbowcolour","mean_multicolour","mean_atlas_land","source_references","contours","products"];
 
 
 var layer = "seabed"
@@ -23,7 +23,7 @@ var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
 //var seabedtype = "EUSM2016_simplified200"
 
-// DOESN4T WORK at the moment, works when commented out and using the other method
+// DOESN'T WORK at the moment, works when commented out and using the other method
 /*var hostLocal = "127.0.0.1";
 var host = "172.21.190.147:8080"
 var URLpart0 ="http://"+host+"/seabed?action=getGeoJSON&minLat=";
@@ -34,10 +34,43 @@ var URLpart2="&minLong=";
 var URLpart3="&maxLong=";
 var URLPart4="&type=";
 
-/*L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
-    layers: 'mean_rainbowcolour', transparent: true,
-    format: 'image/png'
-}).addTo(map);*/
+document.getElementById("minLat").value = "";
+document.getElementById("maxLat").value = "";
+document.getElementById("minLong").value = "";
+document.getElementById("maxLong").value = "";
+
+
+
+var baseMaps = [];
+
+function BathymetryCheck(layerNum){
+	document.getElementById('loadingSVG').style.zIndex = "4";
+	var layerName = "Bathymetry-opt" + (layerNum).toString();
+	console.log("curr "+ layerName + layerNum);
+	if(document.getElementById(layerName).checked == true){
+	   	console.log("checked "  + layerNum);
+		baseMaps.push( L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+	   		id: layerName,
+		    layers: bathymetryOWSMaps[layerNum], transparent: true,
+		    format: 'image/png',
+		    opacity: 0.75
+			}) );
+		(baseMaps[baseMaps.length -1]).addTo(map);
+	}else{
+		console.log("removing");
+		for (var key of baseMaps) { 
+		    console.log(key.wmsParams.id);
+		    if(key.wmsParams.id == layerName){
+		    	console.log(layerName + " Match!");
+		    	map.removeLayer(key);
+		    }
+		}
+	}
+	document.getElementById('loadingSVG').style.zIndex = "0";	
+
+}
+
+
 
 
 $('.btn-expand-collapse').click(function(e) {
@@ -66,9 +99,12 @@ map.on({
 		document.getElementById("minLong").value = String(Math.min.apply(null, lons));
 		document.getElementById("maxLong").value = String(Math.max.apply(null, lons));
 
+		document.getElementById('loadingSVG').style.zIndex = "4";
+
 		getDataFromCoords();
+
 	},
-	'moved': loadForView
+	//'moved': loadForView
 });
 
 
@@ -109,7 +145,7 @@ function getStyle(feature){
 		clr = "#"+ intToRGB(hashCode(feature.properties.folk_5_substrate_class)); //hexGenerator();
 		dictionary.set(feature.properties.folk_5_substrate_class,clr);
 	}
-	return {color : clr, weight : 0.0};
+	return {color : clr, weight : 0.0, fillOpacity : .75};
 }
 
 function prepFeature(feature, layer){
@@ -120,7 +156,7 @@ function prepFeature(feature, layer){
 }
 
 function addSeabedLayer(json){
-	clearData();
+	
 
 	var geojsonMarkerOptions = {
 		 radius: 8,
@@ -140,6 +176,7 @@ function addSeabedLayer(json){
 		, pointToLayer: function (feature, latlng) {
         return L.circleMarker(latlng, geojsonMarkerOptions);}
 		});
+    document.getElementById('loadingSVG').style.zIndex = "0";
     loadedLayer.addTo(map);
 }
 
@@ -147,6 +184,7 @@ function addSeabedLayer(json){
 function loadDataFrom(url){
 	console.log("about to add seabed");
 	console.log(url);
+	clearData();
 	$.getJSON(url, function(json){
 		clearRect();
 
@@ -188,9 +226,7 @@ function loadStatsFrom(url){
 	$.getJSON(url, function(json){
 
 		var div = document.getElementById('statsOutput');
-		var divInit = document.getElementById('statsInit');
 
-		div.innerHTML = "";
 		console.log(json);
 		JSON.parse(JSON.stringify(json), function (key, value) {
 			if(isInt(value) && value != 0.0){
@@ -206,6 +242,7 @@ function loadStatsFrom(url){
 
 				var x1 = document.createElement("div");
 			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
+			    x1.className = "statsValue";
 
 			    y.appendChild(x1);
 			   	div.insertBefore(y,null);
@@ -213,6 +250,7 @@ function loadStatsFrom(url){
 
 		});
 	} );
+  undisableBtn();
 }
 
 // Create a hash for the seabed habitat type based on its unique WEB_CLASS
@@ -236,11 +274,10 @@ function intToRGB(i){
 
 
 function clearData(){
-	document.getElementById("minLat").value = "";
-	document.getElementById("maxLat").value = "";
-	document.getElementById("minLong").value = "";
-	document.getElementById("maxLong").value = "";
 	
+	var divDel = document.getElementById('statsOutput');
+	divDel.innerHTML = "";
+
 	clearRect();
 	
 	if(loadedLayer != undefined){
@@ -248,9 +285,20 @@ function clearData(){
 		map.removeLayer(loadedLayer);
 		loadedLayer = undefined;
 	}
+  disableBtn();
+}
+
+function deleteButton(){
+	document.getElementById("minLat").value = "";
+	document.getElementById("maxLat").value = "";
+	document.getElementById("minLong").value = "";
+	document.getElementById("maxLong").value = "";
+	clearData();
+	clearRect();
 }
 
 function clearRect(){
+	
 	if(rectangle != null){
 		map.removeLayer(rectangle);
 		rectangle = null;
@@ -264,9 +312,14 @@ function isInt(value) {
 }
 
 function enableDrawing(){
+  //delete a rectangle annimation on the map
+  rectAnnimation();
+  
+  //drawing rectangle
 	clearRect();
 	draw = new L.Draw.Rectangle(map);
 	draw.enable();
+
 }
 
 
@@ -279,3 +332,23 @@ var layer = new ol.layer.Image({
 		params: {'LAYERS': 'mean_atlas_land'}
 	})
 });
+
+/**
+  * Delete a rectangle annimation on the map
+  */
+function rectAnnimation(){
+  document.getElementById("rect-pop").style.display = "none";
+}
+
+/**
+  * UnDisable download button when have statictics summary
+  */
+function undisableBtn() {
+  document.getElementById("dwn-btn").disabled = false;
+}
+/**
+  * Disable download button when don't have statictics summary
+  */
+function disableBtn() {
+    document.getElementById("dwn-btn").disabled = true;
+}
