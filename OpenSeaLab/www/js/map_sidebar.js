@@ -38,7 +38,11 @@ document.getElementById("maxLat").value = "";
 document.getElementById("minLong").value = "";
 document.getElementById("maxLong").value = "";
 
-var baseMaps = {};
+
+
+var baseMaps = [];
+
+//L.layerGroup(baseMaps).addTo(map);
 
 function BathymetryCheck(layerNum){
 	document.getElementById('loadingSVG').style.zIndex = "4";
@@ -46,20 +50,26 @@ function BathymetryCheck(layerNum){
 	console.log("curr "+ layerName + layerNum);
 	if(document.getElementById(layerName).checked == true){
 	   	console.log("checked "  + layerNum);
-	   	var layerTemp = L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+		baseMaps.push( L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
+	   		id: layerName,
 		    layers: bathymetryOWSMaps[layerNum], transparent: true,
 		    format: 'image/png'
-		});
-		baseMaps.layerName = layerTemp;
-		layerTemp.addTo(map);
+			}) );
+		(baseMaps[baseMaps.length -1]).addTo(map);
 	}else{
-		console.log((layerName in baseMaps).toString() + layerNum);
-		console.log(layerName);
-		console.log(baseMaps.layerName);
-		if(baseMaps.layerName != undefined && map.hasLayer(baseMaps.layerName)){
-			console.log("removing "  + i);
-			map.removeLayer(baseMaps.layerName);
-		}	
+		console.log("removing");
+		for (var key of baseMaps) {
+		    // check if the property/key is defined in the object itself, not in parent          
+		    console.log(key.wmsParams.id);
+		    if(key.wmsParams.id == layerName){
+		    	console.log(layerName + " Match!");
+		    	map.removeLayer(key);
+		    }
+		}
+		/*if(map.hasLayer(layerName)){
+			console.log("has");
+			//map.removeLayer(baseMaps.layerName);
+		}*/	
 	}
 	document.getElementById('loadingSVG').style.zIndex = "0";	
 
