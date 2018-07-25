@@ -15,7 +15,7 @@ public abstract class Geometry implements Serializable {
 	public abstract double surfaceArea();
 	
 	/**
-	 * Returns a clipped version of the geometry.
+	 * Returns a clipped version of this geometry.
 	 * 
 	 * MIGHT BE NULL if not within bounds!
 	 * @param minLat

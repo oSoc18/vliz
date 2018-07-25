@@ -117,8 +117,9 @@ public class VectorLayersDAO {
 	}
 
 	private String getFormattedURL(Rectangle bbox, String type) {
-		if (layerName.equals("geology"))
+		if (layerName.equals("geology")) {
 			return url.replace("{type}", type);
+		}
 		String bx = bbox.getMinLon() + "," + bbox.getMinLat() + "," + bbox.getMaxLon() + "," + bbox.getMaxLat();
 		String URL = url.replace("{bbox}", bx).replace("{type}", type);
 		return URL;

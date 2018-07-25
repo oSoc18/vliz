@@ -2,6 +2,7 @@ package main;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
 
 import feature.FeatureCollection;
 import feature.Rectangle;
@@ -11,9 +12,11 @@ import vectorLayers.VectorLayersDAO;
 
 public class PiecedCachingManager implements LayerProvider{
 
+	private static final Logger LOGGER = Logger.getLogger(PiecedCachingManager.class.getName());
 	private final VectorLayersDAO nonCacheProvider;
 	private final CachingManager caching;
 	private final CachingManager statisticsCaching;
+	private int squaresDone = 0;
 
 	public PiecedCachingManager(VectorLayersDAO nonCacheProvider, CachingManager caching, CachingManager stats) {
 		this.nonCacheProvider = nonCacheProvider;
@@ -47,6 +50,14 @@ public class PiecedCachingManager implements LayerProvider{
 		return total;
 	}
 
+/**
+ * Delegates the hard work to {@link #retrieve(Rectangle, String, boolean)}
+ * method with the argument onlyUseCache equals to false.
+ * 
+ * @param bbox
+ * @param type
+ * @return
+ */
 	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty) {
 		return retrieve(bbox, type, dividingProperty, false);
 	}
@@ -98,8 +109,6 @@ public class PiecedCachingManager implements LayerProvider{
 	 * @param bbox
 	 * @param type
 	 */
-	private int squaresDone = 0;
-
 	public void loadAndCacheAll(Rectangle bbox, String type, String dividingProperty) {
 		bbox = bbox.extendRectangle();
 		if (caching.isInCache(new Square(bbox.getMinLat(), bbox.getMinLon()), type)) {
