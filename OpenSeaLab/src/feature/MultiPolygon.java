@@ -75,11 +75,11 @@ public class MultiPolygon extends Geometry {
 
 	@Override
 	public MultiPolygon clippedWith(Rectangle r) {
-		List<Polygon> newPolyes = new ArrayList<>();
+		List<Polygon> newPolys = new ArrayList<>();
 		for (Polygon polygon : polygons) {
 			Polygon n = polygon.clippedWith(r);
 			if (n != null) {
-				newPolyes.add(n);
+				newPolys.add(n);
 			}
 		}
 		List<Polygon> newExteriors = new ArrayList<>();
@@ -90,10 +90,10 @@ public class MultiPolygon extends Geometry {
 			}
 		}
 
-		if (newPolyes.isEmpty() && newExteriors.isEmpty()) {
+		if (newPolys.isEmpty() && newExteriors.isEmpty()) {
 			return null;
 		}
-		return new MultiPolygon(newPolyes, exteriorRings);
+		return new MultiPolygon(newPolys, exteriorRings);
 	}
 
 	public List<Polygon> getExteriorRings() {

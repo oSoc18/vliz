@@ -50,6 +50,7 @@ public class FeatureCollection implements Serializable {
 		List<Feature> features = new ArrayList<>();
 		for (Feature feature : this.features) {
 			Feature f = feature.clippedWith(r);
+			System.out.println(f);
 			if (f != null) {
 				features.add(f);
 			}
