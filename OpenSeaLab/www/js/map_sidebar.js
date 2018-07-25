@@ -105,6 +105,7 @@ map.on({
 
 		if(getActiveTab() != null){
 			URLpart0 ="http://127.0.0.1:8080/"+getActiveTab()+"?action=getGeoJSON&minLat=";
+			URLpart0Stats ="http://127.0.0.1:8080/"+getActiveTab()+"?action=getStats&minLat=";
 			getDataFromCoords();
 		}else{
 			document.getElementById('loadingSVG').style.zIndex = "0";
@@ -243,12 +244,31 @@ function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 // Get statistics from the URL
 
 function loadStatsFrom(url){
+	//var div = document.getElementById('statsOutput');
 	$.getJSON(url, function(json){
 
 		var div = document.getElementById('statsOutput');
+		//div.innerHTML = getActiveTab().toString();
 
-		console.log(json);
+		console.log("hello " +json);
+		console.log(url);
+
+
+		var statsDictionary = {};
+		var statsVals = []
+
 		JSON.parse(JSON.stringify(json), function (key, value) {
+
+			if(isInt(value) && value != 0.0){
+				if(statsDictionary[value] != undefined ){ // this percentage already exists
+					statsDictionary[value].push(key);
+				}else{
+					statsDictionary[value] = [key];
+					statsVals.push(value);
+				}
+			}
+
+			/*console.log("hello " +json);
 			if(isInt(value) && value != 0.0){
 
 				var y = document.createElement("div");
@@ -261,14 +281,40 @@ function loadStatsFrom(url){
 				y.appendChild(x);
 
 				var x1 = document.createElement("div");
-			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
+			    x1.innerHTML = String( Math.round(value*100) / 100 ).substring(0,4).concat("%    "+String(key));
+			    x1.className = "statsValue";
+
+			    y.appendChild(x1);
+			   	div.insertBefore(y,null);
+			}*/
+
+		});
+
+		statsVals.sort(function(a, b){return b-a}); // sorts in descending order
+		console.log(statsVals);
+
+		for(var statVal of statsVals){
+			for(var keyVal of statsDictionary[statVal]){
+				console.log(statVal.toString() + "  "+ keyVal);
+				var y = document.createElement("div");
+				y.id = "wrapper";
+
+				var x = document.createElement("div");
+			    x.className = "seaBedColorSquare";
+				x.style.backgroundColor = "#"+ intToRGB(hashCode(keyVal));
+
+				y.appendChild(x);
+
+				var x1 = document.createElement("div");
+			    x1.innerHTML = String( Math.round(statVal*100) / 100 ).substring(0,4).concat("%    "+String(keyVal));
 			    x1.className = "statsValue";
 
 			    y.appendChild(x1);
 			   	div.insertBefore(y,null);
 			}
+		}
 
-		});
+
 	} );
   undisableBtn();
 }
