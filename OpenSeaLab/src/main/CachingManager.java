@@ -85,6 +85,7 @@ public class CachingManager {
 	@SuppressWarnings("unchecked")
 	public <T> T restore(Rectangle bbox, String type) {
 		try (ObjectInputStream in = new ObjectInputStream(Files.newInputStream(getPath(bbox, type)))) {
+			LOGGER.fine("Cache hit for "+getPath(bbox, type));
 			return (T) in.readObject();
 		} catch (Exception e) {
 			LOGGER.log(Level.INFO, "Could not load " + getPath(bbox, type) + ", purging it from cache", e);
