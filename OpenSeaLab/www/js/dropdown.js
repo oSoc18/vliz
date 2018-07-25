@@ -29,5 +29,19 @@ for (i = 0; i < coll.length; i++) {
     } else {
       content.style.maxHeight = content.scrollHeight + "px";
     } 
+    for (i = 0; i < coll.length; i++) { // find the other active tab and deactivate it and close its content
+      if(this.id != coll[i].id && coll[i].classList.contains("active") ){
+        console.log(coll[i].id);
+        coll[i].classList.toggle("active");
+        var content = coll[i].nextElementSibling;
+        if (content.style.maxHeight){
+          content.style.maxHeight = null;
+        } else {
+          content.style.maxHeight = content.scrollHeight + "px";
+        }  
+      }
+    }
+
+
   });
 }

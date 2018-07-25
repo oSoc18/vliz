@@ -17,6 +17,8 @@ let dictionary = new Map();
 let bathymetryOWSMaps = ["mean","mean_rainbowcolour","mean_multicolour","mean_atlas_land","source_references","contours","products"];
 
 
+var availableLayers = ["geology", "seabed"];
+
 var layer = "geology"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 
@@ -101,13 +103,34 @@ map.on({
 
 		document.getElementById('loadingSVG').style.zIndex = "4";
 
-		getDataFromCoords();
+		if(getActiveTab() != null){
+			URLpart0 ="http://127.0.0.1:8080/"+getActiveTab()+"?action=getGeoJSON&minLat=";
+			getDataFromCoords();
+		}else{
+			document.getElementById('loadingSVG').style.zIndex = "0";
+			deleteButton();
+			alert("Select a layer / Not an available layer");
+		}
+		
 
 	},
 	//'moved': loadForView
 });
 
+function getActiveTab(){
+	var coll = document.getElementsByClassName("collapsible");
 
+	for (i = 0; i < coll.length; i++) { // find the other active tab and deactivate it and close its content
+      if(coll[i].classList.contains("active") && availableLayers.includes(coll[i].id) ){
+        return coll[i].id; 
+      }
+    }
+
+    return null;
+
+
+
+}
 var lastNorth;
 var lastEast;
 function loadForView(){
