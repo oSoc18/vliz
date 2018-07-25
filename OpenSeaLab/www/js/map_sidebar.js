@@ -69,6 +69,14 @@ function BathymetryCheck(layerNum){
 
 }
 
+layerInstance.on('loading', function (event) {
+    mapInstance.fireEvent('dataloading', event);
+});
+
+layerInstance.on('load', function (event) {
+    mapInstance.fireEvent('dataload', event);
+});
+
 
 $('.btn-expand-collapse').click(function(e) {
 	$('.navbar-primary').toggleClass('collapsed');
