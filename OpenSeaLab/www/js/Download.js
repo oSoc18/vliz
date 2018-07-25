@@ -21,8 +21,9 @@ function download(filename, texte){
   *Start file download.
   */
 document.getElementById("dwn-btn").addEventListener("click", function(){
-  
-    var texte = "";
+
+    // min Longitude , min Latitude , max Longitude , max Latitude
+    var texte = document.getElementById("minLong").value +","+document.getElementById("minLat").value +","+document.getElementById("maxLong").value +","+document.getElementById("maxLat").value +"\n";
 
     var allChild = document.getElementsByClassName("statsValue");
     
@@ -33,8 +34,6 @@ document.getElementById("dwn-btn").addEventListener("click", function(){
     }
     
     // Generate download of statistics.txt file with some content    
-    //var texte = document.getElementById("statsOutput").textContent;
     var filename = "statistics.txt";
-    
     download(filename, texte);
 }, false);
