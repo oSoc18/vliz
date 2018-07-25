@@ -53,7 +53,8 @@ function BathymetryCheck(layerNum){
 		baseMaps.push( L.tileLayer.wms('http://ows.emodnet-bathymetry.eu/wms', {
 	   		id: layerName,
 		    layers: bathymetryOWSMaps[layerNum], transparent: true,
-		    format: 'image/png'
+		    format: 'image/png',
+		    opacity: 0.75
 			}) );
 		(baseMaps[baseMaps.length -1]).addTo(map);
 	}else{
