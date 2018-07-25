@@ -62,14 +62,14 @@ public class FeatureCollection implements Serializable {
 	 * 
 	 * @return
 	 */
-	public SurfaceCount calculateTotals() {
+	public SurfaceCount calculateTotals(String dividingProperty) {
 		double totalArea = 0;
 		HashMap<String, Double> parts = new HashMap<>();
 		parts.put("points", 0.0);
 		for (Feature f : features) {
 			Geometry geo = f.getGeometry();
 			Map<String, Object> m = f.getProperties();
-			String name = (String) m.get("WEB_CLASS"); // used "AllcombD" previously
+			String name = (String) m.get(dividingProperty); // used "AllcombD" previously
 			Double s = parts.getOrDefault(name, 0.0);
 			parts.put(name, s + geo.surfaceArea());
 			totalArea += geo.surfaceArea();

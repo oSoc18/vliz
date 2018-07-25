@@ -57,6 +57,7 @@ public class Main {
 		initVectorLayerServlet("seabed", appContext, context);
 		initVectorLayerServlet("physics", appContext, context);
 		initVectorLayerServlet("geology", appContext, context);
+		//initVectorLayerFromFile("test.json", context);
 		// here you can add more layers as done previously 
 		
 		HttpServlet bathymetryServlet = new BathymetryServlet(uccBathymetry);
@@ -69,22 +70,29 @@ public class Main {
 
 	private static void populateCache(AppContext appContext, String layerName) throws IOException {
 		populateCache(appContext, "geology", new Rectangle(appContext, "geology"),
-				appContext.getProperty(layerName + "-default-type"));
+				appContext.getProperty(layerName + "-default-type"), appContext.getProperty(layerName + "-default-dividor"));
 
 	}
 
-	private static void populateCache(AppContext appContext, String layerName, Rectangle bbox, String type)
+	private static void populateCache(AppContext appContext, String layerName, Rectangle bbox, String type, String dividor)
 			throws IOException {
 		PiecedCachingManager pcm = createPCM(layerName, appContext);
-		pcm.loadAndCacheAll(bbox, type);
+		pcm.loadAndCacheAll(bbox, type, dividor);
+	}
+	
+	private static void initVectorLayerFromFile(String file, WebAppContext context) throws IOException {
+		
+		HttpServlet servlet = new VectorLayersServlet(new FromJSONFileLayer("test.json"), "", "");
+		context.addServlet(new ServletHolder(servlet), "/test");
 	}
 
 	private static void initVectorLayerServlet(String layerName, AppContext appContext, WebAppContext context)
 			throws IOException {
 		String defaultType = appContext.getProperty(layerName + "-default-type");
+		String defaultDividor = appContext.getProperty(layerName + "-default-dividor");
 
 		PiecedCachingManager pcm = createPCM(layerName, appContext);
-		HttpServlet seabedServlet = new VectorLayersServlet(pcm, defaultType);
+		HttpServlet seabedServlet = new VectorLayersServlet(pcm, defaultType, defaultDividor);
 
 		context.addServlet(new ServletHolder(seabedServlet), "/" + layerName);
 	}

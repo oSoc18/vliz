@@ -9,7 +9,7 @@ import feature.Square;
 import feature.SurfaceCount;
 import vectorLayers.VectorLayersDAO;
 
-public class PiecedCachingManager {
+public class PiecedCachingManager implements LayerProvider{
 
 	private final VectorLayersDAO nonCacheProvider;
 	private final CachingManager caching;
@@ -31,13 +31,13 @@ public class PiecedCachingManager {
 	 * @param type
 	 * @return
 	 */
-	public FeatureCollection retrieve(Rectangle bbox, String type, boolean onlyUseCache) {
+	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty, boolean onlyUseCache) {
 
 		Rectangle extended = bbox.extendRectangle();
 		FeatureCollection total = new FeatureCollection();
 		for (int lat = (int) extended.getMinLat(); lat < extended.getMaxLat(); lat++) {
 			for (int lon = (int) extended.getMinLon(); lon < extended.getMaxLon(); lon++) {
-				FeatureCollection found = loadAndCachePart(lat, lon, type, onlyUseCache);
+				FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, onlyUseCache);
 				if (bbox.edgePoint(lat, lon) && found != null) {
 					found = found.clippedWith(bbox);
 				}
@@ -47,11 +47,11 @@ public class PiecedCachingManager {
 		return total;
 	}
 
-	public FeatureCollection retrieve(Rectangle bbox, String type) {
-		return retrieve(bbox, type, false);
+	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty) {
+		return retrieve(bbox, type, dividingProperty, false);
 	}
 
-	public SurfaceCount retrieveStats(Rectangle bbox, String type) {
+	public SurfaceCount retrieveStats(Rectangle bbox, String type, String dividingProperty) {
 		Rectangle extended = bbox.extendRectangle();
 
 		SurfaceCount sc = new SurfaceCount();
@@ -63,8 +63,8 @@ public class PiecedCachingManager {
 
 				if (bbox.edgePoint(lat, lon)) {
 					// we can't load the statistic of cache as this is an edgepoint
-					FeatureCollection found = loadAndCachePart(lat, lon, type, false);
-					sc = sc.merge(found.clippedWith(bbox).calculateTotals());
+					FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, false);
+					sc = sc.merge(found.clippedWith(bbox).calculateTotals(dividingProperty));
 					continue;
 				}
 
@@ -77,8 +77,8 @@ public class PiecedCachingManager {
 
 				{
 					// statistics are not in the cache yet
-					FeatureCollection found = loadAndCachePart(lat, lon, type, false);
-					sc = sc.merge(found.calculateTotals());
+					FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, false);
+					sc = sc.merge(found.calculateTotals(dividingProperty));
 				}
 
 			}
@@ -100,7 +100,7 @@ public class PiecedCachingManager {
 	 */
 	private int squaresDone = 0;
 
-	public void loadAndCacheAll(Rectangle bbox, String type) {
+	public void loadAndCacheAll(Rectangle bbox, String type, String dividingProperty) {
 		bbox = bbox.extendRectangle();
 		if (caching.isInCache(new Square(bbox.getMinLat(), bbox.getMinLon()), type)) {
 			// already cached! Abort
@@ -108,7 +108,7 @@ public class PiecedCachingManager {
 		}
 
 		System.out.println("Computer freeze incoming...");
-		FeatureCollection fromServer = nonCacheProvider.getFeatures(bbox, type);
+		final FeatureCollection fromServer = nonCacheProvider.getFeatures(bbox, type);
 		System.out.println("Everything is loaded. Start caching...");
 
 		int squaresGoal = (int) ((bbox.getMaxLat() - bbox.getMinLat()) * (bbox.getMaxLon() - bbox.getMinLon()));
@@ -125,7 +125,7 @@ public class PiecedCachingManager {
 					public void run() {
 						FeatureCollection toCache = fromServer.clippedWith(s);
 						caching.store(toCache, s, type);
-						SurfaceCount stats = toCache.calculateTotals();
+						SurfaceCount stats = toCache.calculateTotals(dividingProperty);
 						statisticsCaching.store(stats, s, type);
 
 						squaresDone++;
@@ -136,10 +136,11 @@ public class PiecedCachingManager {
 				threads.submit(task);
 			}
 		}
-		
+
 	}
 
-	private FeatureCollection loadAndCachePart(int lat, int lon, String type, boolean onlyUseCache) {
+	private FeatureCollection loadAndCachePart(int lat, int lon, String type, String dividingProperty,
+			boolean onlyUseCache) {
 		Rectangle searched = new Square(lat, lon);
 		FeatureCollection found = null;
 		if (caching.isInCache(searched, type)) {
@@ -150,7 +151,7 @@ public class PiecedCachingManager {
 			// caching file might have gotten corrupted and might have returned null
 			found = nonCacheProvider.getFeatures(searched, type);
 			caching.store(found, searched, type);
-			SurfaceCount stats = found.calculateTotals();
+			SurfaceCount stats = found.calculateTotals(dividingProperty);
 			statisticsCaching.store(stats, searched, type);
 		}
 		return found;
