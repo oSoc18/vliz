@@ -233,7 +233,6 @@ function loadStatsFrom(url){
 
 				var x1 = document.createElement("div");
 			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
-
 			    y.appendChild(x1);
 			   	div.insertBefore(y,null);
 			}
