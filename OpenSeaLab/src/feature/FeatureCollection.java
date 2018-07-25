@@ -69,7 +69,8 @@ public class FeatureCollection implements Serializable {
 		parts.put("points", 0.0);
 		for (Feature f : features) {
 			Geometry geo = f.getGeometry();
-			if(geo == null) continue;
+			if (geo == null)
+				continue;
 			Map<String, Object> m = f.getProperties();
 			String name = (String) m.get(dividingProperty); // used "AllcombD" previously
 			Double s = parts.getOrDefault(name, 0.0);
@@ -91,19 +92,19 @@ public class FeatureCollection implements Serializable {
 		feats.addAll(fc.features);
 		return new FeatureCollection(feats);
 	}
-	
+
 	public void deduplicate() {
 		List<Feature> deduped = new ArrayList<>();
 		List<Feature> toRemove = new ArrayList<>();
 		for (Iterator<Feature> iterator = features.iterator(); iterator.hasNext();) {
 			Feature feature = iterator.next();
-			
-			if(!feature.getGeometry().getType().equals("MultiPolygon")) {
+
+			if (!feature.getGeometry().getType().equals("MultiPolygon")) {
 				continue;
 			}
-			
+
 			MultiPolygon mp = (MultiPolygon) feature.getGeometry();
-			if(mp.getExteriorRings().size() > 0) {
+			if (mp.getExteriorRings().size() > 0) {
 				List<Polygon> polygons = mp.getExteriorRings();
 				for (Polygon p : polygons) {
 					Feature f = feature.copy();
