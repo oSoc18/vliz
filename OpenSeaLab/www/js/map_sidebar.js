@@ -22,7 +22,7 @@ var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
 //var seabedtype = "EUSM2016_simplified200"
 
-// DOESN4T WORK at the moment, works when commented out and using the other method
+// DOESN'T WORK at the moment, works when commented out and using the other method
 /*var hostLocal = "127.0.0.1";
 var host = "172.21.190.147:8080"
 var URLpart0 ="http://"+host+"/seabed?action=getGeoJSON&minLat=";
@@ -42,8 +42,6 @@ document.getElementById("maxLong").value = "";
 
 var baseMaps = [];
 
-//L.layerGroup(baseMaps).addTo(map);
-
 function BathymetryCheck(layerNum){
 	document.getElementById('loadingSVG').style.zIndex = "4";
 	var layerName = "Bathymetry-opt" + (layerNum).toString();
@@ -59,18 +57,13 @@ function BathymetryCheck(layerNum){
 		(baseMaps[baseMaps.length -1]).addTo(map);
 	}else{
 		console.log("removing");
-		for (var key of baseMaps) {
-		    // check if the property/key is defined in the object itself, not in parent          
+		for (var key of baseMaps) { 
 		    console.log(key.wmsParams.id);
 		    if(key.wmsParams.id == layerName){
 		    	console.log(layerName + " Match!");
 		    	map.removeLayer(key);
 		    }
 		}
-		/*if(map.hasLayer(layerName)){
-			console.log("has");
-			//map.removeLayer(baseMaps.layerName);
-		}*/	
 	}
 	document.getElementById('loadingSVG').style.zIndex = "0";	
 
