@@ -113,6 +113,8 @@ public class PiecedCachingManager implements LayerProvider{
 		bbox = bbox.extendRectangle();
 		if (caching.isInCache(new Square(bbox.getMinLat(), bbox.getMinLon()), type)) {
 			// already cached! Abort
+			LOGGER.info("Already cached: "+type);
+			whenDone.run();
 			return;
 		}
 
@@ -123,7 +125,7 @@ public class PiecedCachingManager implements LayerProvider{
 		int squaresGoal = (int) ((bbox.getMaxLat() - bbox.getMinLat()) * (bbox.getMaxLon() - bbox.getMinLon()));
 		int squaresFormat = ("" + squaresGoal).length();
 
-		ExecutorService threads = Executors.newFixedThreadPool(4);
+		ExecutorService threads = Executors.newFixedThreadPool(3);
 
 		System.out.printf("%" + squaresFormat + "d/%d", squaresDone, squaresGoal);
 		for (int lat = (int) bbox.getMinLat(); lat < bbox.getMaxLat(); lat++) {
@@ -142,7 +144,7 @@ public class PiecedCachingManager implements LayerProvider{
 							System.out.printf("\r%" + squaresFormat + "d/%d", squaresDone, squaresGoal);
 							if(squaresDone == squaresGoal && whenDone != null) {
 								LOGGER.info("All done with layer "+type);
-								threads.submit(whenDone);
+								new Thread(whenDone).start();
 							}
 						}
 					}
@@ -151,6 +153,7 @@ public class PiecedCachingManager implements LayerProvider{
 				threads.submit(task);
 			}
 		}
+		threads.shutdown();
 
 	}
 

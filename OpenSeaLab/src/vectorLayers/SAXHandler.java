@@ -65,7 +65,7 @@ public class SAXHandler extends DefaultHandler {
 					geo = new MultiPolygon();
 					feature.setGeometry(geo);
 				}
-				((MultiPolygon) geo).addPolygon((Polygon) GeometryFactory.newPolygon(sb.toString()));
+				((MultiPolygon) geo).addPolygon(GeometryFactory.newPolygon(sb.toString()));
 			} else {
 				feature.setGeometry(GeometryFactory.newPolygon(sb.toString()));
 			}
