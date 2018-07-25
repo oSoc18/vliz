@@ -45,7 +45,9 @@ public class BathymetryDAO {
 			BigDecimal toAdd = new BigDecimal("0.001");
 			BigDecimal minLat = new BigDecimal(String.valueOf(bbox.getMinLat()));
 			BigDecimal maxLat = new BigDecimal(String.valueOf(bbox.getMaxLat()));
-
+			
+			// due to using REST service, who only permit line or point requests
+			// the bbox is sliced to be able to make line requests
 			while (minLat.compareTo(maxLat) <= 0) {
 				lineString = "(" + bbox.getMinLon() + "%20" + minLat + "," + bbox.getMaxLon() + "%20" + minLat + ")";
 				String url = baseURL + lineString;
