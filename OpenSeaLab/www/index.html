@@ -15,6 +15,11 @@
   <!-- Custom styles for this template -->
   <link href="style/leaflet.css" rel="stylesheet">
   <link href="style/index.css" rel="stylesheet">
+  <link href="style/layout.css" rel="stylesheet">
+  <link href="style/header.css" rel="stylesheet">
+  <link href="style/map.css" rel="stylesheet">
+  <link href="style/sidebar.css" rel="stylesheet">
+  <link href="style/shame.css" rel="stylesheet">
 
   <style type="text/css">
   </style>
@@ -47,13 +52,13 @@
               <button class="collapsible" id="Bathymetry" ><img src="images/icons_bathymetry.svg" width="30"></img> Bathymetry</button>
               <div class="content">
                 <div class="dropdown-container">
-                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(0)" id="Bathymetry-opt0" /><span class="checkmark"></span></div>Mean depth</label><br>
-                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(1)" id="Bathymetry-opt1" /><span class="checkmark"></span></div>Mean depth rainbow</label><br>
-                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(2)" id="Bathymetry-opt2" /><span class="checkmark"></span></div>Mean depth multicolor</label><br>
-                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(3)" id="Bathymetry-opt3" /><span class="checkmark"></span></div>Mean atlas land</label><br>
-                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(4)" id="Bathymetry-opt4" /><span class="checkmark"></span></div>Source references</label><br>
-                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(5)" id="Bathymetry-opt5" /><span class="checkmark"></span></div>Depth contours</label><br>
-                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(6)" id="Bathymetry-opt6" /><span class="checkmark"></span></div>Products</label><br>
+                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(0)" id="Bathymetry-opt0" /><span class="checkmark"></span></div>Mean depth</label>
+                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(1)" id="Bathymetry-opt1" /><span class="checkmark"></span></div>Mean depth rainbow</label>
+                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(2)" id="Bathymetry-opt2" /><span class="checkmark"></span></div>Mean depth multicolor</label>
+                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(3)" id="Bathymetry-opt3" /><span class="checkmark"></span></div>Mean atlas land</label>
+                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(4)" id="Bathymetry-opt4" /><span class="checkmark"></span></div>Source references</label>
+                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(5)" id="Bathymetry-opt5" /><span class="checkmark"></span></div>Depth contours</label>
+                  <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(6)" id="Bathymetry-opt6" /><span class="checkmark"></span></div>Products</label>
                 </div>
               </div>
               <!-- onclick="boxCheck(Seabed)" -->
@@ -75,9 +80,11 @@
         </div>
         <div class="panel statistics">
           <h3>Statistics</h3>
-          <br>
-          <br>
-          <div id="statsOutput"> </div>
+          <div class="statistics-output">
+            <div id="statsOutput">
+              <p>Please select an area on the map.</p>
+            </div>
+          </div>
           <!-- <p id="AddFilter"> Select a layer to view filters</p> -->
           <div class="download-button">
             <input type="button" id="dwn-btn" value="Download" disabled/>
@@ -87,7 +94,7 @@
 
       <div class="button">
         <a href="#" class="btn-expand-collapse">
-          <img src="images/sidebar.svg" alt="">
+          <img src="images/arrow.svg" alt="" width="20" height="20">
         </a>
       </div>
 
@@ -167,7 +174,7 @@
       <button type="button" class="delete btn btn-default" onclick="deleteButton()" ></button>
     </div>
   </div>
-  
+
 	<!-- <svg version="1.1" id="el_4h-Zd68wUYk" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="111 1.5 125 125" style="enable-background:new 0 0 347.8 128.9;" height="125" width="125">
 	    <style>
 	        @-webkit-keyframes el_AP88RQDDSdE_Iw-ZaE7iI_Animation{0%{-webkit-transform: translate(110px, 0px);transform: translate(110px, 0px);}100%{-webkit-transform: translate(-62px, 0px);transform: translate(-62px, 0px);}}@keyframes el_AP88RQDDSdE_Iw-ZaE7iI_Animation{0%{-webkit-transform: translate(110px, 0px);transform: translate(110px, 0px);}100%{-webkit-transform: translate(-62px, 0px);transform: translate(-62px, 0px);}}#el_4h-Zd68wUYk *{-webkit-animation-duration: 1s;animation-duration: 1s;-webkit-animation-iteration-count: infinite;animation-iteration-count: infinite;-webkit-animation-timing-function: cubic-bezier(0, 0, 1, 1);animation-timing-function: cubic-bezier(0, 0, 1, 1);}#el_SEaRmdePnmq{fill: #1F72AF;}#el_Hs5uJz_mvBg{fill: #1F72AF;}#el_c5UZBg7Hd35{fill: #1F72AF;}#el_AP88RQDDSdE_Iw-ZaE7iI{-webkit-animation-name: el_AP88RQDDSdE_Iw-ZaE7iI_Animation;animation-name: el_AP88RQDDSdE_Iw-ZaE7iI_Animation;-webkit-transform-origin: 50% 50%;transform-origin: 50% 50%;transform-box: fill-box;}
