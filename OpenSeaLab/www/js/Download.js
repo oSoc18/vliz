@@ -7,9 +7,9 @@
   *@param{String} filenme - the name of the file
   *@param {String} text - the content of the file
   */
-function download(filename, text){
+function download(filename, texte){
 	var element = document.createElement('a');
-	element.setAttribute('href','data:text/plain;charset=utf8,' + encodeURIComponent(text));
+	element.setAttribute('href','data:text/plain;charset=utf8,' + encodeURIComponent(texte));
 	element.setAttribute('download',filename);
 	element.style.display ='none';
 	document.body.appendChild(element);
@@ -22,9 +22,19 @@ function download(filename, text){
   */
 document.getElementById("dwn-btn").addEventListener("click", function(){
   
-    // Generate download of statistics.txt file with some content
-    var text = document.getElementById("statsOutput").value;
+    var texte = "";
+
+    var allChild = document.getElementsByClassName("statsValue");
+    
+    texte += (allChild.length).toString();
+    console.log(allChild.length);
+    for(var i = 0; i < allChild.length; i++){
+        texte += (allChild[i].textContent).toString() + "\n";
+    }
+    
+    // Generate download of statistics.txt file with some content    
+    //var texte = document.getElementById("statsOutput").textContent;
     var filename = "statistics.txt";
     
-    download(filename, text);
+    download(filename, texte);
 }, false);
