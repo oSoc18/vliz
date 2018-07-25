@@ -10,12 +10,10 @@ public class Polygon extends Geometry {
 	private final List<Point> points;
 
 	public Polygon(Point... points) {
-
 		this(Arrays.asList(points));
 	}
 
 	public Polygon(List<Point> points) {
-
 		super("Polygon");
 		this.points = points;
 	}
