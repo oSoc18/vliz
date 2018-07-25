@@ -1,6 +1,8 @@
 package main;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,16 +24,34 @@ public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("VLIZ Server 0.3");
+		System.out.println("VLIZ Server 0.4");
 		try {
 			LOGGER.info("Loading app configuration...");
 			AppContext appContext = new AppContext();
 			AppContext.configLogger("log.properties");
-			
+	
 			
 			if(args.length != 0 && args[0].equals("--populate-cache")) {
 				appContext.loadProperties("prod.properties");
-				populateCache(appContext, "geology");
+				
+				List<String> knownLayers = 
+						Arrays.asList(appContext.getProperty("known-layers").split(";"));
+				
+				
+				Runnable lastAction = new Runnable() {
+					
+					@Override
+					public void run() {
+						System.out.println("All done, exiting now");
+						System.exit(0);
+					}
+				};
+				
+				for (String layer : knownLayers) {
+					lastAction = populateCache(appContext, layer, lastAction);
+				}
+				lastAction.run();
+				
 				return;
 			}
 			appContext.loadProperties(args.length == 0 ? "prod.properties" : args[0]);
@@ -68,18 +88,32 @@ public class Main {
 		LOGGER.info("The server is listening...");
 	}
 
-	private static void populateCache(AppContext appContext, String layerName) throws IOException {
-		populateCache(appContext, "geology", new Rectangle(appContext, "geology"),
-				appContext.getProperty(layerName + "-default-type"), appContext.getProperty(layerName + "-default-dividor"));
+	private static Runnable populateCache(final AppContext appContext, final String layerName, final Runnable whenDone) throws IOException {
+		return new Runnable() {
+
+			@Override
+			public void run() {
+				try {
+					System.out.println("Running cache population for "+layerName);
+					populateCache(appContext, "geology", new Rectangle(appContext, "geology"),
+							appContext.getProperty(layerName + "-default-type"), appContext.getProperty(layerName + "-default-dividor"), whenDone);
+				} catch (IOException e) {
+					e.printStackTrace();
+					whenDone.run();
+				}
+			}
+			
+		};
 
 	}
 
-	private static void populateCache(AppContext appContext, String layerName, Rectangle bbox, String type, String dividor)
+	private static void populateCache(AppContext appContext, String layerName, Rectangle bbox, String type, String dividor, Runnable whenDone)
 			throws IOException {
 		PiecedCachingManager pcm = createPCM(layerName, appContext);
-		pcm.loadAndCacheAll(bbox, type, dividor);
+		pcm.loadAndCacheAll(bbox, type, dividor, whenDone);
 	}
 	
+	@SuppressWarnings("unused")
 	private static void initVectorLayerFromFile(String file, WebAppContext context) throws IOException {
 		
 		HttpServlet servlet = new VectorLayersServlet(new FromJSONFileLayer("test.json"), "", "");

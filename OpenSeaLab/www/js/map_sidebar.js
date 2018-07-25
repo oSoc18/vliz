@@ -105,6 +105,9 @@ function getStyle(feature){
 	} else if (feature.properties.WEB_CLASS) {
 		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
 		dictionary.set(feature.properties.WEB_CLASS,clr);
+	}else if (feature.properties.folk_5_substrate_class) {
+		clr = "#"+ intToRGB(hashCode(feature.properties.folk_5_substrate_class)); //hexGenerator();
+		dictionary.set(feature.properties.folk_5_substrate_class,clr);
 	}
 	return {color : clr, weight : 0.0};
 }

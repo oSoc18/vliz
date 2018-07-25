@@ -109,16 +109,16 @@ public class PiecedCachingManager implements LayerProvider{
 	 * @param bbox
 	 * @param type
 	 */
-	public void loadAndCacheAll(Rectangle bbox, String type, String dividingProperty) {
+	public void loadAndCacheAll(Rectangle bbox, String type, String dividingProperty, Runnable whenDone) {
 		bbox = bbox.extendRectangle();
 		if (caching.isInCache(new Square(bbox.getMinLat(), bbox.getMinLon()), type)) {
 			// already cached! Abort
 			return;
 		}
 
-		System.out.println("Computer freeze incoming...");
+		LOGGER.info("Computer freeze incoming...");
 		final FeatureCollection fromServer = nonCacheProvider.getFeatures(bbox, type);
-		System.out.println("Everything is loaded. Start caching...");
+		LOGGER.info("Everything is downloaded and parsed. Start of clipping + caching...");
 
 		int squaresGoal = (int) ((bbox.getMaxLat() - bbox.getMinLat()) * (bbox.getMaxLon() - bbox.getMinLon()));
 		int squaresFormat = ("" + squaresGoal).length();
@@ -137,8 +137,14 @@ public class PiecedCachingManager implements LayerProvider{
 						SurfaceCount stats = toCache.calculateTotals(dividingProperty);
 						statisticsCaching.store(stats, s, type);
 
-						squaresDone++;
-						System.out.printf("\r%" + squaresFormat + "d/%d", squaresDone, squaresGoal);
+						synchronized (threads) {
+							squaresDone++;
+							System.out.printf("\r%" + squaresFormat + "d/%d", squaresDone, squaresGoal);
+							if(squaresDone == squaresGoal && whenDone != null) {
+								LOGGER.info("All done with layer "+type);
+								threads.submit(whenDone);
+							}
+						}
 					}
 
 				};
