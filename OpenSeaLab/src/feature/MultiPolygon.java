@@ -8,6 +8,7 @@ public class MultiPolygon extends Geometry {
 
 	private static final long serialVersionUID = 1L;
 	private final List<Polygon> polygons;
+	private final List<Polygon> exteriorRings = new ArrayList<>();
 
 	public MultiPolygon(Polygon... polygons) {
 		this(Arrays.asList(polygons));
@@ -22,22 +23,35 @@ public class MultiPolygon extends Geometry {
 		this.polygons = polygons;
 	}
 
-	public void addPolygon(Polygon polygon) {
-		polygons.add(polygon);
+	public void addExteriorPolygon(Polygon polygon) {
+		this.exteriorRings.add(polygon);
 	}
 
 	@Override
 	public String getCoordinates() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
-		for (Polygon p : polygons) {
-			sb.append("\n");
-			sb.append(p.getCoordinates());
-			sb.append(", ");
+		// Main ring with holes
+		if (polygons.size() > 0) {
+			sb.append("[");
+			for (Polygon p : polygons) {
+				sb.append("\n");
+				sb.append(p.getCoordinates());
+				sb.append(", ");
+			}
+			sb.delete(sb.length() - 2, sb.length());
+			sb.append("], ");
 		}
-		sb.delete(sb.length() - 2, sb.length());
-		sb.append("]");
-		return sb.toString();
+
+		if (exteriorRings.size() > 0) {
+			// Extra exterior rings
+			for (Polygon polygon : exteriorRings) {
+				sb.append("\n[");
+				sb.append(polygon.getCoordinates());
+				sb.append("], ");
+			}
+		}
+
+		return sb.delete(sb.length() - 2, sb.length()).toString();
 	}
 
 	@Override

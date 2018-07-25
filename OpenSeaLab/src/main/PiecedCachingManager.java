@@ -4,13 +4,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 
+import exceptions.BizzException;
 import feature.FeatureCollection;
 import feature.Rectangle;
 import feature.Square;
 import feature.SurfaceCount;
 import vectorLayers.VectorLayersDAO;
 
-public class PiecedCachingManager implements LayerProvider{
+public class PiecedCachingManager implements LayerProvider {
 
 	private static final Logger LOGGER = Logger.getLogger(PiecedCachingManager.class.getName());
 	private final VectorLayersDAO nonCacheProvider;
@@ -32,15 +33,18 @@ public class PiecedCachingManager implements LayerProvider{
 	 * 
 	 * @param bbox
 	 * @param type
+	 * @param dividingProperty
+	 *            feature identifier (categorie)
 	 * @return
 	 */
-	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty, boolean onlyUseCache) {
+	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty, boolean onlyUseCache,
+			String geomType) {
 
 		Rectangle extended = bbox.extendRectangle();
 		FeatureCollection total = new FeatureCollection();
 		for (int lat = (int) extended.getMinLat(); lat < extended.getMaxLat(); lat++) {
 			for (int lon = (int) extended.getMinLon(); lon < extended.getMaxLon(); lon++) {
-				FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, onlyUseCache);
+				FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, onlyUseCache, geomType);
 				if (bbox.edgePoint(lat, lon) && found != null) {
 					found = found.clippedWith(bbox);
 				}
@@ -50,19 +54,20 @@ public class PiecedCachingManager implements LayerProvider{
 		return total;
 	}
 
-/**
- * Delegates the hard work to {@link #retrieve(Rectangle, String, boolean)}
- * method with the argument onlyUseCache equals to false.
- * 
- * @param bbox
- * @param type
- * @return
- */
-	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty) {
-		return retrieve(bbox, type, dividingProperty, false);
+	/**
+	 * Delegates the hard work to {@link #retrieve(Rectangle, String, boolean)}
+	 * method with the argument onlyUseCache equals to false.
+	 * 
+	 * @param bbox
+	 * @param type
+	 * @param dividingProperty
+	 * @return
+	 */
+	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty, String geomType) {
+		return retrieve(bbox, type, dividingProperty, false, geomType);
 	}
 
-	public SurfaceCount retrieveStats(Rectangle bbox, String type, String dividingProperty) {
+	public SurfaceCount retrieveStats(Rectangle bbox, String type, String dividingProperty, String geomType) {
 		Rectangle extended = bbox.extendRectangle();
 
 		SurfaceCount sc = new SurfaceCount();
@@ -74,7 +79,7 @@ public class PiecedCachingManager implements LayerProvider{
 
 				if (bbox.edgePoint(lat, lon)) {
 					// we can't load the statistic of cache as this is an edgepoint
-					FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, false);
+					FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, false, geomType);
 					sc = sc.merge(found.clippedWith(bbox).calculateTotals(dividingProperty));
 					continue;
 				}
@@ -86,12 +91,9 @@ public class PiecedCachingManager implements LayerProvider{
 					continue;
 				}
 
-				{
-					// statistics are not in the cache yet
-					FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, false);
-					sc = sc.merge(found.calculateTotals(dividingProperty));
-				}
-
+				// statistics are not in the cache yet
+				FeatureCollection found = loadAndCachePart(lat, lon, type, dividingProperty, false, geomType);
+				sc = sc.merge(found.calculateTotals(dividingProperty));
 			}
 		}
 		return sc;
@@ -108,6 +110,7 @@ public class PiecedCachingManager implements LayerProvider{
 	 * 
 	 * @param bbox
 	 * @param type
+	 * @param dividingProperty
 	 */
 	public void loadAndCacheAll(Rectangle bbox, String type, String dividingProperty, Runnable whenDone) {
 		bbox = bbox.extendRectangle();
@@ -158,7 +161,7 @@ public class PiecedCachingManager implements LayerProvider{
 	}
 
 	private FeatureCollection loadAndCachePart(int lat, int lon, String type, String dividingProperty,
-			boolean onlyUseCache) {
+			boolean onlyUseCache, String geomType) {
 		Rectangle searched = new Square(lat, lon);
 		FeatureCollection found = null;
 		if (caching.isInCache(searched, type)) {
@@ -169,7 +172,20 @@ public class PiecedCachingManager implements LayerProvider{
 			// caching file might have gotten corrupted and might have returned null
 			found = nonCacheProvider.getFeatures(searched, type);
 			caching.store(found, searched, type);
-			SurfaceCount stats = found.calculateTotals(dividingProperty);
+			SurfaceCount stats = null;
+			if (geomType.equals("polygon")) {
+				stats = found.calculateTotals(dividingProperty);
+			} else {
+				if (geomType.equals("point")) {
+					// TODO call to point statistics method
+				} else {
+					if (geomType.equals("line")) {
+						// TODO call to statistics method
+					} else {
+						throw new BizzException("Unknown geomType.");
+					}
+				}
+			}
 			statisticsCaching.store(stats, searched, type);
 		}
 		return found;

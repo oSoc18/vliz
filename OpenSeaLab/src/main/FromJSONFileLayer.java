@@ -17,19 +17,19 @@ public class FromJSONFileLayer implements LayerProvider {
 	private final FeatureCollection fc;
 
 	public FromJSONFileLayer(String file) throws IOException {
-
 		String geojson = String.join("\n", Files.readAllLines(Paths.get(file)));
 		FeatureCollectionBuilder fcb = new FeatureCollectionBuilder(geojson);
 		fc = fcb.create();
 	}
 
 	@Override
-	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty, boolean cacheOnly) {
+	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty, boolean cacheOnly,
+			String geomType) {
 		return fc;
 	}
 
 	@Override
-	public SurfaceCount retrieveStats(Rectangle bbox, String type, String dividingProperty) {
+	public SurfaceCount retrieveStats(Rectangle bbox, String type, String dividingProperty, String geomType) {
 		throw new FatalException("Not supported");
 	}
 

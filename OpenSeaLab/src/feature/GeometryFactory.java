@@ -112,11 +112,12 @@ public class GeometryFactory {
 		if (multiPolygon == null || multiPolygon.size() == 0) {
 			return null;
 		}
-		MultiPolygon multiPol = new MultiPolygon();
+		List<Polygon> polygons = new ArrayList<>();
 		for (List<List<Double>> polygon : multiPolygon.get(0)) {
 			Polygon p = newPolygon0(polygon);
-			multiPol.addPolygon(p);
+			polygons.add(p);
 		}
+		MultiPolygon multiPol = new MultiPolygon(polygons);
 		return multiPol;
 	}
 

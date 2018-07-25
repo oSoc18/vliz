@@ -29,10 +29,13 @@ public class VectorLayersServlet extends DefaultServlet {
 	private final LayerProvider cm;
 	private final String defaultType;
 	private final String dividingProperty;
+
 	/**
 	 * 
-	 * @param cm {@link PiecedCachingManager}
-	 * @param defaultType the default typeName of a layer
+	 * @param cm
+	 *            {@link PiecedCachingManager}
+	 * @param defaultType
+	 *            the default typeName of a layer
 	 */
 	public VectorLayersServlet(LayerProvider cm, String defaultType, String dividingProperty) {
 		this.cm = cm;
@@ -63,6 +66,8 @@ public class VectorLayersServlet extends DefaultServlet {
 					sendError(resp, "Unknown action", HttpServletResponse.SC_NOT_FOUND);
 					break;
 				}
+			} else {
+				sendError(resp, "Missing parameter : action", HttpServletResponse.SC_BAD_REQUEST);
 			}
 
 		} catch (BizzException b) {
@@ -86,7 +91,7 @@ public class VectorLayersServlet extends DefaultServlet {
 	 */
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
-		FeatureCollection fc = cm.retrieve(bbox, getType(req), dividingProperty, getCacheOnly(req));
+		FeatureCollection fc = cm.retrieve(bbox, getType(req), getDividingProperty(req),  getCacheOnly(req), getGeomType(req));
 		responseFromString(fc.toGeoJSON(), resp);
 	}
 
@@ -98,13 +103,21 @@ public class VectorLayersServlet extends DefaultServlet {
 	 */
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
-		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req), dividingProperty).calculatePercentages();
+		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req), getDividingProperty(req), getGeomType(req)).calculatePercentages();
 		fc.remove(null);
 		responseFromString(new Genson().serialize(fc), resp);
 	}
 
 	private String getType(HttpServletRequest req) {
 		return req.getParameter("type") == null ? defaultType : req.getParameter("type");
+	}
+	
+	private String getDividingProperty(HttpServletRequest req) {
+		return req.getParameter("dividingProperty") == null ? dividingProperty : req.getParameter("dividingProperty");
+	}
+	
+	private String getGeomType(HttpServletRequest req) {
+		return req.getParameter("geomType") == null ? "polygon" : req.getParameter("geomType");
 	}
 	
 	private static boolean getCacheOnly(HttpServletRequest req) {

@@ -58,7 +58,7 @@ public class Feature implements Serializable {
 		sb.append(geometry.toGeoJSON());
 		sb.append("\n");
 		sb.append(", \"properties\": ");
-		sb.append(new Genson().serialize(properties)+"}");
+		sb.append(new Genson().serialize(properties) + "}");
 		return sb.toString();
 	}
 
@@ -75,6 +75,14 @@ public class Feature implements Serializable {
 			return null;
 		}
 		f.properties = this.properties;
+		return f;
+	}
+
+	public Feature copy() {
+		Feature f = new Feature();
+		f.bbox = this.bbox;
+		f.properties = this.properties;
+		f.geometry = this.geometry;
 		return f;
 	}
 

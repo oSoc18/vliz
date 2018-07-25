@@ -21,7 +21,7 @@ public class SAXHandler extends DefaultHandler {
 	private boolean polygon;
 	private boolean point;
 	private boolean lineString;
-	
+
 	private String element;
 	private StringBuilder sb;
 
@@ -40,15 +40,15 @@ public class SAXHandler extends DefaultHandler {
 			multi = true;
 			return;
 		}
-		if(element.equals("Polygon")) {
+		if (element.equals("Polygon")) {
 			polygon = true;
 			return;
 		}
-		if(element.equals("Point")) {
+		if (element.equals("Point")) {
 			point = true;
 			return;
 		}
-		if(element.equals("LineString")) {
+		if (element.equals("LineString")) {
 			lineString = true;
 			return;
 		}
@@ -57,18 +57,22 @@ public class SAXHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		String endElement = qName.split(":")[1];
-		if(endElement == null) return;
+		if (endElement == null)
+			return;
 		if (endElement.equals("Polygon")) {
 			if (multi) {
-				Geometry geo = feature.getGeometry();
+
+				MultiPolygon geo = (MultiPolygon) feature.getGeometry();
 				if (geo == null) {
 					geo = new MultiPolygon();
 					feature.setGeometry(geo);
 				}
-				((MultiPolygon) geo).addPolygon(GeometryFactory.newPolygon(sb.toString()));
+				Polygon p = GeometryFactory.newPolygon(sb.toString());
+				geo.addExteriorPolygon(p);
 			} else {
 				feature.setGeometry(GeometryFactory.newPolygon(sb.toString()));
 			}
+
 			polygon = false;
 			sb = new StringBuilder();
 			return;
@@ -83,9 +87,9 @@ public class SAXHandler extends DefaultHandler {
 			point = false;
 			return;
 		}
-		
-		if(endElement.equals("LineString")) {
-			if(multi) {
+
+		if (endElement.equals("LineString")) {
+			if (multi) {
 				// TODO deal with multilinestring
 			} else {
 				feature.setGeometry(GeometryFactory.newLineString(sb.toString()));
@@ -103,7 +107,7 @@ public class SAXHandler extends DefaultHandler {
 		if (new String(ch, start, length).trim().length() == 0)
 			return;
 		String s = new String(ch, start, length).replace("\t", " ");
-		
+
 		if (element.equals("lowerCorner")) {
 			Point p = (Point) GeometryFactory.newPoint(s);
 			if (isFeature) {
@@ -123,14 +127,14 @@ public class SAXHandler extends DefaultHandler {
 			return;
 		}
 		if (point) {
-			if(s.contains(",")) {
+			if (s.contains(",")) {
 				String[] splited = s.split(",");
-				s = splited[1]+" "+splited[0];
+				s = splited[1] + " " + splited[0];
 			}
 			sb.append(s);
 			return;
 		}
-		if(lineString) {
+		if (lineString) {
 			sb.append(s);
 			return;
 		}

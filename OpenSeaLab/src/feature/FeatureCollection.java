@@ -81,13 +81,21 @@ public class FeatureCollection implements Serializable {
 	}
 
 	public FeatureCollection joinWith(FeatureCollection fc) {
-		if(fc == null) {
+		if (fc == null) {
 			return this;
 		}
 		List<Feature> feats = new ArrayList<>(this.features.size() + fc.features.size());
 		feats.addAll(this.features);
 		feats.addAll(fc.features);
 		return new FeatureCollection(feats);
+	}
+
+	public void remove(Feature feature) {
+		features.remove(feature);
+	}
+
+	public void removeLast() {
+		features.remove(features.size() - 1);
 	}
 
 }
