@@ -17,7 +17,9 @@ let dictionary = new Map();
 let bathymetryOWSMaps = ["mean","mean_rainbowcolour","mean_multicolour","mean_atlas_land","source_references","contours","products"];
 
 
-var layer = "seabed"
+var availableLayers = ["geology", "seabed"];
+
+var layer = "geology"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
@@ -101,13 +103,35 @@ map.on({
 
 		document.getElementById('loadingSVG').style.zIndex = "4";
 
-		getDataFromCoords();
+		if(getActiveTab() != null){
+			URLpart0 ="http://127.0.0.1:8080/"+getActiveTab()+"?action=getGeoJSON&minLat=";
+			URLpart0Stats ="http://127.0.0.1:8080/"+getActiveTab()+"?action=getStats&minLat=";
+			getDataFromCoords();
+		}else{
+			document.getElementById('loadingSVG').style.zIndex = "0";
+			deleteButton();
+			alert("Select a layer / Not an available layer");
+		}
+		
 
 	},
 	//'moved': loadForView
 });
 
+function getActiveTab(){
+	var coll = document.getElementsByClassName("collapsible");
 
+	for (i = 0; i < coll.length; i++) { // find the other active tab and deactivate it and close its content
+      if(coll[i].classList.contains("active") && availableLayers.includes(coll[i].id) ){
+        return coll[i].id; 
+      }
+    }
+
+    return null;
+
+
+
+}
 var lastNorth;
 var lastEast;
 function loadForView(){
@@ -136,14 +160,12 @@ function loadForView(){
 
 function getStyle(feature){
    var clr;
-	if(dictionary.has(feature.properties.WEB_CLASS)){
-		clr = dictionary.get(feature.properties.WEB_CLASS);
-	} else if (feature.properties.WEB_CLASS) {
-		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
-		dictionary.set(feature.properties.WEB_CLASS,clr);
-	}else if (feature.properties.folk_5_substrate_class) {
-		clr = "#"+ intToRGB(hashCode(feature.properties.folk_5_substrate_class)); //hexGenerator();
-		dictionary.set(feature.properties.folk_5_substrate_class,clr);
+   console.log(feature.properties.AllcombD);
+	if(dictionary.has(feature.properties.AllcombD)){
+		clr = dictionary.get(feature.properties.AllcombD);
+	} else if (feature.properties.AllcombD) {
+		clr = "#"+ intToRGB(hashCode(feature.properties.AllcombD)); //hexGenerator();
+		dictionary.set(feature.properties.AllcombD,clr);
 	}
 	return {color : clr, weight : 0.0, fillOpacity : .75};
 }
@@ -223,12 +245,29 @@ function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 // Get statistics from the URL
 
 function loadStatsFrom(url){
+	//var div = document.getElementById('statsOutput');
 	$.getJSON(url, function(json){
 
 		var div = document.getElementById('statsOutput');
 
-		console.log(json);
+		console.log(url);
+
+
+		var statsDictionary = {};
+		var statsVals = []
+
 		JSON.parse(JSON.stringify(json), function (key, value) {
+
+			if(isInt(value) && value != 0.0){
+				if(statsDictionary[value] != undefined ){ // this percentage already exists
+					statsDictionary[value].push(key);
+				}else{
+					statsDictionary[value] = [key];
+					statsVals.push(value);
+				}
+			}
+
+			/*console.log("hello " +json);
 			if(isInt(value) && value != 0.0){
 
 				var y = document.createElement("div");
@@ -241,14 +280,43 @@ function loadStatsFrom(url){
 				y.appendChild(x);
 
 				var x1 = document.createElement("div");
-			    x1.innerHTML = String(value).substring(0,8).concat("%    "+String(key));
+			    x1.innerHTML = String( Math.round(value*100) / 100 ).substring(0,4).concat("%    "+String(key));
 			    x1.className = "statsValue";
 
 			    y.appendChild(x1);
 			   	div.insertBefore(y,null);
-			}
+			}*/
 
 		});
+
+		statsVals.sort(function(a, b){return b-a}); // sorts in descending order
+		console.log(statsVals);
+
+		for(var statVal of statsVals){
+			for(var keyVal of statsDictionary[statVal]){
+				console.log(statVal.toString() + "  "+ keyVal);
+				var y = document.createElement("div");
+				y.id = "wrapper";
+
+				var x = document.createElement("div");
+			    x.className = "seaBedColorSquare";
+				x.style.backgroundColor = "#"+ intToRGB(hashCode(keyVal));
+
+				y.appendChild(x);
+
+				var x1 = document.createElement("div");
+			    x1.innerHTML =  '<strong>' + String( Math.round(statVal*100) / 100 ).substring(0,4).concat("%  '</strong>' "+String(keyVal));
+			    x1.className = "statsValue";
+			    //x1.style.fontWeight = 'bold';
+
+
+
+			    y.appendChild(x1);
+			   	div.insertBefore(y,null);
+			}
+		}
+
+
 	} );
   undisableBtn();
 }

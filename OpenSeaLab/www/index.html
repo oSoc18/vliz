@@ -49,7 +49,7 @@
           <h3>Data sources</h3>
           <ul class="navbar-primary-menu">
             <li>							<!-- onclick="boxCheck(Bathymetry)" -->
-              <button class="collapsible" id="Bathymetry" ><img src="images/icons_bathymetry.svg" width="30"></img> Bathymetry</button>
+              <button class="collapsible" id="bathymetry" ><img src="images/icons_bathymetry.svg" width="30"></img> Bathymetry</button>
               <div class="content">
                 <div class="dropdown-container">
                   <label><div class="check-container"><input type="checkbox" onclick="BathymetryCheck(0)" id="Bathymetry-opt0" /><span class="checkmark"></span></div>Mean depth</label>
@@ -62,7 +62,7 @@
                 </div>
               </div>
               <!-- onclick="boxCheck(Seabed)" -->
-              <button class="collapsible" id="Seabed" ><img src="images/icons_seabed habitat.svg" width="30"></img> Seabed Habitats</button>
+              <button class="collapsible" id="seabed" ><img src="images/icons_seabed habitat.svg" width="30"></img> Seabed Habitats</button>
               <div class="content">
                 <div class="dropdown-container">
                   <label><div class="check-container"><input type="checkbox" id="Seabed1" /><span class="checkmark"></span></label></div>Broad-Scale Predictive Habitat Map<br>
@@ -70,11 +70,11 @@
                   <label><div class="check-container"><input type="checkbox" id="Seabed3" /><span class="checkmark"></span></label></div>Broad-Scale Predictive Habitat Map - MSFD Predominant Habitat<br>
                 </div>
               </div>
-              <button class="collapsible" id="Biology"><img src="images/icons_biology.svg" width="30"></img> Biology</button>
-              <button class="collapsible" id="Chemistry"><img src="images/icons_chemistry.svg" width="30"></img> Chemistry</button>
-              <button class="collapsible" id="Geology"><img src="images/icons_geology.svg" width="30"></img> Geology</button>
-              <button class="collapsible" id="Human"><img src="images/icons_human activities.svg" width="30"></img> Human activities</button>
-              <button class="collapsible" id="Physics"><img src="images/icons_physics.svg" width="30"></img> Physics</button>
+              <button class="collapsible" id="biology"><img src="images/icons_biology.svg" width="30"></img> Biology</button>
+              <button class="collapsible" id="chemistry"><img src="images/icons_chemistry.svg" width="30"></img> Chemistry</button>
+              <button class="collapsible" id="geology"><img src="images/icons_geology.svg" width="30"></img> Geology</button>
+              <button class="collapsible" id="human"><img src="images/icons_human activities.svg" width="30"></img> Human activities</button>
+              <button class="collapsible" id="physics"><img src="images/icons_physics.svg" width="30"></img> Physics</button>
             </li>
           </ul>
         </div>
@@ -123,7 +123,7 @@
 			    </script>
 			</svg>
 		</div>
-          <div class="rectangle-popup" id="rect-pop">
+          <div class="rectangle-popupwq" id="rect-pop">
             <p class="popup-text">Click here to select an area</p>
             <svg class="select-rectangle-anim" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" id="el_8OegNhUzo">
               <style>
@@ -146,6 +146,29 @@
               </script>
             </svg>
           </div>
+          <div class="rectangle-popup" id="rect-pop">
+            <p class="popup-text">Click here to select an area</p>
+            <svg class="select-rectangle-anim" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500;" id="el_8OegNhUzo">
+              <style>
+              @-webkit-keyframes el_eUxWEJyDNB_baGctlFSc_Animation{0%{-webkit-transform: translate(-320px, -320px);transform: translate(-320px, -320px);}66.67%{-webkit-transform: translate(0px, 0px);transform: translate(0px, 0px);}73.33%{-webkit-transform: translate(0px, 0px);transform: translate(0px, 0px);}82.22%{-webkit-transform: translate(50px, -50px);transform: translate(50px, -50px);}100%{-webkit-transform: translate(-320px, -320px);transform: translate(-320px, -320px);}}@keyframes el_eUxWEJyDNB_baGctlFSc_Animation{0%{-webkit-transform: translate(-320px, -320px);transform: translate(-320px, -320px);}66.67%{-webkit-transform: translate(0px, 0px);transform: translate(0px, 0px);}73.33%{-webkit-transform: translate(0px, 0px);transform: translate(0px, 0px);}82.22%{-webkit-transform: translate(50px, -50px);transform: translate(50px, -50px);}100%{-webkit-transform: translate(-320px, -320px);transform: translate(-320px, -320px);}}@-webkit-keyframes el_Bmid4xTWVU_zNwETIY7t_Animation{0%{-webkit-transform: scale(0, 0);transform: scale(0, 0);}66.67%{-webkit-transform: scale(1, 1);transform: scale(1, 1);}100%{-webkit-transform: scale(1, 1);transform: scale(1, 1);}}@keyframes el_Bmid4xTWVU_zNwETIY7t_Animation{0%{-webkit-transform: scale(0, 0);transform: scale(0, 0);}66.67%{-webkit-transform: scale(1, 1);transform: scale(1, 1);}100%{-webkit-transform: scale(1, 1);transform: scale(1, 1);}}#el_8OegNhUzo *{-webkit-animation-duration: 3s;animation-duration: 3s;-webkit-animation-iteration-count: infinite;animation-iteration-count: infinite;-webkit-animation-timing-function: cubic-bezier(0, 0, 1, 1);animation-timing-function: cubic-bezier(0, 0, 1, 1);}#el_tHkCG7w7z2{fill: #183154;}#el_EPwz_TX5xy{fill: #FFFFFF;stroke: #183154;stroke-width: 2.8346;stroke-linejoin: round;stroke-miterlimit: 10;}#el_Bmid4xTWVU_zNwETIY7t{-webkit-animation-name: el_Bmid4xTWVU_zNwETIY7t_Animation;animation-name: el_Bmid4xTWVU_zNwETIY7t_Animation;-webkit-transform-origin: 0% 0%;transform-origin: 0% 0%;transform-box: fill-box;-webkit-transform: scale(0, 0);transform: scale(0, 0);}#el_eUxWEJyDNB_baGctlFSc{-webkit-animation-name: el_eUxWEJyDNB_baGctlFSc_Animation;animation-name: el_eUxWEJyDNB_baGctlFSc_Animation;-webkit-transform-origin: 50% 50%;transform-origin: 50% 50%;transform-box: fill-box;-webkit-transform: translate(-320px, -320px);transform: translate(-320px, -320px);}
+              </style>
+              <g id="el_Bmid4xTWVU_zNwETIY7t" data-animator-group="true" data-animator-type="2">
+                <g id="el_Bmid4xTWVU">
+                  <g id="el_vDJVvK2Euq">
+                    <path d="M367,33h-28.3v8.5H367V33L367,33z M310.3,33H282v8.5h28.3V33L310.3,33z M253.6,33h-28.3v8.5h28.3V33L253.6,33&#10;&#9;&#9;&#9;z M196.9,33h-28.3v8.5h28.3V33L196.9,33z M140.2,33h-28.3v8.5h28.3V33L140.2,33z M83.5,33H55.2v8.5h28.3V33L83.5,33z M38.5,36.2&#10;&#9;&#9;&#9;H30v28.3h8.5V36.2L38.5,36.2z M38.5,92.9H30v28.3h8.5V92.9L38.5,92.9z M38.5,149.5H30v28.3h8.5V149.5L38.5,149.5z M38.5,206.2H30&#10;&#9;&#9;&#9;v28.3h8.5V206.2L38.5,206.2z M38.5,262.9H30v28.3h8.5V262.9L38.5,262.9z M38.5,319.6H30V348h8.5V319.6L38.5,319.6z M64.7,361.5&#10;&#9;&#9;&#9;H36.3v8.5h28.3V361.5L64.7,361.5z M121.4,361.5H93v8.5h28.3V361.5L121.4,361.5z M178,361.5h-28.3v8.5H178V361.5L178,361.5z&#10;&#9;&#9;&#9; M234.7,361.5h-28.3v8.5h28.3V361.5L234.7,361.5z M291.4,361.5h-28.3v8.5h28.3V361.5L291.4,361.5z M348.1,361.5h-28.3v8.5h28.3&#10;&#9;&#9;&#9;V361.5L348.1,361.5z M367,332.2h-8.5v28.3h8.5V332.2L367,332.2z M367,275.5h-8.5v28.3h8.5V275.5L367,275.5z M367,218.8h-8.5v28.3&#10;&#9;&#9;&#9;h8.5V218.8L367,218.8z M367,162.1h-8.5v28.3h8.5V162.1L367,162.1z M367,105.4h-8.5v28.3h8.5V105.4L367,105.4z M367,48.7h-8.5v28.3&#10;&#9;&#9;&#9;h8.5V48.7L367,48.7z" id="el_tHkCG7w7z2"/>
+                  </g>
+                </g>
+              </g>
+              <g id="el_eUxWEJyDNB_baGctlFSc" data-animator-group="true" data-animator-type="0">
+                <g id="el_eUxWEJyDNB">
+                  <polygon points="366.5,369.5 385.7,448 388.9,404.7 424.2,419.2 &#9;" id="el_EPwz_TX5xy"/>
+                </g>
+              </g>
+              <script>
+              (function(){var a=document.querySelector('#el_8OegNhUzo'),b=a.querySelectorAll('style'),c=function(d){b.forEach(function(f){var g=f.textContent;g&amp;&amp;(f.textContent=g.replace(/transform-box:[^;\r\n]*/gi,'transform-box: '+d))})};c('initial'),window.requestAnimationFrame(function(){return c('fill-box')})})();
+              </script>
+            </svg>
+</div>
           <!-- <div class="input-tab">
           <form class="search-bar">
           <input type="text" placeholder="Country, sea, coördinates,...">
