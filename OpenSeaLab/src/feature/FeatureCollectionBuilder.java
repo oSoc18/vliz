@@ -29,10 +29,8 @@ public class FeatureCollectionBuilder {
 		FeatureCollection fc = new FeatureCollection();
 		Map<String, Object> map = deserialise();
 		ArrayList<Map<String, Object>> features = (ArrayList<Map<String, Object>>) map.get("features");
-		if (features != null) {
-			for (Map<String, Object> feature : features) {
-				fc.addFeature(createFeature(feature));
-			}
+		for (Map<String, Object> feature : features) {
+			fc.addFeature(createFeature(feature));
 		}
 		return fc;
 	}

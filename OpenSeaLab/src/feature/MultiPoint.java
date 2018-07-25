@@ -28,11 +28,12 @@ public class MultiPoint extends Geometry {
 	@Override
 	public String getCoordinates() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
 		for (Point p : points) {
+			sb.append("[");
 			sb.append(p.getCoordinates() + ", ");
+			sb.append("]");
 		}
-		return sb.delete(sb.length() - 2, sb.length()).append("]").toString();
+		return sb.delete(sb.length() - 2, sb.length()).toString();
 	}
 
 	@Override

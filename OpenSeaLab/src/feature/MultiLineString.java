@@ -28,11 +28,12 @@ public class MultiLineString extends Geometry {
 	@Override
 	public String getCoordinates() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("[");
 		for (LineString line : lines) {
+			sb.append("[");
 			sb.append(line.getCoordinates() + ", ");
+			sb.append("]");
 		}
-		return sb.delete(sb.length() - 2, sb.length()).append("]").toString();
+		return sb.delete(sb.length() - 2, sb.length()).toString();
 	}
 
 	@Override

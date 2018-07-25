@@ -37,7 +37,7 @@ public class Rectangle extends Geometry {
 
 	@Override
 	public String getCoordinates() {
-		return "[[ [" + minLon + ", " + minLat + "], [" + maxLon + ", " + maxLat + "] ]]";
+		return "[ [" + minLon + ", " + minLat + "], [" + maxLon + ", " + maxLat + "] ]";
 	}
 
 	public Polygon asPolygon() {

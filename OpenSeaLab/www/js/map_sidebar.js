@@ -17,7 +17,7 @@ let dictionary = new Map();
 let bathymetryOWSMaps = ["mean_atlas_land","mean_rainbowcolour","mean_multicolour","source_references","contours","products","mean"];
 
 
-var layer = "seabed"
+var layer = "geology"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
