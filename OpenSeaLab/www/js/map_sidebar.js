@@ -160,11 +160,12 @@ function loadForView(){
 
 function getStyle(feature){
    var clr;
-	if(dictionary.has(feature.properties.WEB_CLASS)){
-		clr = dictionary.get(feature.properties.WEB_CLASS);
-	} else if (feature.properties.WEB_CLASS) {
-		clr = "#"+ intToRGB(hashCode(feature.properties.WEB_CLASS)); //hexGenerator();
-		dictionary.set(feature.properties.WEB_CLASS,clr);
+   console.log(feature.properties.AllcombD);
+	if(dictionary.has(feature.properties.AllcombD)){
+		clr = dictionary.get(feature.properties.AllcombD);
+	} else if (feature.properties.AllcombD) {
+		clr = "#"+ intToRGB(hashCode(feature.properties.AllcombD)); //hexGenerator();
+		dictionary.set(feature.properties.AllcombD,clr);
 	}
 	return {color : clr, weight : 0.0, fillOpacity : .75};
 }
@@ -248,9 +249,7 @@ function loadStatsFrom(url){
 	$.getJSON(url, function(json){
 
 		var div = document.getElementById('statsOutput');
-		//div.innerHTML = getActiveTab().toString();
 
-		console.log("hello " +json);
 		console.log(url);
 
 
@@ -306,8 +305,11 @@ function loadStatsFrom(url){
 				y.appendChild(x);
 
 				var x1 = document.createElement("div");
-			    x1.innerHTML = String( Math.round(statVal*100) / 100 ).substring(0,4).concat("%    "+String(keyVal));
+			    x1.innerHTML =  '<strong>' + String( Math.round(statVal*100) / 100 ).substring(0,4).concat("%  '</strong>' "+String(keyVal));
 			    x1.className = "statsValue";
+			    //x1.style.fontWeight = 'bold';
+
+
 
 			    y.appendChild(x1);
 			   	div.insertBefore(y,null);
