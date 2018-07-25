@@ -160,12 +160,21 @@ function loadForView(){
 
 function getStyle(feature){
    var clr;
-   console.log(feature.properties.AllcombD);
-	if(dictionary.has(feature.properties.AllcombD)){
-		clr = dictionary.get(feature.properties.AllcombD);
-	} else if (feature.properties.AllcombD) {
-		clr = "#"+ intToRGB(hashCode(feature.properties.AllcombD)); //hexGenerator();
-		dictionary.set(feature.properties.AllcombD,clr);
+
+	var name = "";
+	if(feature.properties.AllcombD){
+		name = feature.properties.AllcombD;
+	}else if(feature.properties.folk_5_substrate_class){
+		name = feature.properties.folk_5_substrate_class;
+	}	
+
+
+   console.log(name);
+	if(dictionary.has(name)){
+		clr = dictionary.get(name);
+	} else if (name) {
+		clr = "#"+ intToRGB(hashCode(name)); //hexGenerator();
+		dictionary.set(name,clr);
 	}
 	return {color : clr, weight : 0.0, fillOpacity : .75};
 }
