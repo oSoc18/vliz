@@ -6,3 +6,5 @@ It's just html pages. Start fiddling with the index.html to see your project com
 
 ## Styleguide
 There's a tiny style guide that shows you what elements you have at your disposal.
+
+## Find your site here: https://osoc18.github.io/vliz
