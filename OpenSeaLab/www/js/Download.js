@@ -21,17 +21,19 @@ function download(filename, texte){
   *Start file download.
   */
 document.getElementById("dwn-btn").addEventListener("click", function(){
-  /*
+  
     var texte = "";
 
-    var allChild = document.getElementsByClassName("wrapper");
+    var allChild = document.getElementsByClassName("statsValue");
     
-    for(var i = 0;allChild.length -1; i++){
-        texte.push(allChild[i].textContent);
+    texte += (allChild.length).toString();
+    console.log(allChild.length);
+    for(var i = 0; i < allChild.length; i++){
+        texte += (allChild[i].textContent).toString() + "\n";
     }
-    */
+    
     // Generate download of statistics.txt file with some content    
-    var texte = document.getElementById("statsOutput").textContent;
+    //var texte = document.getElementById("statsOutput").textContent;
     var filename = "statistics.txt";
     
     download(filename, texte);
