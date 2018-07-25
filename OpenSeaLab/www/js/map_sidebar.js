@@ -3,6 +3,7 @@ var map = L.map('map', {zoomControl:true}).setView([47.3791104480105, -2.1958007
 L.tileLayer.provider('Esri.OceanBasemap').addTo(map);
 
 var autoShowCached = false;
+var autoShowCachedMinZoom = 8;
 
 var draw;
 var rectangle;
@@ -16,7 +17,8 @@ let dictionary = new Map();
 let bathymetryOWSMaps = ["mean","mean_rainbowcolour","mean_multicolour","mean_atlas_land","source_references","contours","products"];
 
 
-var layer = "seabed"
+var layer = "geology"
+var type = "seabed_substrate250k"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
@@ -101,10 +103,9 @@ map.on({
 		document.getElementById('loadingSVG').style.zIndex = "4";
 
 		getDataFromCoords();
-	}/*,
-	'zoomend': loadForView,
-	'moveend': loadForView,
-	'moved': loadForView*/
+
+	},
+	//'moved': loadForView
 });
 
 
@@ -116,7 +117,7 @@ function loadForView(){
 		}
 
 
-		if(map.getZoom() < 6){
+		if(map.getZoom() <= autoShowCachedMinZoom){
 			return;
 		}
 		var bnds = map.getBounds();
@@ -209,6 +210,7 @@ function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 						URLpart1 + maxLat +
 						URLpart2 + minLong + 
 						URLpart3 + maxLong +
+						"&type=" + type +
 						"&cacheOnly=" + caching;
 	loadDataFrom(URLpart0 + URLcoordinates);
 	loadStatsFrom(URLpart0Stats + URLcoordinates);

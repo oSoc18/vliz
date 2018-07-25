@@ -36,7 +36,7 @@ public class SAXHandler extends DefaultHandler {
 			return;
 		}
 		element = qName.split(":")[1];
-		if (element.equals("MultiSurface")) {
+		if (element.equals("MultiSurface")) { // add more conditions if needed (e.g multilinestring)
 			multi = true;
 			return;
 		}
@@ -75,7 +75,7 @@ public class SAXHandler extends DefaultHandler {
 		}
 		if (endElement.equals("Point")) {
 			if (multi) {
-				
+				// TODO deal with multipoint
 			} else {
 				feature.setGeometry(GeometryFactory.newPoint(sb.toString()));
 			}
@@ -86,7 +86,7 @@ public class SAXHandler extends DefaultHandler {
 		
 		if(endElement.equals("LineString")) {
 			if(multi) {
-				
+				// TODO deal with multilinestring
 			} else {
 				feature.setGeometry(GeometryFactory.newLineString(sb.toString()));
 			}

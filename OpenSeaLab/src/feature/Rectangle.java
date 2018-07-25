@@ -1,5 +1,7 @@
 package feature;
 
+import main.AppContext;
+
 public class Rectangle extends Geometry {
 
 	private static final long serialVersionUID = 1L;
@@ -17,6 +19,20 @@ public class Rectangle extends Geometry {
 	public Rectangle(String minLat, String minLong, String maxLat, String maxLong) {
 		this(validateArgument("minLat", minLat), validateArgument("minLong", minLong),
 				validateArgument("maxLat", maxLat), validateArgument("maxLong", maxLong));
+	}
+
+	/**
+	 * Constructs a rectangle based on the min-lat/max-lat as defined in the
+	 * properties
+	 * 
+	 * @param layerName
+	 * @param ctx
+	 */
+	public Rectangle(AppContext ctx, String layerName) {
+		this(Integer.parseInt(ctx.getProperty(layerName + "-min-lat")), //
+				Integer.parseInt(ctx.getProperty(layerName + "-min-lon")), //
+				Integer.parseInt(ctx.getProperty(layerName + "-max-lat")), //
+				Integer.parseInt(ctx.getProperty(layerName + "-max-lon")));
 	}
 
 	@Override
@@ -100,9 +116,9 @@ public class Rectangle extends Geometry {
 		return new Rectangle(Math.min(this.minLat, r.minLat), Math.min(this.minLon, r.minLon),
 				Math.max(this.maxLat, r.maxLat), Math.max(this.maxLon, r.maxLon));
 	}
-	
+
 	public boolean edgePoint(int lat, int lon) {
-		return (Math.floor(this.minLat) == lat || Math.ceil(this.maxLat) == lat +1
-				|| Math.floor(this.minLon) == lon || Math.ceil(this.maxLon) == lon+1);
+		return (Math.floor(this.minLat) == lat || Math.ceil(this.maxLat) == lat + 1 || Math.floor(this.minLon) == lon
+				|| Math.ceil(this.maxLon) == lon + 1);
 	}
 }
