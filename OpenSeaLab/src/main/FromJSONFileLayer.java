@@ -17,16 +17,14 @@ public class FromJSONFileLayer implements LayerProvider {
 	private final FeatureCollection fc;
 
 	public FromJSONFileLayer(String file) throws IOException {
-
-		FeatureCollectionBuilder fcb = new FeatureCollectionBuilder(
-				String.join("\n", Files.readAllLines(Paths.get(file))));
+		String geojson = String.join("\n", Files.readAllLines(Paths.get(file)));
+		FeatureCollectionBuilder fcb = new FeatureCollectionBuilder(geojson);
 		fc = fcb.create();
 	}
 
 	@Override
 	public FeatureCollection retrieve(Rectangle bbox, String type, String dividingProperty, boolean cacheOnly,
 			String geomType) {
-		System.out.println("RETRIEVING!");
 		return fc;
 	}
 

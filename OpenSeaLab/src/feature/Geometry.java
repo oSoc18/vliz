@@ -36,9 +36,9 @@ public abstract class Geometry implements Serializable {
 		StringBuilder result = new StringBuilder();
 		result.append("\"geometry\": { \"type\": \"");
 		result.append(type);
-		result.append("\", \"coordinates\": ");
+		result.append("\", \"coordinates\": [");
 		result.append(getCoordinates());
-		return result.append(" }").toString();
+		return result.append("] }").toString();
 	}
 
 	public String getType() {

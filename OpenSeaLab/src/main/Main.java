@@ -22,7 +22,7 @@ public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("VLIZ Server 0.2");
+		System.out.println("VLIZ Server 0.3");
 		try {
 			LOGGER.info("Loading app configuration...");
 			AppContext appContext = new AppContext();
