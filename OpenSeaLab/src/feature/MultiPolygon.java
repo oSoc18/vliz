@@ -31,11 +31,13 @@ public class MultiPolygon extends Geometry {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[");
 		for (Polygon p : polygons) {
+			sb.append("\n");
 			sb.append(p.getCoordinates());
 			sb.append(", ");
 		}
 		sb.delete(sb.length() - 2, sb.length());
-		return sb.append("]").toString();
+		sb.append("]");
+		return sb.toString();
 	}
 
 	@Override

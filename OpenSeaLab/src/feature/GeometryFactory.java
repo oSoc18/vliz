@@ -22,13 +22,10 @@ public class GeometryFactory {
 		// Geojson specs : lon lat
 		double lat = getDouble(point.get(1));
 		double lon = getDouble(point.get(0));
-		if(lat > 90 || lon > 180)
-		{
+		if (lat > 90 || lon > 180) {
 			throw new FatalException("Wrong coordinate system. Latitude is above 90 degrees or longitude above 180");
 		}
-		
-		
-		
+
 		return new Point(lat, lon);
 	}
 
@@ -47,7 +44,7 @@ public class GeometryFactory {
 	 *            string that contains 2 double numbers and a space in between
 	 * @return {@link Geometry}, null if parameter null
 	 */
-	public static Geometry newPoint(String s) {
+	public static Point newPoint(String s) {
 		if (s == null) {
 			return null;
 		}
@@ -64,7 +61,7 @@ public class GeometryFactory {
 	 *            list of polygon coordinates
 	 * @return {@link Geometry}, null if parameter null or size 0
 	 */
-	public static Geometry newPolygon(List<List<List<Double>>> polygon) {
+	public static Polygon newPolygon(List<List<List<Double>>> polygon) {
 		if (polygon == null || polygon.size() == 0) {
 			return null;
 		}
@@ -77,6 +74,17 @@ public class GeometryFactory {
 		return new Polygon(l);
 	}
 
+	public static Polygon newPolygon0(List<List<Double>> polygon) {
+		if (polygon == null || polygon.size() == 0) {
+			return null;
+		}
+		List<Point> l = new ArrayList<>();
+		for (List<Double> point : polygon) {
+			l.add((Point) newPoint(point));
+		}
+		return new Polygon(l);
+	}
+
 	/**
 	 * Instantiate a {@link Polygon} object. This method should be called when
 	 * parsing an XML.
@@ -85,7 +93,7 @@ public class GeometryFactory {
 	 *            string of polygon coordinates
 	 * @return {@link Geometry}, null if parameter null
 	 */
-	public static Geometry newPolygon(String s) {
+	public static Polygon newPolygon(String s) {
 		if (s == null) {
 			return null;
 		}
@@ -100,13 +108,14 @@ public class GeometryFactory {
 	 *            list of multipolygon coordinates
 	 * @return {@link Geometry}, null if parameter null or size 0
 	 */
-	public static Geometry newMultiPolygon(List<List<List<List<Double>>>> multiPolygon) {
+	public static MultiPolygon newMultiPolygon(List<List<List<List<Double>>>> multiPolygon) {
 		if (multiPolygon == null || multiPolygon.size() == 0) {
 			return null;
 		}
 		MultiPolygon multiPol = new MultiPolygon();
-		for (List<List<List<Double>>> polygon : multiPolygon) {
-			multiPol.addPolygon((Polygon) newPolygon(polygon));
+		for (List<List<Double>> polygon : multiPolygon.get(0)) {
+			Polygon p = newPolygon0(polygon);
+			multiPol.addPolygon(p);
 		}
 		return multiPol;
 	}

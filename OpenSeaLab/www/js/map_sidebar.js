@@ -18,7 +18,6 @@ let bathymetryOWSMaps = ["mean","mean_rainbowcolour","mean_multicolour","mean_at
 
 
 var layer = "geology"
-var type = "seabed_substrate250k"
 var URLpart0 ="http://127.0.0.1:8080/"+layer+"?action=getGeoJSON&minLat=";
 
 var URLpart0Stats ="http://127.0.0.1:8080/"+layer+"?action=getStats&minLat=";
@@ -210,7 +209,6 @@ function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 						URLpart1 + maxLat +
 						URLpart2 + minLong + 
 						URLpart3 + maxLong +
-						"&type=" + type +
 						"&cacheOnly=" + caching;
 	loadDataFrom(URLpart0 + URLcoordinates);
 	loadStatsFrom(URLpart0Stats + URLcoordinates);

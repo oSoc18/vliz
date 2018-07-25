@@ -19,23 +19,25 @@ import exceptions.BizzException;
 import exceptions.FatalException;
 import feature.FeatureCollection;
 import feature.Rectangle;
+import main.LayerProvider;
 import main.PiecedCachingManager;
 import main.Util;
 
 public class VectorLayersServlet extends DefaultServlet {
 	private static final long serialVersionUID = 1L;
 	private static final Logger LOGGER = Logger.getLogger(VectorLayersServlet.class.getName());
-	private final PiecedCachingManager cm;
+	private final LayerProvider cm;
 	private final String defaultType;
-	
+	private final String dividingProperty;
 	/**
 	 * 
 	 * @param cm {@link PiecedCachingManager}
 	 * @param defaultType the default typeName of a layer
 	 */
-	public VectorLayersServlet(PiecedCachingManager cm, String defaultType) {
+	public VectorLayersServlet(LayerProvider cm, String defaultType, String dividingProperty) {
 		this.cm = cm;
 		this.defaultType = defaultType;
+		this.dividingProperty = dividingProperty;
 
 	}
 
@@ -84,7 +86,7 @@ public class VectorLayersServlet extends DefaultServlet {
 	 */
 	private void getGeoJSON(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
-		FeatureCollection fc = cm.retrieve(bbox, getType(req), getCacheOnly(req));
+		FeatureCollection fc = cm.retrieve(bbox, getType(req), dividingProperty, getCacheOnly(req));
 		responseFromString(fc.toGeoJSON(), resp);
 	}
 
@@ -96,7 +98,7 @@ public class VectorLayersServlet extends DefaultServlet {
 	 */
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
-		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req)).calculatePercentages();
+		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req), dividingProperty).calculatePercentages();
 		fc.remove(null);
 		responseFromString(new Genson().serialize(fc), resp);
 	}
