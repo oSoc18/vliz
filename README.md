@@ -8,8 +8,6 @@ Our application lets researchers, students, and policymakers explore marine data
 
 <img src="README_screenshot.png" alt="My cool logo"/>
 
-![screenshot of web application](https://github.com/oSoc18/vliz/tree/master/README_screenshot.png)
-
 
 ## Getting Started
 
