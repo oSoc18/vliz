@@ -79,6 +79,7 @@ h3,
 h4,
 .h4 {
 	font-size: 1.7rem;
+	margin-top: 20px;	
 }
 
 	@media only screen and (min-width: 30em) {
