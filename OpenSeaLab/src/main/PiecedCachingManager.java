@@ -116,7 +116,7 @@ public class PiecedCachingManager implements LayerProvider {
 		bbox = bbox.extendRectangle();
 		if (caching.isInCache(new Square(bbox.getMinLat(), bbox.getMinLon()), type)) {
 			// already cached! Abort
-			LOGGER.info("Already cached: "+type);
+			LOGGER.info("Already cached: " + type);
 			whenDone.run();
 			return;
 		}
@@ -145,8 +145,8 @@ public class PiecedCachingManager implements LayerProvider {
 						synchronized (threads) {
 							squaresDone++;
 							System.out.printf("\r%" + squaresFormat + "d/%d", squaresDone, squaresGoal);
-							if(squaresDone == squaresGoal && whenDone != null) {
-								LOGGER.info("All done with layer "+type);
+							if (squaresDone == squaresGoal && whenDone != null) {
+								LOGGER.info("All done with layer " + type);
 								new Thread(whenDone).start();
 							}
 						}
@@ -175,18 +175,14 @@ public class PiecedCachingManager implements LayerProvider {
 			SurfaceCount stats = null;
 			if (geomType.equals("polygon")) {
 				stats = found.calculateTotals(dividingProperty);
+				statisticsCaching.store(stats, searched, type);
+			} else if (geomType.equals("point")) {
+				// TODO call to point statistics method
+			} else if (geomType.equals("line")) {
+				// TODO call to statistics method
 			} else {
-				if (geomType.equals("point")) {
-					// TODO call to point statistics method
-				} else {
-					if (geomType.equals("line")) {
-						// TODO call to statistics method
-					} else {
-						throw new BizzException("Unknown geomType.");
-					}
-				}
+				throw new BizzException("Unknown geomType.");
 			}
-			statisticsCaching.store(stats, searched, type);
 		}
 		return found;
 	}

@@ -243,7 +243,8 @@ function getDataForCoords(minLat, maxLat, minLong, maxLong, caching){
 						URLpart1 + maxLat +
 						URLpart2 + minLong + 
 						URLpart3 + maxLong +
-						"&cacheOnly=" + caching;
+						"&cacheOnly=" + caching +
+						"&geomType=polygon";
 	loadDataFrom(URLpart0 + URLcoordinates);
 	loadStatsFrom(URLpart0Stats + URLcoordinates);
 

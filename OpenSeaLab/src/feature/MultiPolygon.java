@@ -8,7 +8,6 @@ public class MultiPolygon extends Geometry {
 
 	private static final long serialVersionUID = 1L;
 	private final List<Polygon> polygons;
-	private final List<Polygon> exteriorRings = new ArrayList<>();
 
 	public MultiPolygon(Polygon... polygons) {
 		this(Arrays.asList(polygons));
@@ -19,64 +18,59 @@ public class MultiPolygon extends Geometry {
 	}
 
 	public MultiPolygon(List<Polygon> polygons) {
+		this(polygons, new ArrayList<>());
+	}
+
+	public MultiPolygon(List<Polygon> polygons, List<Polygon> exteriorRings) {
 		super("MultiPolygon");
 		this.polygons = polygons;
 	}
 
-	public void addExteriorPolygon(Polygon polygon) {
-		this.exteriorRings.add(polygon);
+	public void addInteriorPolygon(Polygon polygon) {
+		this.polygons.add(polygon);
 	}
 
 	@Override
 	public String getCoordinates() {
 		StringBuilder sb = new StringBuilder();
 		// Main ring with holes
-		if (polygons.size() > 0) {
-			sb.append("[");
-			for (Polygon p : polygons) {
-				sb.append("\n");
-				sb.append(p.getCoordinates());
-				sb.append(", ");
-			}
-			sb.delete(sb.length() - 2, sb.length());
-			sb.append("], ");
+		sb.append("[");
+		for (Polygon p : polygons) {
+			sb.append("\n");
+			sb.append(p.getCoordinates());
+			sb.append(", ");
 		}
-
-		if (exteriorRings != null && exteriorRings.size() > 0) {
-			// Extra exterior rings
-			for (Polygon polygon : exteriorRings) {
-				sb.append("\n[");
-				sb.append(polygon.getCoordinates());
-				sb.append("], ");
-			}
-		}
-
-		return sb.delete(sb.length() - 2, sb.length()).toString();
+		sb.delete(sb.length() - 2, sb.length());
+		sb.append("], ");
+		sb = sb.delete(sb.length() - 2, sb.length());
+		return sb.toString();
 	}
 
 	@Override
 	public double surfaceArea() {
-		double area = 0;
-		for (Polygon polygon : polygons) {
-			area += polygon.surfaceArea();
+		double area = polygons.get(0).surfaceArea();
+		
+		// start index is ONE, as the first polygon is the 'exterior ring', while the rest are interior rings cutting surface away
+		for (int i = 1; i < polygons.size(); i++) {
+			area -= polygons.get(i).surfaceArea();
 		}
 		return area;
 	}
 
 	@Override
 	public MultiPolygon clippedWith(Rectangle r) {
-		List<Polygon> newPolyes = new ArrayList<>();
+		List<Polygon> newPolys = new ArrayList<>();
 		for (Polygon polygon : polygons) {
 			Polygon n = polygon.clippedWith(r);
 			if (n != null) {
-				newPolyes.add(n);
+				newPolys.add(n);
 			}
 		}
-		if (newPolyes.isEmpty()) {
+
+		if (newPolys.isEmpty()) {
 			return null;
 		}
-		MultiPolygon mp = new MultiPolygon(newPolyes);
-		return mp;
+		return new MultiPolygon(newPolys);
 	}
 
 }
