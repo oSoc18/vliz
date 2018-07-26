@@ -54,7 +54,6 @@ public class GeometryFactory {
 			return new Point(Double.parseDouble(splitedS[0]), Double.parseDouble(splitedS[1]));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			System.out.println(s);
 			throw new FatalException(e);
 		}
 	}
