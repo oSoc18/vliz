@@ -42,7 +42,7 @@ public class MultiPolygon extends Geometry {
 			sb.append("], ");
 		}
 
-		if (exteriorRings.size() > 0) {
+		if (exteriorRings != null && exteriorRings.size() > 0) {
 			// Extra exterior rings
 			for (Polygon polygon : exteriorRings) {
 				sb.append("\n[");

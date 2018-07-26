@@ -24,7 +24,7 @@ public class Main {
 	private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
 
 	public static void main(String[] args) throws Exception {
-		System.out.println("VLIZ Server 0.4");
+		System.out.println("VLIZ Server 1.0");
 		try {
 			LOGGER.info("Loading app configuration...");
 			AppContext appContext = new AppContext();

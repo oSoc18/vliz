@@ -6,7 +6,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import feature.Feature;
 import feature.FeatureCollection;
-import feature.Geometry;
 import feature.GeometryFactory;
 import feature.MultiPolygon;
 import feature.Point;
