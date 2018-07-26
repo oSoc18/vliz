@@ -4,7 +4,7 @@ A web application to visualize marine data.
 
 Our application, named Open Sea Lab, is a collaboration with open Summer of code, the Flanders Marine Institute, and the European Marine Observation and Data Networks group. 
 
-Our application lets researchers, students, and policymakers explore marine data via an easy to use map interfacee. 
+Our application lets researchers, students, and policymakers explore marine data via an easy to use map interface. 
 
 <img src="README_screenshot.png" alt="My cool logo"/>
 
