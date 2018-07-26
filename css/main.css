@@ -14,7 +14,11 @@
 img {
 	width: 100%;
 }
-
+video{
+	width: 100%;
+	margin-left: 80px;
+	margin-right: 80px;
+}
 
 /* osoc colors
 
