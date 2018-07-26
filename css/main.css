@@ -3,7 +3,6 @@
 * {
 	margin: 0;
 	padding: 0;
-	box-sizing: border-box;
 }
 
 .layout {
@@ -18,8 +17,13 @@ video{
 	width: 100%;
 	margin-left: 80px;
 	margin-right: 80px;
+	border: 20%;
 }
-
+.ProjectSummary{
+	margin-left: 80px;
+	margin-right: 80px;
+	margin-top: 10px;
+}
 /* osoc colors
 
 Green: #44dba4;

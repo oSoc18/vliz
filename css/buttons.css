@@ -15,14 +15,14 @@
 }
 
 	.button:hover {
-		background-color: #FF5046;
+		background-color: #40559b;
 	}
 
 .button--alt {
 	background-color: white;
-	border: 1px solid #f14a3b;
+	border: 1px solid #40559b;
 	font-family: "Montserrat", sans-serif;
-	color: #f14a3b;
+	color: #40559b;
 }
 
 	.button--alt:hover {
