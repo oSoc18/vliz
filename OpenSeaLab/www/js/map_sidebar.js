@@ -315,7 +315,7 @@ function loadStatsFrom(url){
 				y.appendChild(x);
 
 				var x1 = document.createElement("div");
-			    x1.innerHTML =  '<strong>' + String( Math.round(statVal*100) / 100 ).substring(0,4).concat("%  '</strong>' "+String(keyVal));
+			    x1.innerHTML =  '<strong>' + String( Math.round(statVal*100) / 100 ).substring(0,4).concat("%  </strong> "+String(keyVal));
 			    x1.className = "statsValue";
 			    //x1.style.fontWeight = 'bold';
 
