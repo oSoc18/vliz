@@ -118,28 +118,29 @@ map.on({
 	//'moved': loadForView
 });
 
+
+/* 
+Only one tab is active at a time. This will find the active one and return the name of the portal it is associated with
+*/
 function getActiveTab(){
 	var coll = document.getElementsByClassName("collapsible");
-
 	for (i = 0; i < coll.length; i++) { // find the other active tab and deactivate it and close its content
       if(coll[i].classList.contains("active") && availableLayers.includes(coll[i].id) ){
         return coll[i].id; 
       }
     }
-
     return null;
-
-
-
 }
+
+/*
+Allows the user to load data for the full screen from previous selection when the user moves around on the map
+*/
 var lastNorth;
 var lastEast;
 function loadForView(){
 		if(!autoLoadCached){
 			return;
 		}
-
-
 		if(map.getZoom() <= autoShowCachedMinZoom){
 			return;
 		}
@@ -157,7 +158,9 @@ function loadForView(){
 
 ////// Adding seabed Habitat Data to the map
 
-
+/*
+Each feature type for each layer is given a color based on a hash produced from it's unique description. This way the color will be the same each time, as long as the unique description remains the same for that feature
+*/
 function getStyle(feature){
    var clr;
 
@@ -167,9 +170,7 @@ function getStyle(feature){
 	}else if(feature.properties.folk_5_substrate_class){
 		name = feature.properties.folk_5_substrate_class;
 	}	
-
-
-   console.log(name);
+    console.log(name);
 	if(dictionary.has(name)){
 		clr = dictionary.get(name);
 	} else if (name) {
@@ -179,12 +180,17 @@ function getStyle(feature){
 	return {color : clr, weight : 0.0, fillOpacity : .75};
 }
 
+/*
+Attempt to add a popup to each polygon, the popups don't work as a bug with leaflet is interferring with the recognition of individual polygons once loaded onto the map
+ */
 function prepFeature(feature, layer){
 	var list = feature.properties.Allcomb ;
 	popupOptions = {maxWidth: 200};
 
 	layer.bindPopup( /*list.toString(), popupOptions*/ "hey" );
 }
+
+
 
 function addSeabedLayer(json){
 	

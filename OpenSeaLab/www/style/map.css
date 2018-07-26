@@ -27,7 +27,7 @@
 
 .coordinates {
 	border-bottom-right-radius: 5px;
-	width: 18rem;
+	width: 23rem;
 	display: flex;
 	flex-direction: column;
 	z-index: 2;

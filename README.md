@@ -27,19 +27,20 @@ Make sure you have the following programs.
 
 WMS calls are made for data layers called "mean","mean_rainbowcolour","mean_multicolour","mean_atlas_land","source_references","contours", and "products". These will be displayed over the entire map.
 
-Original portal: http://portal.emodnet-bathymetry.eu/
+Original portal:	http://portal.emodnet-bathymetry.eu/
+					http://portal.emodnet-bathymetry.eu/services/
 
 ### 2) Seabed Habitats
 
 WFS calls are made to the EMODnet severs to collect vector data for the types of sediment at the seafloor. This will display clipped polygons for the user selected rectangle on the map.
 
-Original portal: http://www.emodnet-seabedhabitats.eu
+Original portal:	http://www.emodnet-seabedhabitats.eu
 
 ### 3) Geology
 
 WFS calls are made to the EMODnet severs to collect vector data for the types of sediment at the seafloor, similar to seabed habitats. This will display clipped polygons for the user selected rectangle on the map.
 
-Original portal: http://www.emodnet-geology.eu
+Original portal:	http://www.emodnet-geology.eu
 
 ## Direct access to data
 Here is a website where you can directly download data to use (without waiting)
