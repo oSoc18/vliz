@@ -7,34 +7,85 @@ import java.util.List;
 public class Polygon extends Geometry {
 
 	private static final long serialVersionUID = 1L;
-	private final List<Point> points;
+	private List<List<Point>> rings;
 
 	public Polygon(Point... points) {
 		this(Arrays.asList(points));
 	}
 
+	public Polygon() {
+		super("Polygon");
+		this.rings = new ArrayList<>();
+	}
+
 	public Polygon(List<Point> points) {
 		super("Polygon");
-		this.points = points;
+		this.rings = new ArrayList<>();
+		rings.add(points);
+	}
+
+	/**
+	 * The 'boolean' is only use to differentiate the constructors by type; it is
+	 * not actually used This is a limitation of jave
+	 * 
+	 * @param points
+	 * @param unused
+	 */
+	public Polygon(List<List<Point>> points, boolean unused) {
+		super("Polygon");
+		this.rings = points;
+	}
+
+	public void addRings(Polygon p) {
+		if (p == null) {
+			return;
+		}
+		for (List<Point> ring : p.rings) {
+			addRing(ring);
+		}
+	}
+
+	public void addRing(List<Point> ring) {
+		if (ring == null || ring.size() == 0) {
+			return;
+		}
+		rings.add(ring);
 	}
 
 	@Override
 	public String getCoordinates() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("[ ");
-		for (Point point : points) {
+	//	sb.append("[ ");
+		for (List<Point> ring : rings) {
 			sb.append("[");
-			sb.append(point.getCoordinates());
+			for (Point point : ring) {
+				sb.append(point.getCoordinates());
+				sb.append(", ");
+			}
+			sb.delete(sb.length() - 2, sb.length());
 			sb.append("], ");
 		}
 		sb.delete(sb.length() - 2, sb.length());
-		sb.append(" ]");
+	//	sb.append("]");
 		return sb.toString();
 	}
 
 	@Override
 	public double surfaceArea() {
+		double total = 0.0;
+		for (List<Point> poly : rings) {
+			total += surfaceAreaOf(poly);
+		}
+		return total;
+	}
+
+	private static double surfaceAreaOf(List<Point> points) {
 		int diff = 0;
+
+		if (points.size() == 0) {
+			return 0;
+		}
+
 		if (points.get(0).equals(points.get(points.size() - 1))) {
 			diff = 1;
 		}
@@ -61,17 +112,34 @@ public class Polygon extends Geometry {
 
 	@Override
 	public Polygon clippedWith(Rectangle r) {
-		Polygon clipper = r.asPolygon();
-		List<Point> newPolygon = new ArrayList<>(this.points); // copy the polygon to be clipped
-		int len = clipper.points.size(); // normally a rectangle
+		List<List<Point>> newPolys = new ArrayList<>();
+		for (List<Point> poly : this.rings) {
+			poly = clipPolyWith(poly, r);
+			if (poly == null || poly.size() == 0) {
+				continue;
+			}
+			newPolys.add(poly);
+		}
+
+		if (newPolys.size() == 0) {
+			return null;
+		}
+
+		return new Polygon(newPolys, false);
+	}
+
+	private static List<Point> clipPolyWith(List<Point> toClip, Rectangle r) {
+		List<Point> clipper = r.asPolygon().rings.get(0);
+		List<Point> newPolygon = new ArrayList<>(toClip); // copy the polygon to be clipped
+		int len = clipper.size(); // normally a rectangle
 
 		for (int i = 0; i < len; i++) {
 			int curLen = newPolygon.size();
 			List<Point> input = newPolygon;
 			newPolygon = new ArrayList<>();
 
-			Point A = clipper.points.get((i + len - 1) % len);
-			Point B = clipper.points.get(i);
+			Point A = clipper.get((i + len - 1) % len);
+			Point B = clipper.get(i);
 			for (int j = 0; j < curLen; j++) {
 
 				Point P = input.get((j + curLen - 1) % curLen);
@@ -90,7 +158,7 @@ public class Polygon extends Geometry {
 			return null;
 		}
 
-		return new Polygon(newPolygon);
+		return newPolygon;
 	}
 
 	private static boolean isInside(Point a, Point b, Point c) {

@@ -71,13 +71,11 @@ public class GeometryFactory {
 		if (polygon == null || polygon.size() == 0) {
 			return null;
 		}
-		List<Point> l = new ArrayList<>();
-		for (List<List<Double>> coords : polygon) {
-			for (List<Double> point : coords) {
-				l.add((Point) newPoint(point));
-			}
+		Polygon pol = new Polygon();
+		for (List<List<Double>> ring : polygon) {
+			pol.addRing(createPoints(ring));
 		}
-		return new Polygon(l);
+		return pol;
 	}
 
 	public static Polygon newPolygon0(List<List<Double>> polygon) {
@@ -198,7 +196,7 @@ public class GeometryFactory {
 		return list;
 	}
 
-	private static List<Point> createPoints(String s) {
+	public static List<Point> createPoints(String s) {
 		List<Point> l = new ArrayList<>();
 		String[] sSplited = s.split(" ");
 		try {

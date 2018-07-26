@@ -103,9 +103,10 @@ public class VectorLayersServlet extends DefaultServlet {
 	 */
 	private void getStats(HttpServletRequest req, HttpServletResponse resp) {
 		Rectangle bbox = Util.getBBox(req);
-		HashMap<String, Double> fc = cm.retrieveStats(bbox, getType(req), getDividingProperty(req), getGeomType(req)).calculatePercentages();
-		fc.remove(null);
-		responseFromString(new Genson().serialize(fc), resp);
+		HashMap<String, Double> percentages = cm.retrieveStats(bbox, getType(req), getDividingProperty(req), getGeomType(req)).calculatePercentages();
+		percentages.remove(null);
+		System.out.println(percentages);
+		responseFromString(new Genson().serialize(percentages), resp);
 	}
 
 	private String getType(HttpServletRequest req) {
@@ -116,7 +117,7 @@ public class VectorLayersServlet extends DefaultServlet {
 		return req.getParameter("dividingProperty") == null ? dividingProperty : req.getParameter("dividingProperty");
 	}
 	
-	private String getGeomType(HttpServletRequest req) {
+	private static String getGeomType(HttpServletRequest req) {
 		return req.getParameter("geomType") == null ? "polygon" : req.getParameter("geomType");
 	}
 	

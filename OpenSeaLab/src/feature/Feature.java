@@ -8,11 +8,20 @@ import com.owlike.genson.Genson;
 
 public class Feature implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private final String type = "Feature";
+	private static final String type = "Feature";
+	
 	private Point[] bbox = new Point[2];
 	private Geometry geometry;
 	private Map<String, Object> properties = new HashMap<>();
-
+	
+	public Feature() {
+	}
+	
+	public Feature(Geometry geometry, Map<String, Object> properties, Point[] bbox) {
+		this.geometry = geometry;
+		this.properties = properties;
+	}
+	
 	public Point[] getBbox() {
 		return bbox;
 	}
@@ -72,16 +81,11 @@ public class Feature implements Serializable {
 	}
 
 	public Feature clippedWith(Rectangle r) {
-		Feature f = new Feature();
-		f.bbox = r.asBBox();
-		if (f.geometry != null) {
-			f.geometry = this.geometry.clippedWith(r);
-		}
-		if (f.geometry == null) {
+		Geometry newGeo = this.geometry.clippedWith(r);
+		if(newGeo == null) {
 			return null;
 		}
-		f.properties = this.properties;
-		return f;
+		return new Feature(newGeo, this.properties, this.bbox);
 	}
 
 	public Feature copy() {

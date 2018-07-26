@@ -53,13 +53,18 @@ public class VectorLayersDAO {
 	 * @return {@link FeatureCollection}
 	 */
 	public FeatureCollection getFeatures(Rectangle bbox, String type) {
-		type = type == null ? defaultType : type;
 		try {
+			type = type == null ? defaultType : type;
+			LOGGER.fine("Making a call to get"+bbox.getCoordinates());
+			FeatureCollection fc;
 			if (url.contains("outputFormat=application/json") || url.endsWith("json")) {
-				return fetchJSON(bbox, type);
+				fc = fetchJSON(bbox, type);
 			} else {
-				return fetchXML(bbox, type);
+				fc = fetchXML(bbox, type);
 			}
+			fc.clippedWith(bbox);
+			return fc;
+			
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			throw new FatalException(e);
 		}
@@ -87,7 +92,6 @@ public class VectorLayersDAO {
 		saxParser.parse(Util.fetchFrom(URL), userhandler);
 		LOGGER.log(Level.FINE, "Got result from" + URL);
 		FeatureCollection fc = userhandler.getFeatures();
-		fc.deduplicate();
 		return fc;
 	}
 
