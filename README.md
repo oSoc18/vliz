@@ -6,6 +6,9 @@ Our application, named Open Sea Lab, is a collaboration with open Summer of code
 
 Our application lets researchers, students, and policymakers explore marine data via an easy to use map interphase. 
 
+![screenshot of web application](https://github.com/oSoc18/vliz/tree/master/README_screenshot.png)
+
+
 ## Getting Started
 
 Get the sever from vliz/OpenSeaLab/src/main/Main.java started and then open OpenSeaLab/src/main/Index.html in your browser to get started. 
@@ -15,8 +18,7 @@ Get the sever from vliz/OpenSeaLab/src/main/Main.java started and then open Open
 Make sure you have the following programs.
 
 * Jetty : jetty-9.3.2.v20150730
-* Java : openjdk version "1.8.0_171" minimum
-
+* Java : openjdk version "1.8.0_171" 
 
 
 ## Layers Currently Worked On
