@@ -62,7 +62,7 @@ public class VectorLayersDAO {
 			} else {
 				fc = fetchXML(bbox, type);
 			}
-			fc.clippedWith(bbox);
+			fc = fc.clippedWith(bbox);
 			return fc;
 			
 		} catch (SAXException | IOException | ParserConfigurationException e) {
