@@ -58,7 +58,9 @@ public class VectorLayersDAO {
 			if (url.contains("outputFormat=application/json") || url.endsWith("json")) {
 				return fetchJSON(bbox, type);
 			} else {
-				return fetchXML(bbox, type);
+				FeatureCollection fc = fetchXML(bbox, type);
+				System.out.println(fc.toGeoJSON());
+				return fc;
 			}
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			throw new FatalException(e);

@@ -7,7 +7,8 @@ import java.util.List;
 public class Polygon extends Geometry {
 
 	private static final long serialVersionUID = 1L;
-	private final List<Point> points;
+	private List<Point> points;
+	private List<List<Point>> rings;
 
 	public Polygon(Point... points) {
 		this(Arrays.asList(points));
@@ -18,14 +19,30 @@ public class Polygon extends Geometry {
 		this.points = points;
 	}
 
+	public Polygon() {
+		super("Polygon");
+		rings = new ArrayList<>();
+		points = new ArrayList<>();
+	}
+
+	public void addRing(List<Point> ring) {
+		if (ring == null || ring.size() == 0)
+			return;
+		rings.add(ring);
+	}
+
 	@Override
 	public String getCoordinates() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("[ ");
-		for (Point point : points) {
+		for (List<Point> ring : rings) {
 			sb.append("[");
-			sb.append(point.getCoordinates());
-			sb.append("], ");
+			for (Point point : ring) {
+				sb.append(point.getCoordinates());
+				sb.append(", ");
+			}
+			sb.delete(sb.length() - 2, sb.length());
+			sb.append("],");
 		}
 		sb.delete(sb.length() - 2, sb.length());
 		sb.append(" ]");

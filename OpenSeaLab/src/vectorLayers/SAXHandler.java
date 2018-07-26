@@ -1,12 +1,12 @@
 package vectorLayers;
 
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import feature.Feature;
 import feature.FeatureCollection;
-import feature.Geometry;
 import feature.GeometryFactory;
 import feature.MultiPolygon;
 import feature.Point;
@@ -24,6 +24,7 @@ public class SAXHandler extends DefaultHandler {
 
 	private String element;
 	private StringBuilder sb;
+	private Polygon pol;
 
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
@@ -41,6 +42,7 @@ public class SAXHandler extends DefaultHandler {
 			return;
 		}
 		if (element.equals("Polygon")) {
+			pol = new Polygon();
 			polygon = true;
 			return;
 		}
@@ -52,25 +54,30 @@ public class SAXHandler extends DefaultHandler {
 			lineString = true;
 			return;
 		}
+
 	}
 
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		String endElement = qName.split(":")[1];
-		if (endElement == null)
+		if (endElement == null) {
 			return;
+		}
+		if (polygon && (endElement.equals("exterior") || endElement.equals("interior"))) {
+			pol.addRing(GeometryFactory.createPoints(sb.toString()));
+			sb = new StringBuilder();
+			return;
+		}
 		if (endElement.equals("Polygon")) {
 			if (multi) {
-
 				MultiPolygon geo = (MultiPolygon) feature.getGeometry();
 				if (geo == null) {
 					geo = new MultiPolygon();
 					feature.setGeometry(geo);
 				}
-				Polygon p = GeometryFactory.newPolygon(sb.toString());
-				geo.addExteriorPolygon(p);
+				geo.addExteriorPolygon(pol);
 			} else {
-				feature.setGeometry(GeometryFactory.newPolygon(sb.toString()));
+				feature.setGeometry(pol);
 			}
 
 			polygon = false;
